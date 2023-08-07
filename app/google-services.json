@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "481778721479",
+    "project_id": "skincredible-5bd4f",
+    "storage_bucket": "skincredible-5bd4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481778721479:android:0786574cec26d47bd414e2",
+        "android_client_info": {
+          "package_name": "com.example.softeng306project1team22"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481778721479-phmcdmhg3slv3s3n6dmdrq0qr6ssqfp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEsgukXeR9cNXlcAh6ADPTaHdACx0uyts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481778721479-phmcdmhg3slv3s3n6dmdrq0qr6ssqfp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
