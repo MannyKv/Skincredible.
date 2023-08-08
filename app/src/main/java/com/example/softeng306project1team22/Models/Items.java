@@ -9,7 +9,6 @@ public abstract class Items implements Item{
     protected String brand;
     protected String[] imageUri;
     protected double price;
-    protected String usage;
     protected Category category;
     protected String[] skinType;
     protected String howToUse;
@@ -20,13 +19,12 @@ public abstract class Items implements Item{
     protected String moisturiserType;
     protected String timeToUse;
 
-    public Items(String id, String name, String brand, String[] imageUri, double price, String usage, Category category, String[] skinType, String howToUse, String timeToUse) {
+    public Items(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String howToUse, String timeToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.imageUri = imageUri;
         this.price = price;
-        this.usage = usage;
         this.category = category;
         this.skinType = skinType;
         this.howToUse = howToUse;
@@ -49,7 +47,7 @@ public abstract class Items implements Item{
         return this.category;
     }
     public String getHowToUse(){
-        return this.usage;
+        return this.howToUse;
     }
     public String[] getSkinType(){
         return this.skinType;
