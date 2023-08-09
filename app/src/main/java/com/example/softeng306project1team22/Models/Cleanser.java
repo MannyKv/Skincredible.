@@ -4,7 +4,9 @@ public class Cleanser extends Item {
     private String ph;
     private String cleanserType;
 
-    public Cleanser(){}
+    public Cleanser() {
+
+    }
 
     public Cleanser(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String ph, String cleanserType, String howToUse) {
         this.id = id;
@@ -15,15 +17,17 @@ public class Cleanser extends Item {
         this.category = category;
         this.skinType = skinType;
         this.howToUse = howToUse;
-        this.ph=ph;
-        this.cleanserType=cleanserType;
+        this.ph = ph;
+        this.cleanserType = cleanserType;
     }
+
     @Override
-    public String getCleanserType(){
+    public String getCleanserType() {
         return this.cleanserType;
     }
+
     @Override
-    public  String getPh(){
+    public String getPh() {
         return this.ph;
     }
 }

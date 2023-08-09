@@ -5,22 +5,25 @@ public class Category {
     private String imageUri;
     private String id;
 
-   public Category(){}
-    public Category(String name, String id, String imageUri){
+    public Category() {
+
+    }
+
+    public Category(String name, String id, String imageUri) {
         this.name = name;
         this.id = id;
         this.imageUri = imageUri;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
 
-    public String getImageUri(){
+    public String getImageUri() {
         return this.imageUri;
     }
 }

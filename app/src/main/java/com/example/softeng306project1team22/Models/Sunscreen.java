@@ -1,15 +1,14 @@
 package com.example.softeng306project1team22.Models;
 
 
-
 public class Sunscreen extends Item {
     private String spf;
     private String sunscreenType;
 
-    public Sunscreen(){
-
+    public Sunscreen() {
     }
-    public Sunscreen(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String sunscreenType, String spf, String howToUse){
+
+    public Sunscreen(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String sunscreenType, String spf, String howToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -24,11 +23,12 @@ public class Sunscreen extends Item {
     }
 
     @Override
-    public  String getSunscreenType(){
+    public String getSunscreenType() {
         return this.sunscreenType;
     }
+
     @Override
-    public  String getSpf(){
+    public String getSpf() {
         return this.spf;
     }
 
