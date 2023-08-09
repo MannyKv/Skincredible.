@@ -1,13 +1,20 @@
 package com.example.softeng306project1team22.Models;
 
-import java.util.NoSuchElementException;
-
-public class Cleanser extends Items {
+public class Cleanser extends Item {
     private String ph;
     private String cleanserType;
 
+    public Cleanser(){}
+
     public Cleanser(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String ph, String cleanserType, String howToUse) {
-        super(id, name, brand, imageUri, price, category, skinType, howToUse);
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.imageUri = imageUri;
+        this.price = price;
+        this.category = category;
+        this.skinType = skinType;
+        this.howToUse = howToUse;
         this.ph=ph;
         this.cleanserType=cleanserType;
     }

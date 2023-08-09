@@ -1,8 +1,10 @@
 package com.example.softeng306project1team22.Models;
 
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.NoSuchElementException;
-public abstract class Items implements IItem {
+public abstract class Item implements IItem {
 
     protected String id;
     protected String name;
@@ -12,24 +14,7 @@ public abstract class Items implements IItem {
     protected Category category;
     protected String[] skinType;
     protected String howToUse;
-    protected String ph;
-    protected String cleanserType;
-    protected String spf;
-    protected String sunscreenType;
-    protected String moisturiserType;
-    protected String timeToUse;
 
-    public Items(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String howToUse) {
-        this.id = id;
-        this.name = name;
-        this.brand = brand;
-        this.imageUri = imageUri;
-        this.price = price;
-        this.category = category;
-        this.skinType = skinType;
-        this.howToUse = howToUse;
-
-    }
 
     public String getId(){
         return this.id;
@@ -55,21 +40,27 @@ public abstract class Items implements IItem {
     public String[] getImageUri(){
         return this.imageUri;
     }
+    @Exclude
     public String getCleanserType(){
         throw new NoSuchElementException();
     }
+    @Exclude
     public  String getPh(){
         throw new NoSuchElementException();
     }
+    @Exclude
     public  String getSunscreenType(){
         throw new NoSuchElementException();
     }
+    @Exclude
     public  String getSpf(){
         throw new NoSuchElementException();
     }
+    @Exclude
     public  String getMoisturiserType(){
         throw new NoSuchElementException();
     }
+    @Exclude
 
     public String getTimeToUse(){
         throw new NoSuchElementException();
