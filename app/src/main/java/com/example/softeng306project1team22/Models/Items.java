@@ -2,7 +2,7 @@ package com.example.softeng306project1team22.Models;
 
 
 import java.util.NoSuchElementException;
-public abstract class Items implements Item{
+public abstract class Items implements IItem {
 
     protected String id;
     protected String name;
@@ -19,7 +19,7 @@ public abstract class Items implements Item{
     protected String moisturiserType;
     protected String timeToUse;
 
-    public Items(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String howToUse, String timeToUse) {
+    public Items(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String howToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -28,7 +28,7 @@ public abstract class Items implements Item{
         this.category = category;
         this.skinType = skinType;
         this.howToUse = howToUse;
-        this.timeToUse = timeToUse;
+
     }
 
     public String getId(){
@@ -72,6 +72,6 @@ public abstract class Items implements Item{
     }
 
     public String getTimeToUse(){
-        return this.timeToUse;
+        throw new NoSuchElementException();
     }
 }

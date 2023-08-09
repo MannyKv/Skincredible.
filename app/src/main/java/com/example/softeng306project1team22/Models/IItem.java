@@ -1,8 +1,6 @@
 package com.example.softeng306project1team22.Models;
 
-import java.util.List;
-
-public interface Item {
+public interface IItem {
   public String getId();
   public String getName();
   public String getBrand();
