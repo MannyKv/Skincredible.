@@ -3,6 +3,7 @@ package com.example.softeng306project1team22.Models;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public abstract class Item implements IItem {
@@ -10,10 +11,10 @@ public abstract class Item implements IItem {
     protected String id;
     protected String name;
     protected String brand;
-    protected String[] imageUri;
+    protected ArrayList<String> imageUri;
     protected double price;
     protected Category category;
-    protected String[] skinType;
+    protected ArrayList<String> skinType;
     protected String howToUse;
 
 
@@ -41,11 +42,11 @@ public abstract class Item implements IItem {
         return this.howToUse;
     }
 
-    public String[] getSkinType() {
+    public ArrayList<String> getSkinType() {
         return this.skinType;
     }
 
-    public String[] getImageUri() {
+    public ArrayList<String> getImageUri() {
         return this.imageUri;
     }
 
