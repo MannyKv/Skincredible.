@@ -1,5 +1,7 @@
 package com.example.softeng306project1team22.Models;
 
+import java.util.ArrayList;
+
 public class Moisturiser extends Item {
     private String moisturiserType;
     private String timeToUse;
@@ -8,7 +10,7 @@ public class Moisturiser extends Item {
 
     }
 
-    public Moisturiser(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String moisturiserType, String howToUse, String timeToUse) {
+    public Moisturiser(String id, String name, String brand, ArrayList<String> imageUri, double price, Category category, ArrayList<String> skinType, String moisturiserType, String howToUse, String timeToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;

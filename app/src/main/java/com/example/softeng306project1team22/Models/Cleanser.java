@@ -1,5 +1,7 @@
 package com.example.softeng306project1team22.Models;
 
+import java.util.ArrayList;
+
 public class Cleanser extends Item {
     private String ph;
     private String cleanserType;
@@ -8,7 +10,7 @@ public class Cleanser extends Item {
 
     }
 
-    public Cleanser(String id, String name, String brand, String[] imageUri, double price, Category category, String[] skinType, String ph, String cleanserType, String howToUse) {
+    public Cleanser(String id, String name, String brand, ArrayList<String> imageUri, double price, Category category, ArrayList<String> skinType, String ph, String cleanserType, String howToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
