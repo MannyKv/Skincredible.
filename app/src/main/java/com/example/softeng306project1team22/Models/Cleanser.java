@@ -10,11 +10,11 @@ public class Cleanser extends Item {
 
     }
 
-    public Cleanser(String id, String name, String brand, ArrayList<String> imageName, double price, String categoryName, ArrayList<String> skinType, String ph, String cleanserType, String howToUse) {
+    public Cleanser(String id, String name, String brand, ArrayList<String> imageNames, double price, String categoryName, ArrayList<String> skinType, String ph, String cleanserType, String howToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
-        this.imageName = imageName;
+        this.imageNames = imageNames;
         this.price = price;
         this.categoryName = categoryName;
         this.skinType = skinType;

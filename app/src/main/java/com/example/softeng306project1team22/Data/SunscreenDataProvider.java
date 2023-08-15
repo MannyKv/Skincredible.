@@ -183,7 +183,7 @@ public class SunscreenDataProvider {
         for (String key : sunscreenInfo.keySet()) {
             String name = (String) sunscreenInfo.get(key).get(0);
             String brand = (String) sunscreenInfo.get(key).get(1);
-            ArrayList<String> imageName = (ArrayList<String>) sunscreenInfo.get(key).get(2);
+            ArrayList<String> imageNames = (ArrayList<String>) sunscreenInfo.get(key).get(2);
             double price = (double) sunscreenInfo.get(key).get(3);
             String categoryName = (String) sunscreenInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) sunscreenInfo.get(key).get(5);
@@ -191,7 +191,7 @@ public class SunscreenDataProvider {
             String spf = (String) sunscreenInfo.get(key).get(7);
             String howToUse = (String) sunscreenInfo.get(key).get(8);
 
-            Sunscreen sunscreen = new Sunscreen(key, name, brand, imageName, price, categoryName, skinType, sunscreenType, spf, howToUse);
+            Sunscreen sunscreen = new Sunscreen(key, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse);
             sunscreenList.add(sunscreen);
         }
 
