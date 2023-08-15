@@ -44,8 +44,7 @@
                 android:layout_height="28dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/category_name"
-                android:contentDescription="Cleanser Icon"
-                android:src="@drawable/cle" />
+                android:contentDescription="Cleanser Icon" />
         </RelativeLayout>
 
 

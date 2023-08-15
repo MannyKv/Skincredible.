@@ -29,12 +29,15 @@ public class ListActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     category = new Category(documentSnapshot.get("name", String.class), documentSnapshot.getId(), documentSnapshot.get("imageName", String.class));
-                    populateCategoryDetails(category);
+                    if (category != null) {
+                        populateCategoryDetails(category);
+                    }
                 });
     }
 
     private void populateCategoryDetails(Category category) {
-        vh.categoryNameHeader.setText(category.getName());
+        vh.categoryNameHeader.setText(category.getName().toUpperCase());
+        
         int i = this.getResources().getIdentifier(
                 category.getImageName(), "drawable",
                 this.getPackageName());
