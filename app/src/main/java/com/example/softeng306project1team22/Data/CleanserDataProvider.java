@@ -184,7 +184,7 @@ public class CleanserDataProvider {
         for (String key : cleansersInfo.keySet()) {
             String name = (String) cleansersInfo.get(key).get(0);
             String brand = (String) cleansersInfo.get(key).get(1);
-            ArrayList<String> imageUri = (ArrayList<String>) cleansersInfo.get(key).get(2);
+            ArrayList<String> imageName = (ArrayList<String>) cleansersInfo.get(key).get(2);
             double price = (double) cleansersInfo.get(key).get(3);
             Category category = (Category) cleansersInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) cleansersInfo.get(key).get(5);
@@ -192,7 +192,7 @@ public class CleanserDataProvider {
             String ph = (String) cleansersInfo.get(key).get(7);
             String cleanserType = (String) cleansersInfo.get(key).get(8);
 
-            Cleanser cleanser = new Cleanser(key, name, brand, imageUri, price, category, skinType, ph, cleanserType, howToUse);
+            Cleanser cleanser = new Cleanser(key, name, brand, imageName, price, category, skinType, ph, cleanserType, howToUse);
             cleansersList.add(cleanser);
         }
 

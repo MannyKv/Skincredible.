@@ -17,7 +17,7 @@ public interface IItem {
 
     public ArrayList<String> getSkinType();
 
-    public ArrayList<String> getImageUri();
+    public ArrayList<String> getImageName();
 
     public String getCleanserType();
 
