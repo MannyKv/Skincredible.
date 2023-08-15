@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,7 +29,7 @@ public class SunscreenDataProvider {
                         "Missha",
                         new ArrayList<String>(Arrays.asList("sun1_img1.png", "sun1_img2.png", "sun1_img3.png")),
                         16.99,
-                        new Category("Aqua Sun Gel", "sun1", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Normal", "Oily")),
                         "Chemical",
                         "SPF50+",
@@ -43,7 +42,7 @@ public class SunscreenDataProvider {
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("sun2_img1.png", "sun2_img2.png", "sun2_img3.png")),
                         35.0,
-                        new Category("Birch Juice Moisturising Sunscreen", "sun2", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Oily", "Combination")),
                         "Chemical",
                         "SPF50+",
@@ -56,7 +55,7 @@ public class SunscreenDataProvider {
                         "COSRX",
                         new ArrayList<String>(Arrays.asList("sun3_img1.png", "sun3_img2.png", "sun3_img3.png")),
                         21.0,
-                        new Category("Aloe Soothing Sun Scream", "sun3", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Normal", "Sensitive", "Combination")),
                         "Chemical",
                         "SPF50",
@@ -69,7 +68,7 @@ public class SunscreenDataProvider {
                         "Dr.Jart+",
                         new ArrayList<String>(Arrays.asList("sun4_img1.png", "sun4_img2.png", "sun4_img3.png")),
                         28.0,
-                        new Category("Every Sun Day Moisturising Sun SPF50", "sun4", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Dry", "Oily", "Combination")),
                         "Chemical",
                         "SPF50",
@@ -82,7 +81,7 @@ public class SunscreenDataProvider {
                         "Missha",
                         new ArrayList<String>(Arrays.asList("sun5_img1.png", "sun5_img2.png", "sun5_img3.png")),
                         22.0,
-                        new Category("All Around Safe Block Essence Sun SPF45", "sun5", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Normal", "Combination")),
                         "Chemical",
                         "SPF45",
@@ -95,7 +94,7 @@ public class SunscreenDataProvider {
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("sun6_img1.png", "sun6_img2.png", "sun6_img3.png")),
                         35.0,
-                        new Category("1025 Dokdo Sun Cream SPF50+", "sun6", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Dry", "Oily", "Combination")),
                         "Physical",
                         "SPF50+",
@@ -108,7 +107,7 @@ public class SunscreenDataProvider {
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("sun7_img1.png", "sun7_img2.png", "sun7_img3.png")),
                         35.0,
-                        new Category("Birch Juice Moisturising Mild-Up Sunscreen SPF50+", "sun7", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Dry", "Combination")),
                         "Physical",
                         "SPF50+",
@@ -121,7 +120,7 @@ public class SunscreenDataProvider {
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("sun8_img1.png", "sun8_img2.png", "sun8_img3.png")),
                         35.0,
-                        new Category("365 Derma Relief Sun Cream SPF50+", "sun8", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Normal", "Sensitive", "Combination")),
                         "Physical",
                         "SPF50+",
@@ -134,7 +133,7 @@ public class SunscreenDataProvider {
                         "Purito",
                         new ArrayList<String>(Arrays.asList("sun9_img1.png", "sun9_img2.png", "sun9_img3.png")),
                         38.0,
-                        new Category("Daily Go-To Sunscreen SPF50+", "sun9", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Combination")),
                         "Physical",
                         "SPF50+",
@@ -147,7 +146,7 @@ public class SunscreenDataProvider {
                         "Dr.Jart+",
                         new ArrayList<String>(Arrays.asList("sun10_img1.png", "sun10_img2.png", "sun10_img3.png")),
                         28.0,
-                        new Category("Every Sun Day Mind Sun SPF43", "sun1", "sun.png"),
+                        "Sunscreen",
                         new ArrayList<String>(Arrays.asList("Normal", "Oily", "Combination")),
                         "Physical",
                         "SPF43",
@@ -186,13 +185,13 @@ public class SunscreenDataProvider {
             String brand = (String) sunscreenInfo.get(key).get(1);
             ArrayList<String> imageUri = (ArrayList<String>) sunscreenInfo.get(key).get(2);
             double price = (double) sunscreenInfo.get(key).get(3);
-            Category category = (Category) sunscreenInfo.get(key).get(4);
+            String categoryName = (String) sunscreenInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) sunscreenInfo.get(key).get(5);
             String sunscreenType = (String) sunscreenInfo.get(key).get(6);
             String spf = (String) sunscreenInfo.get(key).get(7);
             String howToUse = (String) sunscreenInfo.get(key).get(8);
 
-            Sunscreen sunscreen = new Sunscreen(key, name, brand, imageUri, price, category, skinType, sunscreenType, spf, howToUse);
+            Sunscreen sunscreen = new Sunscreen(key, name, brand, imageUri, price, categoryName, skinType, sunscreenType, spf, howToUse);
             sunscreenList.add(sunscreen);
         }
 
