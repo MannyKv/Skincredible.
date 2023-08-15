@@ -27,7 +27,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Low pH Morning Cleanser",
                         "COSRX",
-                        new ArrayList<String>(Arrays.asList("cle1_img1.png", "cle1_img2.png", "cle1_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle1_img1", "cle1_img2", "cle1_img3")),
                         16.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Acne Prone")),
@@ -40,7 +40,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "1025 Dokdo Cleansing Balm",
                         "Round Lab",
-                        new ArrayList<String>(Arrays.asList("cle2_img1.png", "cle2_img2.png", "cle2_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle2_img1", "cle2_img2", "cle2_img3")),
                         36.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Dry", "Combination")),
@@ -53,7 +53,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Honest Cleansing Foam",
                         "Benton",
-                        new ArrayList<String>(Arrays.asList("cle3_img1.png", "cle3_img2.png", "cle3_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle3_img1", "cle3_img2", "cle3_img3")),
                         13.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Dry", "Combination")),
@@ -66,7 +66,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Heartleaf Pore Control Cleansing Oil",
                         "Anua",
-                        new ArrayList<String>(Arrays.asList("cle4_img1.png", "cle4_img2.png", "cle4_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle4_img1", "cle4_img2", "cle4_img3")),
                         27.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Acne Prone", "Sensitive")),
@@ -79,7 +79,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "pH Balancing Bubble Free Cleansing Gel",
                         "Acwell",
-                        new ArrayList<String>(Arrays.asList("cle5_img1.png", "cle5_img2.png", "cle5_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle5_img1", "cle5_img2", "cle5_img3")),
                         25.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Oily", "Combination")),
@@ -92,7 +92,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Green Tea Hydrating Amino Acid Cleansing Foam",
                         "Innisfree",
-                        new ArrayList<String>(Arrays.asList("cle6_img1.png", "cle6_img2.png", "cle6_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle6_img1", "cle6_img2", "cle6_img3")),
                         23.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Combination")),
@@ -105,7 +105,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "pH Balancing Watery Cleansing Oil",
                         "Acwell",
-                        new ArrayList<String>(Arrays.asList("cle7_img1.png", "cle7_img2.png", "cle7_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle7_img1", "cle7_img2", "cle7_img3")),
                         34.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Dry", "Combination")),
@@ -118,7 +118,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Madagascar Centella Light Cleansing Oil",
                         "SKIN1004",
-                        new ArrayList<String>(Arrays.asList("cle8_img1.png", "cle8_img2.png", "cle8_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle8_img1", "cle8_img2", "cle8_img3")),
                         50.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Combination")),
@@ -131,7 +131,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Cicaluronic Low pH Cleansing Foam",
                         "Mizon",
-                        new ArrayList<String>(Arrays.asList("cle9_img1.png", "cle9_img2.png", "cle9_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle9_img1", "cle9_img2", "cle9_img3")),
                         26.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive")),
@@ -144,7 +144,7 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Clean It Zero Cleansing Balm Fore Clarifying",
                         "Banila Co",
-                        new ArrayList<String>(Arrays.asList("cle10_img1.png", "cle10_img2.png", "cle10_img3.png")),
+                        new ArrayList<String>(Arrays.asList("cle10_img1", "cle10_img2", "cle10_img3")),
                         32.0,
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Oily", "Combination")),
@@ -183,7 +183,7 @@ public class CleanserDataProvider {
         for (String key : cleansersInfo.keySet()) {
             String name = (String) cleansersInfo.get(key).get(0);
             String brand = (String) cleansersInfo.get(key).get(1);
-            ArrayList<String> imageUri = (ArrayList<String>) cleansersInfo.get(key).get(2);
+            ArrayList<String> imageNames = (ArrayList<String>) cleansersInfo.get(key).get(2);
             double price = (double) cleansersInfo.get(key).get(3);
             String categoryName = (String) cleansersInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) cleansersInfo.get(key).get(5);
@@ -191,7 +191,7 @@ public class CleanserDataProvider {
             String ph = (String) cleansersInfo.get(key).get(7);
             String cleanserType = (String) cleansersInfo.get(key).get(8);
 
-            Cleanser cleanser = new Cleanser(key, name, brand, imageUri, price, categoryName, skinType, ph, cleanserType, howToUse);
+            Cleanser cleanser = new Cleanser(key, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse);
             cleansersList.add(cleanser);
         }
 

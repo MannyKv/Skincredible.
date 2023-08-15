@@ -10,11 +10,11 @@ public class Moisturiser extends Item {
 
     }
 
-    public Moisturiser(String id, String name, String brand, ArrayList<String> imageUri, double price, String categoryName, ArrayList<String> skinType, String moisturiserType, String howToUse, String timeToUse) {
+    public Moisturiser(String id, String name, String brand, ArrayList<String> imageNames, double price, String categoryName, ArrayList<String> skinType, String moisturiserType, String howToUse, String timeToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
-        this.imageUri = imageUri;
+        this.imageNames = imageNames;
         this.price = price;
         this.categoryName = categoryName;
         this.skinType = skinType;
