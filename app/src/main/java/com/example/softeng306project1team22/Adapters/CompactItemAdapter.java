@@ -36,12 +36,9 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull CompactViewHolder holder, int position) {
         Item thisItem = items.get(position);
-        String filePath = thisItem.getImageUri().get(0);
-        String withoutExtension = filePath.substring(0, filePath.lastIndexOf("."));
-
+        String filePath = thisItem.getImageNames().get(0);
         System.out.println("This is the path for loading: " + filePath);
-
-        int i = context.getResources().getIdentifier(withoutExtension, "drawable", context.getPackageName());
+        int i = context.getResources().getIdentifier(filePath, "drawable", context.getPackageName());
         System.out.println("This is the image ID for loading: " + i);
 
         holder.imageView.setImageResource(i);

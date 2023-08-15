@@ -1,12 +1,11 @@
 package com.example.softeng306project1team22;
 
 
-import static com.example.softeng306project1team22.Data.ItemDeserializer.deserialize;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,7 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Create Adapters for different views
         itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext());
-        adapter = new CategoryAdapter(categoryList, getApplicationContext());
+        adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                System.out.println("Made it to onItemClick : " + position);
+                viewCategory(position);
+            }
+        });
 
         //Set adapters that recyclerViews will use
         historyView.setAdapter(itemAdapter);
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         //Set layout managers!
         historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
     }
 
@@ -70,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Firestore", "Data retrieved successfully");
             categoryList.addAll(queryDocumentSnapshots.toObjects(Category.class));
             adapter.notifyDataSetChanged();
-            System.out.println("Data Changed");
+
         }).addOnFailureListener(e -> {
-            System.out.println("failed?");
+            System.out.println("Category Data Retrieval Failure");
         });
     }
 
@@ -85,13 +92,14 @@ public class MainActivity extends AppCompatActivity {
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Data retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                if (documentSnapshot.contains("sunscreenType")) {
+                if (documentSnapshot.getString("categoryName").equals("sunscreen")) {
                     Sunscreen sunscreen = documentSnapshot.toObject(Sunscreen.class);
                     recentlyViewed.add(sunscreen);
-                } else if (documentSnapshot.contains("cleanserType")) {
-                    Cleanser cleanser = (Cleanser) deserialize(documentSnapshot);
+                } else if (documentSnapshot.getString("categoryName").equals("cleanser")) {
+                    Cleanser cleanser = documentSnapshot.toObject(Cleanser.class);
+                    //System.out.println("this is a real class: " + cleanser.getName());
                     recentlyViewed.add(cleanser);
-                } else if (documentSnapshot.contains("moisturiserType")) {
+                } else if (documentSnapshot.getString("categoryName").equals("moisturiser")) {
                     Moisturiser moisturiser = documentSnapshot.toObject(Moisturiser.class);
                     recentlyViewed.add(moisturiser);
                 }
@@ -102,10 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
+        System.out.println("WE MADE IT HERE BABY : " + position);
         // Create intent and pass data here
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("categoryName", clickedCategory.getName());
         // Add any other relevant data to the intent
         this.startActivity(intent);
     }
+
+
 }

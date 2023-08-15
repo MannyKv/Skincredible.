@@ -17,10 +17,16 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     private List<Category> category;
     Context context;
+    private OnItemClickListener mOnItemClickListener;
 
-    public CategoryAdapter(List<Category> category, Context context) {
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+    }
+
+    public CategoryAdapter(List<Category> category, Context context, OnItemClickListener onItemClickListener) {
         this.category = category;
         this.context = context;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -30,6 +36,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
         View categoryView = inflater.inflate(R.layout.category_recycled, parent, false);
         CategoryViewHolder holder = new CategoryViewHolder(categoryView);
+
+        holder.button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v, holder.getAdapterPosition());
+            }
+        });
+
+
         return holder;
 
     }
@@ -38,11 +54,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category thisCategory = category.get(position);
         holder.button.setText(thisCategory.getName());
-        System.out.println(thisCategory.getImageUri());
-        String filePath = thisCategory.getImageUri();
-        String withoutExtension = filePath.substring(0, filePath.lastIndexOf("."));
+        System.out.println(thisCategory.getImageName());
+        String filePath = thisCategory.getImageName();
 
-        int i = context.getResources().getIdentifier(withoutExtension, "drawable", context.getPackageName());
+
+        int i = context.getResources().getIdentifier(filePath, "drawable", context.getPackageName());
         holder.imageView.setImageResource(i);
     }
 

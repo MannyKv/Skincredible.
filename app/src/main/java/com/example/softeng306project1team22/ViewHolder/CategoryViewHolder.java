@@ -13,18 +13,14 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     public Button button;
     public ImageView imageView;
 
+
     public CategoryViewHolder(@NonNull View itemView) {
         super(itemView);
         button = itemView.findViewById(R.id.button_category);
         imageView = itemView.findViewById(R.id.categoryImage);
-        itemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                int position = getAdapterPosition();
-            }
-        });
+        
     }
+
 
 }
 
