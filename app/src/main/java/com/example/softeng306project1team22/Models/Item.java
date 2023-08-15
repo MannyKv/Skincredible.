@@ -13,7 +13,7 @@ public abstract class Item implements IItem {
     protected String brand;
     protected ArrayList<String> imageName;
     protected double price;
-    protected Category category;
+    protected String categoryName;
     protected ArrayList<String> skinType;
     protected String howToUse;
 
@@ -34,8 +34,8 @@ public abstract class Item implements IItem {
         return this.price;
     }
 
-    public Category getCategory() {
-        return this.category;
+    public String getCategoryName() {
+        return this.categoryName;
     }
 
     public String getHowToUse() {
