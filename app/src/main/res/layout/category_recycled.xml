@@ -8,10 +8,11 @@
     app:cardCornerRadius="4dp">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="109dp"
-        android:layout_height="77dp"
+        android:layout_width="100dp"
+        android:id="@+id/categoryImage"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         app:srcCompat="@drawable/cle10_img1" />
 
     <Button

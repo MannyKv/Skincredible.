@@ -38,6 +38,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category thisCategory = category.get(position);
         holder.button.setText(thisCategory.getName());
+        System.out.println(thisCategory.getImageUri());
+        String filePath = thisCategory.getImageUri();
+        String withoutExtension = filePath.substring(0, filePath.lastIndexOf("."));
+
+        int i = context.getResources().getIdentifier(withoutExtension, "drawable", context.getPackageName());
+        holder.imageView.setImageResource(i);
     }
 
     @Override

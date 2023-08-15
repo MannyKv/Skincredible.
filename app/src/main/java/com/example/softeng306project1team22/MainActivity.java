@@ -2,6 +2,8 @@ package com.example.softeng306project1team22;
 
 import static com.example.softeng306project1team22.Data.ItemDeserializer.deserialize;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -35,22 +37,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Create recyclerView instances for layout
         RecyclerView recyclerView = findViewById(R.id.category);
         RecyclerView historyView = findViewById(R.id.carousel_recycler_view);
-        //initilise list of categories and database connection
 
+        //Fetch All data required
         fetchCategoryData();
         fetchRecentlyViewed();
+
+        //Create Adapters for different views
         itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext());
         adapter = new CategoryAdapter(categoryList, getApplicationContext());
 
+        //Set adapters that recyclerViews will use
         historyView.setAdapter(itemAdapter);
         recyclerView.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
+        //Set layout managers!
         historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -91,5 +97,14 @@ public class MainActivity extends AppCompatActivity {
             }
             itemAdapter.notifyDataSetChanged();
         });
+    }
+
+    public void viewCategory(int position) {
+        Category clickedCategory = categoryList.get(position);
+        // Create intent and pass data here
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra("categoryName", clickedCategory.getName());
+        // Add any other relevant data to the intent
+        this.startActivity(intent);
     }
 }

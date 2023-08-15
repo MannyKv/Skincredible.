@@ -37,7 +37,7 @@ public class Cleanser extends Item {
         this.ph = ph;
         this.cleanserType = cleanserType;
         this.categoryRef = categoryRef;
-        populateCategoryField();
+
     }
 
     @Override
@@ -50,16 +50,6 @@ public class Cleanser extends Item {
         return this.ph;
     }
 
-    public void populateCategoryField() {
-        if (categoryRef != null) {
-            categoryRef.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    category = documentSnapshot.toObject(Category.class);
-                }
-            }).addOnFailureListener(e -> {
-                // Handle fetch failure
-            });
-        }
-    }
+    
 }
 
