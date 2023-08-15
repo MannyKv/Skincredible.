@@ -8,13 +8,26 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
+    <com.google.android.material.search.SearchBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:layout_height="wrap_content"
+        android:text="Recently Viewed" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carousel_recycler_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="196dp"
         android:clipChildren="false"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
