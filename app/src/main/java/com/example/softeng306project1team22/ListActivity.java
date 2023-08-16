@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Models.Category;
@@ -23,6 +24,8 @@ public class ListActivity extends AppCompatActivity {
     Category category;
     FirebaseFirestore db;
     ArrayList<IItem> itemList;
+
+    ItemListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,9 @@ public class ListActivity extends AppCompatActivity {
                                 break;
                         }
                     }
+                    listAdapter = new ItemListAdapter(itemList);
+                    vh.itemRecyclerView.setAdapter(listAdapter);
+                    vh.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 });
     }
 

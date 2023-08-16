@@ -20,8 +20,10 @@
                 android:id="@+id/back_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:backgroundTint="@color/material_dynamic_primary80"
                 android:contentDescription="Back"
-                android:textSize="28sp" />
+                android:text="back"
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -33,7 +35,6 @@
                 android:id="@+id/category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="CATEGORY"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
