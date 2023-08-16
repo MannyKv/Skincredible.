@@ -47,7 +47,13 @@ public class MainActivity extends AppCompatActivity {
         fetchRecentlyViewed();
 
         //Create Adapters for different views
-        itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext());
+        itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                viewItem(position);
+            }
+        });
         adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
 
             @Override
@@ -90,16 +96,16 @@ public class MainActivity extends AppCompatActivity {
         CollectionReference colRef = dbs.collection("cleanser");
 
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Data retrieved successfully");
+            Log.d("Firestore", "Recently viewed retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                if (documentSnapshot.getString("categoryName").equals("sunscreen")) {
+                if (documentSnapshot.getString("categoryName").equals("Sunscreen")) {
                     Sunscreen sunscreen = documentSnapshot.toObject(Sunscreen.class);
                     recentlyViewed.add(sunscreen);
-                } else if (documentSnapshot.getString("categoryName").equals("cleanser")) {
+                } else if (documentSnapshot.getString("categoryName").equals("Cleanser")) {
                     Cleanser cleanser = documentSnapshot.toObject(Cleanser.class);
-                    //System.out.println("this is a real class: " + cleanser.getName());
+                    System.out.println("this is a real class: " + cleanser.getName());
                     recentlyViewed.add(cleanser);
-                } else if (documentSnapshot.getString("categoryName").equals("moisturiser")) {
+                } else if (documentSnapshot.getString("categoryName").equals("Moisturiser")) {
                     Moisturiser moisturiser = documentSnapshot.toObject(Moisturiser.class);
                     recentlyViewed.add(moisturiser);
                 }
@@ -114,6 +120,16 @@ public class MainActivity extends AppCompatActivity {
         // Create intent and pass data here
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("categoryName", clickedCategory.getName());
+        // Add any other relevant data to the intent
+        this.startActivity(intent);
+    }
+
+    public void viewItem(int position) {
+        Item clickedItem = recentlyViewed.get(position);
+        System.out.println("Made it to viewItem intent sender : " + position);
+        // Create intent and pass data here
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra("name", clickedItem.getName());
         // Add any other relevant data to the intent
         this.startActivity(intent);
     }

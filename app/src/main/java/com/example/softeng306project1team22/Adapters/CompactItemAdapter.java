@@ -18,9 +18,12 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
     private List<Item> items;
     Context context;
 
-    public CompactItemAdapter(List<Item> items, Context context) {
+    private CategoryAdapter.OnItemClickListener mOnItemClickListener;
+
+    public CompactItemAdapter(List<Item> items, Context context, CategoryAdapter.OnItemClickListener onItemClickListener) {
         this.items = items;
         this.context = context;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -28,8 +31,15 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
 
     public CompactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.item_scroll_main, parent, false);
+        View itemView = inflater.inflate(R.layout.item_image_card, parent, false);
         CompactViewHolder holder = new CompactViewHolder(itemView);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v, holder.getAdapterPosition());
+            }
+        });
         return holder;
     }
 

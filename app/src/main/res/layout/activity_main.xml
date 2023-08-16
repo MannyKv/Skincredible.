@@ -17,6 +17,7 @@
         android:paddingTop="30dp"
         android:paddingBottom="30dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Recently Viewed" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@
         android:layout_width="match_parent"
         android:paddingTop="30dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Categories" />
 
     <androidx.recyclerview.widget.RecyclerView

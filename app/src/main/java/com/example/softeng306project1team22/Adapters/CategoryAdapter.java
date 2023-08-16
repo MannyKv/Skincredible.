@@ -34,10 +34,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View categoryView = inflater.inflate(R.layout.category_recycled, parent, false);
+        View categoryView = inflater.inflate(R.layout.category_card, parent, false);
         CategoryViewHolder holder = new CategoryViewHolder(categoryView);
 
-        holder.button.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -53,7 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category thisCategory = category.get(position);
-        holder.button.setText(thisCategory.getName());
+        holder.textView.setText(thisCategory.getName());
         System.out.println(thisCategory.getImageName());
         String filePath = thisCategory.getImageName();
 
