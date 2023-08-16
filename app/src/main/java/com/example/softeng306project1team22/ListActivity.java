@@ -32,24 +32,24 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         itemList = new ArrayList<>();
-        String categoryName = "cleanser";
-        fetchCategoryData(categoryName);
-        fetchItemListData(categoryName);
+        String categoryId = "cle";
+        fetchCategoryData(categoryId);
     }
 
-    private void fetchCategoryData(String categoryName) {
+    private void fetchCategoryData(String categoryId) {
         db = FirebaseFirestore.getInstance();
-        db.collection("category").document(categoryName.substring(0, 3))
+        db.collection("category").document(categoryId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    category = new Category(documentSnapshot.get("name", String.class), documentSnapshot.getId(), documentSnapshot.get("imageName", String.class));
+                    category = new Category(documentSnapshot.get("name", String.class), categoryId, documentSnapshot.get("imageName", String.class));
                     populateCategoryDetails(category);
+                    fetchItemListData(category.getName());
                 });
     }
 
     private void fetchItemListData(String categoryName) {
         db = FirebaseFirestore.getInstance();
-        db.collection(categoryName)
+        db.collection(categoryName.toLowerCase())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     for (DocumentSnapshot document : documentSnapshot.getDocuments()) {

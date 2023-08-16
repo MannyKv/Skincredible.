@@ -57,7 +57,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         // check type of item
         switch (currItem.getCategoryName()) {
             case "Cleanser":
-                holder.tagOneTextView.setText(currItem.getPh());
+                holder.tagOneTextView.setText("pH " + currItem.getPh());
                 holder.tagTwoTextView.setText(currItem.getCleanserType());
                 break;
             case "Sunscreen":
