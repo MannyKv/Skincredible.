@@ -24,7 +24,6 @@ public class ListActivity extends AppCompatActivity {
     Category category;
     FirebaseFirestore db;
     ArrayList<IItem> itemList;
-
     ItemListAdapter listAdapter;
 
     @Override
@@ -33,7 +32,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         itemList = new ArrayList<>();
-        String categoryName = "sunscreen";
+        String categoryName = "cleanser";
         fetchCategoryData(categoryName);
         fetchItemListData(categoryName);
     }
@@ -55,18 +54,20 @@ public class ListActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     for (DocumentSnapshot document : documentSnapshot.getDocuments()) {
                         Map<String, Object> itemMap = document.getData();
+                        String id = document.getId();
                         switch ((String) itemMap.get("categoryName")) {
                             case "Sunscreen":
-                                itemList.add(new Sunscreen(document.getId(), (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (Double) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("sunscreenType"), (String) itemMap.get("spf"), (String) itemMap.get("howToUse")));
+                                itemList.add(new Sunscreen(id, (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (String) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("sunscreenType"), (String) itemMap.get("spf"), (String) itemMap.get("howToUse")));
                                 break;
                             case "Cleanser":
-                                itemList.add(new Cleanser(document.getId(), (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (Double) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("ph"), (String) itemMap.get("cleanserType"), (String) itemMap.get("howToUse")));
+                                itemList.add(new Cleanser(id, (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (String) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("ph"), (String) itemMap.get("cleanserType"), (String) itemMap.get("howToUse")));
                                 break;
                             case "Moisturiser":
-                                itemList.add(new Moisturiser(document.getId(), (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (Double) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("moisturiserType"), (String) itemMap.get("howToUse"), (String) itemMap.get("timeToUse")));
+                                itemList.add(new Moisturiser(id, (String) itemMap.get("name"), (String) itemMap.get("brand"), (ArrayList<String>) itemMap.get("imageNames"), (String) itemMap.get("price"), (String) itemMap.get("categoryName"), (ArrayList<String>) itemMap.get("skinType"), (String) itemMap.get("moisturiserType"), (String) itemMap.get("howToUse"), (String) itemMap.get("timeToUse")));
                                 break;
                         }
                     }
+
                     listAdapter = new ItemListAdapter(itemList);
                     vh.itemRecyclerView.setAdapter(listAdapter);
                     vh.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));

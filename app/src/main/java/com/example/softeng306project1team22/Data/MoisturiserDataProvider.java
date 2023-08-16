@@ -184,7 +184,7 @@ public class MoisturiserDataProvider {
             String name = (String) moisturisersInfo.get(key).get(0);
             String brand = (String) moisturisersInfo.get(key).get(1);
             ArrayList<String> imageNames = (ArrayList<String>) moisturisersInfo.get(key).get(2);
-            double price = (double) moisturisersInfo.get(key).get(3);
+            String price = (String) moisturisersInfo.get(key).get(3);
             String categoryName = (String) moisturisersInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) moisturisersInfo.get(key).get(5);
             String moisturiserType = (String) moisturisersInfo.get(key).get(6);

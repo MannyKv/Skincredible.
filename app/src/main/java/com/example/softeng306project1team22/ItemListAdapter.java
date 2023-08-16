@@ -49,14 +49,26 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         holder.productNameTextView.setText(currItem.getName());
         holder.brandTextView.setText(currItem.getBrand());
         holder.priceTextView.setText((String.valueOf(currItem.getPrice())));
-        holder.tagOneTextView.setText(currItem.getSpf());
-        holder.tagTwoTextView.setText(currItem.getSunscreenType());
-
         int i = mContext.getResources().getIdentifier(
                 currItem.getImageNames().get(0), "drawable",
                 mContext.getPackageName());
-
         holder.productImageView.setImageResource(i);
+
+        // check type of item
+        switch (currItem.getCategoryName()) {
+            case "Cleanser":
+                holder.tagOneTextView.setText(currItem.getPh());
+                holder.tagTwoTextView.setText(currItem.getCleanserType());
+                break;
+            case "Sunscreen":
+                holder.tagOneTextView.setText(currItem.getSpf());
+                holder.tagTwoTextView.setText(currItem.getSunscreenType());
+                break;
+            case "Moisturiser":
+                holder.tagOneTextView.setText(currItem.getTimeToUse());
+                holder.tagTwoTextView.setText(currItem.getMoisturiserType());
+                break;
+        }
     }
 
     @Override

@@ -184,7 +184,7 @@ public class SunscreenDataProvider {
             String name = (String) sunscreenInfo.get(key).get(0);
             String brand = (String) sunscreenInfo.get(key).get(1);
             ArrayList<String> imageNames = (ArrayList<String>) sunscreenInfo.get(key).get(2);
-            double price = (double) sunscreenInfo.get(key).get(3);
+            String price = (String) sunscreenInfo.get(key).get(3);
             String categoryName = (String) sunscreenInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) sunscreenInfo.get(key).get(5);
             String sunscreenType = (String) sunscreenInfo.get(key).get(6);
