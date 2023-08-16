@@ -18,6 +18,7 @@ import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
+import com.google.android.material.search.SearchBar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,7 +38,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SearchBar searchBar = findViewById(R.id.search_button);
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchItem();
+            }
+        });
         //Create recyclerView instances for layout
         RecyclerView recyclerView = findViewById(R.id.category);
         RecyclerView historyView = findViewById(R.id.carousel_recycler_view);
@@ -134,5 +141,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    public void searchItem() {
+        Intent intent = new Intent(this, ListActivity.class);
+        this.startActivity(intent);
+    }
 
 }
