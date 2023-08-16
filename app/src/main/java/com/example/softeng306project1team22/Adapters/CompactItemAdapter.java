@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +35,7 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.item_image_card, parent, false);
         CompactViewHolder holder = new CompactViewHolder(itemView);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -50,12 +52,16 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
         System.out.println("This is the path for loading: " + filePath);
         int i = context.getResources().getIdentifier(filePath, "drawable", context.getPackageName());
         System.out.println("This is the image ID for loading: " + i);
-
         holder.imageView.setImageResource(i);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_up);
+        holder.linearLayout.startAnimation(animation);
+
     }
 
     @Override
     public int getItemCount() {
         return items.size();
     }
+
+
 }
