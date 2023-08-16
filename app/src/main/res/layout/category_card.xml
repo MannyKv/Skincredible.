@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
-    android:backgroundTint="@color/material_dynamic_primary80"
-    app:cardCornerRadius="50dp">
+    android:backgroundTint="#57958D"
+    app:cardCornerRadius="50dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
@@ -25,9 +25,9 @@
                 android:id="@+id/category_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
                 android:layout_gravity="center"
                 android:contentDescription="Category"
+                android:scaleType="centerInside"
                 android:src="@drawable/sun1_img1" />
 
         </androidx.cardview.widget.CardView>
@@ -43,9 +43,12 @@
                 android:id="@+id/category_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginBottom="10dp"
-                android:text="Aqua Sun Gel" />
+                android:gravity="center"
+                android:text="Sunscreen"
+                android:textColor="@color/white"
+                android:textFontWeight="700"
+                android:textSize="40dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

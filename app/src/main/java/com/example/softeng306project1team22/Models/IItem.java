@@ -9,7 +9,7 @@ public interface IItem {
 
     public String getBrand();
 
-    public double getPrice();
+    public String getPrice();
 
     public String getCategoryName();
 

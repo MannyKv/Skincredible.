@@ -3,17 +3,17 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
+    android:padding="5dp"
     android:id="@+id/image_card"
+    android:gravity="center"
     android:clickable="true">
 
-
     <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="93dp"
+        android:layout_height="93dp"
         android:layout_gravity="center"
         app:cardCornerRadius="250dp"
-        android:backgroundTint="#82C6E6">
+        android:backgroundTint="#88CEC6">
 
         <androidx.cardview.widget.CardView
             android:layout_width="90dp"
@@ -26,6 +26,7 @@
                 android:id="@+id/itemcycle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:src="@drawable/cle1_img1" />
 
 

@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E6EC"
+    android:background="@drawable/background_gradient"
     android:orientation="vertical"
     tools:context=".MainActivity"
     tools:visibility="visible">
 
-    <com.google.android.material.search.SearchBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_button"
 
-        />
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:backgroundTint="#CBEBE7"
+        android:text="Search Items" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,10 +25,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="25dp"
+
             android:text="Recently Viewed" />
 
         <LinearLayout
@@ -36,7 +39,7 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="10dp"
+                android:layout_width="0dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -45,10 +48,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/carousel_recycler_view"
-                android:layout_width="243dp"
-                android:layout_height="150dp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
@@ -57,7 +60,7 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="10dp"
+                android:layout_width="0dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -70,16 +73,18 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Categories" />
+        android:textSize="30dp"
+        android:textFontWeight="400"
+        android:text="Browse Categories..." />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="30dp"
+        android:paddingTop="20dp"
         android:gravity="bottom"
         android:visibility="visible"
         tools:visibility="visible" />

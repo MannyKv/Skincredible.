@@ -28,7 +28,7 @@ public class MoisturiserDataProvider {
                         "1025 Dokdo Cream",
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("mos1_img1.png", "mos1_img2.png", "mos1_img3.png")),
-                        47.0,
+                        "47.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Dry", "Sensitive")),
                         "Cream",
@@ -41,7 +41,7 @@ public class MoisturiserDataProvider {
                         "Advanced Snail 92 All in one Cream",
                         "COSRX",
                         new ArrayList<String>(Arrays.asList("mos2_img1.png", "mos2_img2.png", "mos2_img3.png")),
-                        30.0,
+                        "30.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Normal", "Dry", "Combination")),
                         "Cream",
@@ -54,7 +54,7 @@ public class MoisturiserDataProvider {
                         "Aloe Real Cool Soothing Gel",
                         "Benton",
                         new ArrayList<String>(Arrays.asList("mos3_img1.png", "mos3_img2.png", "mos3_img3.png")),
-                        12.0,
+                        "12.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Combination")),
                         "Gel",
@@ -67,7 +67,7 @@ public class MoisturiserDataProvider {
                         "AC Collection Lightweight Soothing Moisturiser",
                         "COSRX",
                         new ArrayList<String>(Arrays.asList("mos4_img1.png", "mos4_img2.png", "mos4_img3.png")),
-                        30.0,
+                        "30.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Dry", "Oily", "Sensitive", "Combination")),
                         "Cream",
@@ -80,7 +80,7 @@ public class MoisturiserDataProvider {
                         "Fundamental Water Gel Cream",
                         "Klairs",
                         new ArrayList<String>(Arrays.asList("mos5_img1.png", "mos5_img2.png", "mos5_img3.png")),
-                        48.0,
+                        "48.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Normal", "Combination")),
                         "Gel",
@@ -93,7 +93,7 @@ public class MoisturiserDataProvider {
                         "Birch Juice Moisturising Cream",
                         "Round Lab",
                         new ArrayList<String>(Arrays.asList("mos6_img1.png", "mos6_img2.png", "mos6_img3.png")),
-                        43.0,
+                        "43.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Normal", "Dry", "Sensitive", "Combination")),
                         "Cream",
@@ -106,7 +106,7 @@ public class MoisturiserDataProvider {
                         "Dermide Balancing Barrier Balm",
                         "Purito",
                         new ArrayList<String>(Arrays.asList("mos7_img1.png", "mos7_img2.png", "mos7_img3.png")),
-                        40.0,
+                        "40.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Normal", "Dry")),
                         "Balm",
@@ -119,7 +119,7 @@ public class MoisturiserDataProvider {
                         "Clean Lotus Water Cream",
                         "Rovectin",
                         new ArrayList<String>(Arrays.asList("mos8_img1.png", "mos8_img2.png", "mos8_img3.png")),
-                        27.0,
+                        " 27.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Oily", "Sensitive", "Dry", "Combination")),
                         "Cream",
@@ -132,7 +132,7 @@ public class MoisturiserDataProvider {
                         "Cicaluronic Gel Treatment",
                         "Mizon",
                         new ArrayList<String>(Arrays.asList("mos9_img1.png", "mos9_img2.png", "mos9_img3.png")),
-                        36.0,
+                        "36.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Sensitive")),
                         "Gel",
@@ -145,7 +145,7 @@ public class MoisturiserDataProvider {
                         "Ceramidin Oil Balm",
                         "Dr.Jart+",
                         new ArrayList<String>(Arrays.asList("mos10_img1.png", "mos10_img2.png", "mos10_img3.png")),
-                        43.0,
+                        "43.0",
                         "Moisturiser",
                         new ArrayList<String>(Arrays.asList("Dry")),
                         "Oil Balm",
@@ -184,7 +184,7 @@ public class MoisturiserDataProvider {
             String name = (String) moisturisersInfo.get(key).get(0);
             String brand = (String) moisturisersInfo.get(key).get(1);
             ArrayList<String> imageUri = (ArrayList<String>) moisturisersInfo.get(key).get(2);
-            double price = (double) moisturisersInfo.get(key).get(3);
+            String price = (String) moisturisersInfo.get(key).get(3);
             String categoryName = (String) moisturisersInfo.get(key).get(4);
             ArrayList<String> skinType = (ArrayList<String>) moisturisersInfo.get(key).get(5);
             String moisturiserType = (String) moisturisersInfo.get(key).get(6);
