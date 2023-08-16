@@ -11,13 +11,13 @@ public interface IItem {
 
     public double getPrice();
 
-    public Category getCategory();
+    public String getCategoryName();
 
     public String getHowToUse();
 
     public ArrayList<String> getSkinType();
 
-    public ArrayList<String> getImageUri();
+    public ArrayList<String> getImageNames();
 
     public String getCleanserType();
 

@@ -11,9 +11,9 @@ public abstract class Item implements IItem {
     protected String id;
     protected String name;
     protected String brand;
-    protected ArrayList<String> imageUri;
+    protected ArrayList<String> imageNames;
     protected double price;
-    protected Category category;
+    protected String categoryName;
     protected ArrayList<String> skinType;
     protected String howToUse;
 
@@ -34,8 +34,8 @@ public abstract class Item implements IItem {
         return this.price;
     }
 
-    public Category getCategory() {
-        return this.category;
+    public String getCategoryName() {
+        return this.categoryName;
     }
 
     public String getHowToUse() {
@@ -46,8 +46,8 @@ public abstract class Item implements IItem {
         return this.skinType;
     }
 
-    public ArrayList<String> getImageUri() {
-        return this.imageUri;
+    public ArrayList<String> getImageNames() {
+        return this.imageNames;
     }
 
     @Exclude

@@ -2,17 +2,17 @@ package com.example.softeng306project1team22.Models;
 
 public class Category {
     private String name;
-    private String imageUri;
+    private String imageName;
     private String id;
 
     public Category() {
 
     }
 
-    public Category(String name, String id, String imageUri) {
+    public Category(String name, String id, String imageName) {
         this.name = name;
         this.id = id;
-        this.imageUri = imageUri;
+        this.imageName = imageName;
     }
 
     public String getName() {
@@ -23,7 +23,7 @@ public class Category {
         return this.id;
     }
 
-    public String getImageUri() {
-        return this.imageUri;
+    public String getImageName() {
+        return this.imageName;
     }
 }
