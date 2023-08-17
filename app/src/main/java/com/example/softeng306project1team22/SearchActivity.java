@@ -1,7 +1,5 @@
 package com.example.softeng306project1team22;
 
-import static com.example.softeng306project1team22.TestRepo.getAllItems;
-
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,17 +8,21 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
+import com.example.softeng306project1team22.Models.Moisturiser;
+import com.example.softeng306project1team22.Models.Sunscreen;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     ItemListAdapter itemAdapter;
-    List<IItem> allItems;
-    List<IItem> filtered;
+    List<IItem> allItems = new ArrayList<>();
+    List<IItem> filtered = new ArrayList<>();
 
     RecyclerView recyclerView;
 
@@ -44,18 +46,27 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.search_recycled);
-        retrieveAllItems();
+
         itemAdapter = new ItemListAdapter(filtered);
         recyclerView.setAdapter(itemAdapter);
+        retrieveAllItems();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         itemAdapter.notifyDataSetChanged();
 
     }
 
     protected void retrieveAllItems() {
-        allItems = getAllItems();
-        filtered = new ArrayList<>(allItems);
+        // allItems = getAllItems();
+        
+        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
+        CollectionReference colRef1 = dbs.collection("cleanser");
+        CollectionReference colRef2 = dbs.collection("moisturiser");
+        CollectionReference colRef3 = dbs.collection("sunscreen");
 
+        retrieveFromCollection(colRef1, Cleanser.class);
+        retrieveFromCollection(colRef2, Moisturiser.class);
+        retrieveFromCollection(colRef3, Sunscreen.class);
+        // filtered = new ArrayList<>(allItems);
     }
 
     private void retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
@@ -64,6 +75,7 @@ public class SearchActivity extends AppCompatActivity {
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 IItem item = (IItem) documentSnapshot.toObject(itemClass);
                 allItems.add(item);
+                filtered.add(item);
             }
             itemAdapter.notifyDataSetChanged();
         });

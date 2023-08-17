@@ -10,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="20dp"
+            android:layout_height="31dp"
             android:backgroundTint="@color/material_dynamic_primary80"
             android:contentDescription="Back"
             android:text="back"
@@ -41,6 +41,7 @@
                 android:layout_height="61dp"
                 android:background="@drawable/bg_search_rounded"
                 android:radius="250dp"
+                app:iconifiedByDefault="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.555"
