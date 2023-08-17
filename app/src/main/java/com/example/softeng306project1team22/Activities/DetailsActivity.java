@@ -22,16 +22,15 @@ public class DetailsActivity extends AppCompatActivity {
         TextView categoryTextView, brandTextView, productNameTextView;
         ImageView categoryImageView;
         ImageView productImageView;
-        Button previousImageButton;
-        Button nextImageButton;
+        Button previousImageButton, nextImageButton;
         Button detailsButton, howToUseButton;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
-        Button decreaseQuantityButton;
-        Button increaseQuantityButton;
+        Button decreaseQuantityButton, increaseQuantityButton;
         TextView quantityValue;
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
+        Button addToCartButton;
 
         public ViewHolder() {
             backButton = findViewById(R.id.backButton);
@@ -56,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
             secondDetailTitle = findViewById(R.id.secondDetailTitle);
             secondDetailValue = findViewById(R.id.secondDetailValue);
             thirdDetailValue = findViewById(R.id.thirdDetailValue);
+            addToCartButton = findViewById(R.id.addToCartButton);
         }
     }
 
@@ -166,6 +166,13 @@ public class DetailsActivity extends AppCompatActivity {
 
                 quantityValue++;
                 viewHolder.quantityValue.setText(String.valueOf(quantityValue));
+            }
+        });
+
+        viewHolder.addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add code to go to cart activity with intent. Pass in the current quantityValue field value as extra
             }
         });
     }
