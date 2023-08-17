@@ -34,16 +34,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:textSize="22sp"
-                android:text="Category Name"
                 android:textAlignment="center" />
 
             <ImageView
-                android:id="@+id/categoryHeaderImageView"
+                android:id="@+id/categoryImageView"
                 android:layout_width="28.6dp"
                 android:layout_height="28.6dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/categoryTextView"
-                android:src="@drawable/cle" />
+                android:layout_toEndOf="@+id/categoryTextView" />
 
         </RelativeLayout>
     </RelativeLayout>
@@ -54,8 +52,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="17sp"
-        android:layout_marginTop="10dp"
-        android:text="Brand Name" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/productNameTextView"
@@ -63,14 +60,12 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="29sp"
-        android:layout_marginTop="10dp"
-        android:text="Product Name" />
+        android:layout_marginTop="10dp" />
 
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="5dp">
+        android:layout_height="350dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productImageCardView"
@@ -110,8 +105,7 @@
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:text="Price" />
+                android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
 
@@ -153,6 +147,7 @@
             android:layout_height="50dp"
             android:backgroundTint="#FFFFFF"
             android:padding="0dp"
+            android:layout_marginStart="5dp"
             android:text="details"
             android:textSize="20sp"
             android:textColor="#000000"
@@ -174,7 +169,7 @@
             android:translationZ="20dp" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/productInfoCardView"
+            android:id="@+id/productDetailsCardView"
             android:layout_marginTop="37dp"
             android:backgroundTint="#FFFFFF"
             android:layout_width="match_parent"
@@ -182,8 +177,8 @@
             android:layout_marginBottom="5dp"
             app:contentPaddingLeft="10dp"
             app:contentPaddingRight="10dp"
-            android:translationZ="10dp"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="15dp"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -211,15 +206,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            android:text="hello" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/firstDetailValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            android:layout_alignParentRight="true"
-                            android:text="hello" />
+                            android:layout_alignParentRight="true" />
 
                     </RelativeLayout>
 
@@ -247,15 +241,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            android:text="hello" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/secondDetailValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            android:layout_alignParentRight="true"
-                            android:text="hello" />
+                            android:layout_alignParentRight="true" />
 
                     </RelativeLayout>
 
@@ -285,21 +278,37 @@
                             android:layout_centerVertical="true"
                             android:textSize="15sp"
                             android:textStyle="bold"
-                            android:text="recommended skin types" />
+                            android:text="skin types" />
 
                         <TextView
                             android:id="@+id/thirdDetailValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:textSize="15sp"
-                            android:text="hello" />
+                            android:textSize="15sp" />
 
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
 
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/howToUseCardView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="37dp"
+            app:contentPadding="20dp"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="15dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/howToUseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
