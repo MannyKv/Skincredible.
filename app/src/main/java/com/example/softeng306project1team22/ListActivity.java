@@ -32,7 +32,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         itemList = new ArrayList<>();
-        String categoryId = "cle";
+        String categoryId = "mos";
         fetchCategoryData(categoryId);
     }
 
