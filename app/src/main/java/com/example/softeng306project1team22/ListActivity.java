@@ -2,6 +2,7 @@ package com.example.softeng306project1team22;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,10 +33,12 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        vh = new ViewHolder();
+        vh.backButton.setOnClickListener(v -> finish());
+        
+        itemList = new ArrayList<>();
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");
-        vh = new ViewHolder();
-        itemList = new ArrayList<>();
         fetchCategoryData(categoryId);
     }
 
@@ -104,11 +107,13 @@ public class ListActivity extends AppCompatActivity {
         TextView categoryNameHeader;
         ImageView categoryIcon;
         RecyclerView itemRecyclerView;
+        Button backButton;
 
         public ViewHolder() {
             categoryNameHeader = findViewById(R.id.category_name);
             categoryIcon = findViewById(R.id.category_icon);
             itemRecyclerView = findViewById(R.id.rvItems);
+            backButton = findViewById(R.id.back_button);
         }
     }
 
