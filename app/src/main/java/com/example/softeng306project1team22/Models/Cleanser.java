@@ -6,11 +6,12 @@ public class Cleanser extends Item {
     private String ph;
     private String cleanserType;
 
+
     public Cleanser() {
 
     }
 
-    public Cleanser(String id, String name, String brand, ArrayList<String> imageNames, double price, String categoryName, ArrayList<String> skinType, String ph, String cleanserType, String howToUse) {
+    public Cleanser(String id, String name, String brand, ArrayList<String> imageNames, String price, String categoryName, ArrayList<String> skinType, String ph, String cleanserType, String howToUse) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -32,4 +33,7 @@ public class Cleanser extends Item {
     public String getPh() {
         return this.ph;
     }
+
+
 }
+
