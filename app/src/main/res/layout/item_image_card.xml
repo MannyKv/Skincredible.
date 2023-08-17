@@ -9,8 +9,8 @@
     android:clickable="true">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="93dp"
-        android:layout_height="93dp"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
         android:layout_gravity="center"
         app:cardCornerRadius="250dp"
         android:backgroundTint="#88CEC6">

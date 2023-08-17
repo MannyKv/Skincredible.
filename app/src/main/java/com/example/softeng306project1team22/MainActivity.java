@@ -20,6 +20,7 @@ import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
+        searchBar.setOnQueryTextListener(null);
+        searchBar.setQueryHint("Search Items");
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,22 +103,29 @@ public class MainActivity extends AppCompatActivity {
 
         //DISCLAIMER! TEST DATA
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef = dbs.collection("cleanser");
+        CollectionReference colRef = dbs.collection("recently-viewed");
 
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Recently viewed retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                if (documentSnapshot.getString("categoryName").equals("Sunscreen")) {
-                    Sunscreen sunscreen = documentSnapshot.toObject(Sunscreen.class);
-                    recentlyViewed.add(sunscreen);
-                } else if (documentSnapshot.getString("categoryName").equals("Cleanser")) {
-                    Cleanser cleanser = documentSnapshot.toObject(Cleanser.class);
-                    System.out.println("this is a real class: " + cleanser.getName());
-                    recentlyViewed.add(cleanser);
-                } else if (documentSnapshot.getString("categoryName").equals("Moisturiser")) {
-                    Moisturiser moisturiser = documentSnapshot.toObject(Moisturiser.class);
-                    recentlyViewed.add(moisturiser);
-                }
+                DocumentReference referencedDocRef = (DocumentReference) documentSnapshot.get("item");
+               
+
+                referencedDocRef.get().addOnSuccessListener(referencedDocSnapshot -> {
+                    if (referencedDocSnapshot.getString("categoryName").equals("Sunscreen")) {
+                        Sunscreen sunscreen = referencedDocSnapshot.toObject(Sunscreen.class);
+                        recentlyViewed.add(sunscreen);
+
+                    } else if (referencedDocSnapshot.getString("categoryName").equals("Cleanser")) {
+                        Cleanser cleanser = referencedDocSnapshot.toObject(Cleanser.class);
+                        System.out.println("this is a real class: " + cleanser.getName());
+                        recentlyViewed.add(cleanser);
+                    } else if (referencedDocSnapshot.getString("categoryName").equals("Moisturiser")) {
+                        Moisturiser moisturiser = referencedDocSnapshot.toObject(Moisturiser.class);
+                        recentlyViewed.add(moisturiser);
+                    }
+                    itemAdapter.notifyDataSetChanged();
+                });
             }
             itemAdapter.notifyDataSetChanged();
         });
