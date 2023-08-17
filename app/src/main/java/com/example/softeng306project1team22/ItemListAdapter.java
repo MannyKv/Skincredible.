@@ -20,9 +20,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     // declaring collection object holding the data to populate the RecyclerView
     private List<IItem> mItems;
     private Context mContext;
+    private String category;
 
+    public ItemListAdapter(List<IItem> items, String categoryId) {
+        mItems = items;
+        category = categoryId;
+    }
+
+    // constructor when displaying items from various categories (no id specified)
     public ItemListAdapter(List<IItem> items) {
         mItems = items;
+        category = "";
     }
 
     // inflating layout from XML and returning holder
@@ -31,12 +39,24 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     public ItemListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
+        View itemView;
+        ViewHolder holder;
 
-        // Inflate the custom layout
-        View itemView = inflater.inflate(R.layout.sunscreen_item_card, parent, false);
-
+        switch (category) {
+            case "cle":
+                itemView = inflater.inflate(R.layout.cleanser_item_card, parent, false);
+                holder = new ViewHolder(itemView);
+                break;
+            case "mos":
+                itemView = inflater.inflate(R.layout.moisturiser_item_card, parent, false);
+                holder = new ViewHolder(itemView);
+                break;
+            default:
+                itemView = inflater.inflate(R.layout.sunscreen_item_card, parent, false);
+                holder = new ViewHolder(itemView);
+                break;
+        }
         // Return a new holder instance
-        ViewHolder holder = new ViewHolder(itemView);
         return holder;
     }
 
@@ -104,6 +124,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public void onClick(View v) {
             // what to do when the view item is clicked
             IItem clickedItem = mItems.get(getAdapterPosition());
+//            clickedItem.getId();
+//            clickedItem.getCategoryName();
             Toast.makeText(mContext, clickedItem.getName() + " is clicked in position " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
     }

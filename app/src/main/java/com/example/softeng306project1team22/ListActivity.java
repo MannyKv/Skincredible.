@@ -1,10 +1,12 @@
 package com.example.softeng306project1team22;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +32,10 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        Intent intent = getIntent();
+        String categoryId = intent.getStringExtra("categoryId");
         vh = new ViewHolder();
         itemList = new ArrayList<>();
-        String categoryId = "mos";
         fetchCategoryData(categoryId);
     }
 
@@ -67,11 +70,24 @@ public class ListActivity extends AppCompatActivity {
                                 break;
                         }
                     }
-
-                    listAdapter = new ItemListAdapter(itemList);
-                    vh.itemRecyclerView.setAdapter(listAdapter);
-                    vh.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    propagateListAdapter(category.getId());
                 });
+    }
+
+    private void propagateListAdapter(String categoryId) {
+        listAdapter = new ItemListAdapter(itemList);
+        vh.itemRecyclerView.setAdapter(listAdapter);
+        switch (categoryId) {
+            case "cle":
+                vh.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+                break;
+            case "mos":
+                vh.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+                break;
+            default:
+                vh.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                break;
+        }
     }
 
     private void populateCategoryDetails(Category category) {
