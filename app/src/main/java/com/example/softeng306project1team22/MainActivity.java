@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,6 @@ import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
-import com.google.android.material.search.SearchBar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SearchBar searchBar = findViewById(R.id.search_button);
+        SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
-        System.out.println("WE MADE IT HERE BABY : " + position);
         // Create intent and pass data here
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("categoryName", clickedCategory.getName());
@@ -133,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewItem(int position) {
         Item clickedItem = recentlyViewed.get(position);
-        System.out.println("Made it to viewItem intent sender : " + position);
         // Create intent and pass data here
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("name", clickedItem.getName());

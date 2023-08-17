@@ -12,7 +12,9 @@ public abstract class Item implements IItem {
     protected String name;
     protected String brand;
     protected ArrayList<String> imageNames;
+
     protected String price;
+
     protected String categoryName;
     protected ArrayList<String> skinType;
     protected String howToUse;
