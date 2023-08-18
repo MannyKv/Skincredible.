@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,7 +10,8 @@
     <RelativeLayout
         android:id="@+id/headerContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
         <Button
             android:id="@+id/backButton"
@@ -48,22 +49,23 @@
 
     <TextView
         android:id="@+id/brandTextView"
+        android:layout_below="@id/headerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="17sp"
-        android:layout_marginTop="10dp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/productNameTextView"
+        android:layout_below="@id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="29sp"
-        android:layout_marginTop="10dp" />
+        android:textSize="29sp" />
 
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
+        android:layout_below="@id/productNameTextView"
         android:layout_width="match_parent"
         android:layout_height="350dp">
 
@@ -109,7 +111,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/previousImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,7 +122,7 @@
             android:textSize="40sp"
             android:text="&lt;" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/nextImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -135,13 +137,14 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/productInfoContainer"
+        android:layout_below="@id/imageSliderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/detailsButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -153,7 +156,7 @@
             android:textColor="#000000"
             android:translationZ="20dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/howToUseButton"
             android:layout_toRightOf="@+id/detailsButton"
             android:layout_marginLeft="5dp"
@@ -170,11 +173,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productDetailsCardView"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="38dp"
             android:backgroundTint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginBottom="5dp"
             app:contentPaddingLeft="10dp"
             app:contentPaddingRight="10dp"
             app:cardCornerRadius="15dp"
@@ -223,7 +225,7 @@
                     android:id="@+id/productInfoComponent2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/productInfoComponent1"
+                    android:layout_below="@id/productInfoComponent1"
                     app:cardCornerRadius="20dp"
                     android:layout_marginTop="15dp"
                     app:cardBackgroundColor="#CBEBE7">
@@ -258,7 +260,7 @@
                     android:id="@+id/productInfoComponent3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/productInfoComponent2"
+                    android:layout_below="@id/productInfoComponent2"
                     app:cardCornerRadius="20dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
@@ -296,11 +298,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/howToUseCardView"
+            android:layout_marginTop="38dp"
+            android:backgroundTint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="37dp"
-            app:contentPadding="20dp"
-            android:layout_marginBottom="5dp"
+            app:contentPadding="10dp"
             app:cardCornerRadius="15dp"
             android:visibility="gone">
 
@@ -313,9 +315,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/quantityContainer"
+        android:layout_below="@id/productInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:gravity="center_horizontal">
 
         <TextView
@@ -328,12 +332,13 @@
             android:textSize="17sp"
             android:text="QUANTITY" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/decreaseQuantityButton"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:backgroundTint="#57958D"
             android:layout_toStartOf="@+id/quantityCardView"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:textSize="15sp"
             android:text="-" />
@@ -363,25 +368,56 @@
             android:layout_height="40dp"
             android:backgroundTint="#57958D"
             android:layout_toEndOf="@+id/quantityCardView"
+            android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:text="+" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/addToCartContainer"
+        android:layout_below="@id/quantityContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addToCartButton"
             android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:backgroundTint="#57958D"
             android:textSize="17sp"
-            android:drawableLeft="@drawable/cart_icon"
+            app:icon="@drawable/cart_icon"
             android:text="ADD TO CART" />
     </RelativeLayout>
 
-</LinearLayout>
+    <!--    Bottom Navigation Bar -->
+    <!--    <RelativeLayout-->
+    <!--        android:layout_below="@id/addToCartContainer"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <com.google.android.material.button.MaterialButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="@drawable/left_navigation_border" />-->
+
+    <!--        <com.google.android.material.button.MaterialButton-->
+    <!--            android:id="@+id/navigateToCartButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            app:icon="@drawable/cart_icon"-->
+    <!--            app:iconGravity="end"-->
+    <!--            app:iconSize="35dp"-->
+    <!--            android:paddingEnd="17dp"-->
+    <!--            android:paddingTop="23dp"-->
+    <!--            android:background="@drawable/right_navigation_border" />-->
+    <!--    </RelativeLayout>-->
+
+</RelativeLayout>
