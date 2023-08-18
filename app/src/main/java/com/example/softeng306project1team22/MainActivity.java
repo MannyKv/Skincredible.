@@ -20,7 +20,6 @@ import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -108,10 +107,17 @@ public class MainActivity extends AppCompatActivity {
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Recently viewed retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                DocumentReference referencedDocRef = (DocumentReference) documentSnapshot.get("item");
-               
+                String id = documentSnapshot.getString("itemId");
+                CollectionReference itemRef;
+                if (id.contains("sun")) {
+                    itemRef = dbs.collection("sunscreen");
+                } else if (id.contains("mos")) {
+                    itemRef = dbs.collection("moistureiser");
+                } else {
+                    itemRef = dbs.collection("cleanser");
+                }
 
-                referencedDocRef.get().addOnSuccessListener(referencedDocSnapshot -> {
+                itemRef.document(id).get().addOnSuccessListener(referencedDocSnapshot -> {
                     if (referencedDocSnapshot.getString("categoryName").equals("Sunscreen")) {
                         Sunscreen sunscreen = referencedDocSnapshot.toObject(Sunscreen.class);
                         recentlyViewed.add(sunscreen);
