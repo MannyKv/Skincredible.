@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
+
+    // Declaring ViewHolder class to store the views from the XML
     private class ViewHolder {
         Button backButton;
         TextView categoryTextView, brandTextView, productNameTextView;
@@ -69,16 +71,16 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        // Getting the data passed in via Intents from other classes
         Intent intent = getIntent();
-
-        viewHolder = new ViewHolder();
-
-        viewHolder.productImageView.setTag("0");
-
         String productCategory = intent.getStringExtra("productCategory");
-
         String productId = intent.getStringExtra("productId");
 
+        // Instantiating the ViewHolder so views can be referenced in methods
+        viewHolder = new ViewHolder();
+        viewHolder.productImageView.setTag("0");
+
+        // Fetching and setting the item data based on the category and ID of the item passed in
         if (productCategory.equals("Cleanser")) {
             setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
         } else if (productCategory.equals("Moisturiser")) {
@@ -87,11 +89,14 @@ public class DetailsActivity extends AppCompatActivity {
             setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
         }
 
+        // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
 
+        // Setting the on click functionality of the previous image button on the image slider
         viewHolder.previousImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Using tags to determine the current image being displayed and then displaying the appropriate previous image based on this
                 if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
                     Resources resources = getResources();
                     viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
@@ -108,9 +113,11 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Setting the on click functionality of the next image button on the image slider
         viewHolder.nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Using tags to determine the current image being displayed and then displaying the appropriate next image based on this
                 if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
                     Resources resources = getResources();
                     viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
@@ -127,33 +134,41 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Setting the on click functionality for the details tab button
         viewHolder.detailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Show the details view and hide the how to use view
                 viewHolder.howToUseCardView.setVisibility(View.GONE);
                 viewHolder.productDetailsCardView.setVisibility(View.VISIBLE);
 
+                // Set the details button colour to white and the how to use button colour to green
                 viewHolder.detailsButton.setBackgroundColor(0xFFFFFFFF);
                 viewHolder.howToUseButton.setBackgroundColor(0xFF88CEC6);
             }
         });
 
+        // Setting the on click functionality for the how to use tab button
         viewHolder.howToUseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Show the how to use view and hide the details view
                 viewHolder.howToUseCardView.setVisibility(View.VISIBLE);
                 viewHolder.productDetailsCardView.setVisibility(View.GONE);
 
+                // Set the how to use button colour to white and the details button colour to green
                 viewHolder.detailsButton.setBackgroundColor(0xFF88CEC6);
                 viewHolder.howToUseButton.setBackgroundColor(0xFFFFFFFF);
             }
         });
 
+        // Setting the on click functionality for the decrease quantity button
         viewHolder.decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
 
+                // Only decrease the quantity if it is not already 1, as users cannot add 0 items to the cart
                 if (quantityValue > 1) {
                     quantityValue--;
                     viewHolder.quantityValue.setText(String.valueOf(quantityValue));
@@ -161,6 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Setting the on click functionality for the increase quantity button
         viewHolder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,6 +187,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Setting the on click functionality for the add to cart button
         viewHolder.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +196,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -210,6 +228,7 @@ public class DetailsActivity extends AppCompatActivity {
                 });
     }
 
+    // This function writes to the item ID and quantity to the "cart" category in Firestore
     private void addItemToCart(String productId) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
