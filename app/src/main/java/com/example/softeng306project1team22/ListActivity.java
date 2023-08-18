@@ -35,6 +35,10 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         vh.backButton.setOnClickListener(v -> finish());
+        vh.homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
         itemList = new ArrayList<>();
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");
@@ -93,7 +97,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void populateCategoryDetails(Category category) {
-        vh.categoryNameHeader.setText(category.getName().toUpperCase());
+        vh.categoryNameHeader.setText(category.getName());
 
         int i = this.getResources().getIdentifier(
                 category.getImageName(), "drawable",
@@ -107,12 +111,16 @@ public class ListActivity extends AppCompatActivity {
         ImageView categoryIcon;
         RecyclerView itemRecyclerView;
         Button backButton;
+        Button homeButton;
+        Button cartButton;
 
         public ViewHolder() {
             categoryNameHeader = findViewById(R.id.category_name);
             categoryIcon = findViewById(R.id.category_icon);
             itemRecyclerView = findViewById(R.id.rvItems);
             backButton = findViewById(R.id.back_button);
+            homeButton = findViewById(R.id.home_button);
+            cartButton = findViewById(R.id.cart_button);
         }
     }
 

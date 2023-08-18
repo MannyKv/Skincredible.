@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
         android:baselineAligned="false"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2">
+            android:layout_alignParentStart="true"
+            android:layout_weight="2"
+            android:gravity="center">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/back_button"
@@ -38,7 +44,8 @@
                 android:layout_centerVertical="true"
                 android:text="CATEGORY"
                 android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:textAllCaps="true" />
 
             <ImageView
                 android:id="@+id/category_icon"
@@ -52,35 +59,47 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvItems"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="630dp" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/nav_buttons" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/home_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/left_corner_circle" />
+        <RelativeLayout
+            android:id="@+id/nav_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"></Space>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/home_button"
+                style="@style/home_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:backgroundTint="@color/dark_green"
+                android:contentDescription="Home"
+                android:paddingTop="15dp"
+                android:paddingEnd="20dp" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/cart_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/right_corner_circle" />
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cart_button"
+                style="@style/cart_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/dark_green"
+                android:contentDescription="Cart"
+                android:paddingTop="15dp"
+                android:paddingEnd="5dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->

@@ -8,8 +8,6 @@
         <item name="colorSecondaryVariant">@color/lightest_green</item>
         <item name="colorAccent">@color/darkest_green</item>
         <item name="android:windowBackground">@drawable/background_gradient</item>
-        <item name="colorButtonNormal">@color/white</item>
-        <item name="android:buttonTint">@color/white</item>
         <item name="android:textColor">@color/darkest_green</item>
     </style>
 
@@ -34,19 +32,21 @@
     </style>
 
     <style name="home_button" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/left_corner_circle</item>
         <item name="icon">@drawable/home</item>
+        <item name="iconSize">35dp</item>
         <item name="iconGravity">end</item>
-        <item name="iconSize">25dp</item>
         <item name="iconTint">@color/lightest_green</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="cart_button" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/right_corner_circle</item>
         <item name="icon">@drawable/cart</item>
         <item name="iconGravity">end</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="iconSize">25dp</item>
+        <item name="iconSize">35dp</item>
         <item name="iconTint">@color/lightest_green</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
+
 </resources>

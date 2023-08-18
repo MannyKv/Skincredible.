@@ -4,11 +4,10 @@
 
     android:shape="rectangle">
 
-    <!--Radius of all four corners-->
-    <corners
-        android:topLeftRadius="1000dp" />
+    <!-- corner radius -->
+    <corners android:topLeftRadius="1000dp" />
 
-    <!--Fill Color of the Button-->
+    <!-- fill colour -->
     <gradient
         android:endColor="#000000"
         android:startColor="#000000" />
