@@ -27,8 +27,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Low pH Morning Cleanser",
                         "COSRX",
-                        new ArrayList<String>(Arrays.asList("cle1_img1", "cle1_img2", "cle1_img3")),
-                        16.0,
+
+                        new ArrayList<String>(Arrays.asList("cle1_img1.png", "cle1_img2.png", "cle1_img3.png")),
+                        "16.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Acne Prone")),
                         "For use in the morning and night after removing makeup. Squeeze a proper amount onto hand and foam up. Gently massage onto wet face, avoiding the eyes and mouth area. Rinse afterwards with warm water.",
@@ -40,8 +42,9 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "1025 Dokdo Cleansing Balm",
                         "Round Lab",
-                        new ArrayList<String>(Arrays.asList("cle2_img1", "cle2_img2", "cle2_img3")),
-                        36.0,
+
+                        new ArrayList<String>(Arrays.asList("cle2_img1.png", "cle2_img2.png", "cle2_img3.png")),
+                        "36.0",
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Dry", "Combination")),
                         "Spread appropriate amount onto a dry face and massage gently while adding makeup and waste products. Rinse thoroughly with lukewarm water afterwards.",
@@ -53,8 +56,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Honest Cleansing Foam",
                         "Benton",
-                        new ArrayList<String>(Arrays.asList("cle3_img1", "cle3_img2", "cle3_img3")),
-                        13.0,
+
+                        new ArrayList<String>(Arrays.asList("cle3_img1.png", "cle3_img2.png", "cle3_img3.png")),
+                        "13.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Dry", "Combination")),
                         "Apply appropriate amount onto palm, mix with water and lather. Gently rub the resulting foam onto face and then wash away the foam with warm water.",
@@ -66,8 +71,9 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Heartleaf Pore Control Cleansing Oil",
                         "Anua",
-                        new ArrayList<String>(Arrays.asList("cle4_img1", "cle4_img2", "cle4_img3")),
-                        27.0,
+
+                        new ArrayList<String>(Arrays.asList("cle4_img1.png", "cle4_img2.png", "cle4_img3.png")),
+                        "27.0",
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Acne Prone", "Sensitive")),
                         "Take 2-3 pumps and gently smooth and roll over face. Wet face to emulsify cleansing oil to remove blackheads. Rinse thoroughly with water afterwards.",
@@ -79,8 +85,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "pH Balancing Bubble Free Cleansing Gel",
                         "Acwell",
-                        new ArrayList<String>(Arrays.asList("cle5_img1", "cle5_img2", "cle5_img3")),
-                        25.0,
+
+                        new ArrayList<String>(Arrays.asList("cle5_img1.png", "cle5_img2.png", "cle5_img3.png")),
+                        "25.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Oily", "Combination")),
                         "Take adequate amount with dry hand and gently massage onto the entire face. Add a small amount of water. Rinse with lukewarm water afterwards.",
@@ -92,8 +100,9 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Green Tea Hydrating Amino Acid Cleansing Foam",
                         "Innisfree",
-                        new ArrayList<String>(Arrays.asList("cle6_img1", "cle6_img2", "cle6_img3")),
-                        23.0,
+
+                        new ArrayList<String>(Arrays.asList("cle6_img1.png", "cle6_img2.png", "cle6_img3.png")),
+                        "23.0",
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive", "Combination")),
                         "Squeeze appropriate amount and lather. Smoothly massage over face and then thoroughly rinse with lukewarm water.",
@@ -105,8 +114,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "pH Balancing Watery Cleansing Oil",
                         "Acwell",
-                        new ArrayList<String>(Arrays.asList("cle7_img1", "cle7_img2", "cle7_img3")),
-                        34.0,
+
+                        new ArrayList<String>(Arrays.asList("cle7_img1.png", "cle7_img2.png", "cle7_img3.png")),
+                        "34.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Dry", "Combination")),
                         "Take adequate amount of cleansing oil into dry hands and massage gently onto dry face. Wet hands to emulsify the oil. Rinse well with warm water afterwards and pat dry.",
@@ -118,8 +129,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Madagascar Centella Light Cleansing Oil",
                         "SKIN1004",
-                        new ArrayList<String>(Arrays.asList("cle8_img1", "cle8_img2", "cle8_img3")),
-                        50.0,
+
+                        new ArrayList<String>(Arrays.asList("cle8_img1.png", "cle8_img2.png", "cle8_img3.png")),
+                        "50.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Normal", "Combination")),
                         "Use a few pumps of cleansing oil onto a dry face with dry hands. Massage gently using circular motions and emulsify with water to create a milky emotion. Rinse off completely with lukewarm water.",
@@ -131,8 +144,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Cicaluronic Low pH Cleansing Foam",
                         "Mizon",
-                        new ArrayList<String>(Arrays.asList("cle9_img1", "cle9_img2", "cle9_img3")),
-                        26.0,
+
+                        new ArrayList<String>(Arrays.asList("cle9_img1.png", "cle9_img2.png", "cle9_img3.png")),
+                        "26.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Sensitive")),
                         "Take an appropriate amount and create a foam. Gently massage foam over entire face and rinse off with lukewarm water afterwards.",
@@ -144,8 +159,10 @@ public class CleanserDataProvider {
                 Arrays.asList(
                         "Clean It Zero Cleansing Balm Fore Clarifying",
                         "Banila Co",
-                        new ArrayList<String>(Arrays.asList("cle10_img1", "cle10_img2", "cle10_img3")),
-                        32.0,
+
+                        new ArrayList<String>(Arrays.asList("cle10_img1.png", "cle10_img2.png", "cle10_img3.png")),
+                        "32.0",
+
                         "Cleanser",
                         new ArrayList<String>(Arrays.asList("Oily", "Combination")),
                         "Take adequate amount with spatula onto dry hand. Melt it by skin heat and tab on forehead, cheek and chin. Gently massage in circular motions to melt makeup away. Add small amount of water to emulsify, then rinse with lukewarm water.",

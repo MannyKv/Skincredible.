@@ -21,7 +21,6 @@ public class Sunscreen extends Item {
         this.howToUse = howToUse;
         this.sunscreenType = sunscreenType;
         this.spf = spf;
-
     }
 
     @Override
