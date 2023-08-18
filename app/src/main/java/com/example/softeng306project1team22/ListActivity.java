@@ -35,7 +35,6 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         vh.backButton.setOnClickListener(v -> finish());
-        
         itemList = new ArrayList<>();
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");
@@ -78,7 +77,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void propagateListAdapter(String categoryId) {
-        listAdapter = new ItemListAdapter(itemList);
+        listAdapter = new ItemListAdapter(itemList, categoryId);
         vh.itemRecyclerView.setAdapter(listAdapter);
         switch (categoryId) {
             case "cle":
