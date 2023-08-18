@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/backButton"
+            android:padding="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
@@ -67,16 +68,15 @@
         android:id="@+id/imageSliderContainer"
         android:layout_below="@id/productNameTextView"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="300dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productImageCardView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:elevation="12dp"
-            android:padding="10dp"
             app:cardCornerRadius="200dp">
 
             <ImageView
@@ -319,7 +319,7 @@
         android:layout_below="@id/productInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
         <TextView
