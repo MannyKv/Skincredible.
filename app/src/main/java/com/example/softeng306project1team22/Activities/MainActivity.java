@@ -1,4 +1,4 @@
-package com.example.softeng306project1team22;
+package com.example.softeng306project1team22.Activities;
 
 
 import android.app.ListActivity;
@@ -19,9 +19,11 @@ import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
+import com.example.softeng306project1team22.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void fetchCategoryData() {
+    private void fetchCategoryData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = db.collection("category");
 
@@ -98,13 +100,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchRecentlyViewed() {
+    private void fetchRecentlyViewed() {
 
         //DISCLAIMER! TEST DATA
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection("recently-viewed");
 
-        colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        colRef.orderBy("timeAdded", Query.Direction.ASCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Recently viewed retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 String id = documentSnapshot.getString("itemId");
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 if (id.contains("sun")) {
                     itemRef = dbs.collection("sunscreen");
                 } else if (id.contains("mos")) {
-                    itemRef = dbs.collection("moistureiser");
+                    itemRef = dbs.collection("moisturiser");
                 } else {
                     itemRef = dbs.collection("cleanser");
                 }

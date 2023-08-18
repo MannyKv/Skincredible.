@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".Activities.MainActivity"
     tools:visibility="visible">
 
 
@@ -21,9 +21,9 @@
             android:id="@+id/searchB"
             android:layout_width="362dp"
             android:layout_height="43dp"
+            android:layout_gravity="center"
             android:background="@drawable/bg_search_rounded"
             android:clickable="true"
-            android:layout_gravity="center"
             android:paddingTop="10dp"
             android:radius="250dp"
 
@@ -86,14 +86,29 @@
         android:textFontWeight="400"
         android:textSize="30dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:gravity="bottom"
-        android:visibility="visible"
-        tools:visibility="visible" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/category"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:layout_weight="9"
+            android:gravity="bottom"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 </LinearLayout>

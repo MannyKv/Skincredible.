@@ -53,7 +53,7 @@
                 android:text="Sunscreen"
                 android:textColor="@color/white"
                 android:textFontWeight="700"
-                android:textSize="40sp" />
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
