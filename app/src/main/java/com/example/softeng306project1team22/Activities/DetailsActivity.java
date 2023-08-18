@@ -1,9 +1,12 @@
 package com.example.softeng306project1team22.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -110,15 +113,15 @@ public class DetailsActivity extends AppCompatActivity {
                 // Using tags to determine the current image being displayed and then displaying the appropriate previous image based on this
                 if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("2");
                 } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("0");
                 } else {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("1");
                 }
             }
@@ -131,15 +134,15 @@ public class DetailsActivity extends AppCompatActivity {
                 // Using tags to determine the current image being displayed and then displaying the appropriate next image based on this
                 if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("1");
                 } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("2");
                 } else {
                     Resources resources = getResources();
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("0");
                 }
             }
@@ -295,5 +298,44 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // This function provides fade in and fade out animation transitions for the ImageView images
+    private void imageViewTransition(Context context, ImageView imageView, int imageResId) {
+        // Load the animations using the default Android fade in and fade out animations
+        Animation animationOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+        Animation animationIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+
+        // Set the fade out animation
+        animationOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            // Set the fade in animation
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.setImageResource(imageResId);
+                animationIn.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                    }
+                });
+                imageView.startAnimation(animationIn);
+            }
+        });
+        imageView.startAnimation(animationOut);
     }
 }
