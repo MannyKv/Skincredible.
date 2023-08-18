@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
 
     protected void retrieveAllItems() {
         // allItems = getAllItems();
-        
+
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef1 = dbs.collection("cleanser");
         CollectionReference colRef2 = dbs.collection("moisturiser");
@@ -87,6 +87,7 @@ public class SearchActivity extends AppCompatActivity {
         for (int x = 0; x < allItems.size(); x++) {
             if (allItems.get(x).getName().toLowerCase().contains(filterBy.toLowerCase())) {
                 filtered.add(allItems.get(x));
+
             }
         }
         itemAdapter.notifyDataSetChanged();
