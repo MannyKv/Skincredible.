@@ -1,4 +1,4 @@
-package com.example.softeng306project1team22;
+package com.example.softeng306project1team22.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Models.IItem;
+import com.example.softeng306project1team22.R;
 
 import java.util.List;
 
