@@ -19,6 +19,7 @@ import java.util.List;
 public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> {
     private List<Item> items;
     Context context;
+   
 
     private CategoryAdapter.OnItemClickListener mOnItemClickListener;
 
@@ -56,11 +57,14 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_up);
         holder.linearLayout.startAnimation(animation);
 
+
     }
 
     @Override
     public int getItemCount() {
+
         return items.size();
+
     }
 
 

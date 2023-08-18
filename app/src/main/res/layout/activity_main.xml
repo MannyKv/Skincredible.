@@ -19,6 +19,7 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchB"
+            android:layout_marginTop="10dp"
             android:layout_width="362dp"
             android:layout_height="43dp"
             android:layout_gravity="center"
