@@ -15,6 +15,8 @@ import com.example.softeng306project1team22.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
     private class ViewHolder {
@@ -172,7 +174,7 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add code to go to cart activity with intent. Pass in the current quantityValue field value as extra
+                addItemToCart(productId);
             }
         });
     }
@@ -206,5 +208,16 @@ public class DetailsActivity extends AppCompatActivity {
 
                     viewHolder.howToUseText.setText(documentSnapshot.get("howToUse").toString());
                 });
+    }
+
+    private void addItemToCart(String productId) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        Map<String, Object> itemInfo = new HashMap<>();
+
+        itemInfo.put("itemId", productId);
+        itemInfo.put("quantity", Integer.parseInt(viewHolder.quantityValue.getText().toString()));
+
+        database.collection("cart").document(productId).set(itemInfo);
     }
 }
