@@ -1,4 +1,4 @@
-package com.example.softeng306project1team22;
+package com.example.softeng306project1team22.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,10 +10,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.softeng306project1team22.ItemListAdapter;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
+import com.example.softeng306project1team22.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;

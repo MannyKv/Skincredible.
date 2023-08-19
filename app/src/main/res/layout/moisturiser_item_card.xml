@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="60dp"
-    android:layout_marginTop="150dp"
-    android:layout_marginEnd="60dp"
-    android:layout_marginBottom="150dp"
-    android:backgroundTint="@color/material_dynamic_primary80"
-    android:gravity="center"
-    app:cardCornerRadius="30dp">
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="50dp"
+    android:layout_marginVertical="140dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardUseCompatPadding="true"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,32 +18,27 @@
         android:orientation="vertical"
         android:padding="35dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_icon"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            app:cardCornerRadius="250dp">
+            android:layout_marginBottom="5dp"
+            android:contentDescription="Product"
+            android:src="@drawable/mos1_img1"
+            app:shapeAppearance="@style/circular_image" />
 
-            <ImageView
-                android:id="@+id/item_icon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="Product"
-                android:src="@drawable/mos1_img1"
-                android:textSize="25dp" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/brand_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginBottom="5dp"
-            android:text="ROUND LAB" />
+            android:text="ROUND LAB"
+            app:textAllCaps="true" />
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,12 +54,12 @@
             android:gravity="start"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="$" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,13 +75,13 @@
             android:orientation="horizontal">
 
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
                 app:cardCornerRadius="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tag1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -94,15 +89,15 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="Day" />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tag2"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -110,8 +105,8 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="Cream" />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

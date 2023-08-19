@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.example.softeng306project1team22.App"
         android:allowBackup="true"
@@ -14,13 +16,18 @@
         android:theme="@style/Theme.SOFTENG306Project1Team22"
         tools:targetApi="31">
         <activity
-            android:name=".SearchActivity"
+
+            android:name=".Activities.SearchActivity"
             android:windowSoftInputMode="stateVisible|adjustPan"
             android:exported="false"
             android:label="@string/title_activity_search"
             android:theme="@style/Theme.SOFTENG306Project1Team22" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.ListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.DetailsActivity" />
     </application>
 
 </manifest>

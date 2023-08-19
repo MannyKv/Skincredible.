@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    android:backgroundTint="@color/material_dynamic_primary80"
-    app:cardCornerRadius="50dp">
+    app:cardCornerRadius="50dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardUseCompatPadding="true"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,19 +17,16 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:cardCornerRadius="250dp">
 
-            <ImageView
-                android:id="@+id/item_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="Product"
-                android:src="@drawable/sun1_img1" />
-        </androidx.cardview.widget.CardView>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:contentDescription="Product"
+            android:src="@drawable/cle1_img1"
+            app:shapeAppearance="@style/circular_image"
+            app:strokeWidth="0dp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,60 +35,61 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/brand_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="MISSHA" />
+                android:text="MISSHA"
+                app:textAllCaps="true" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="8dp"
                 android:text="Aqua Sun Gel" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="$" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/price"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:text="16.99" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="5dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:strokeWidth="1dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tag1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:paddingHorizontal="5dp"
                         android:text="SPF 50+" />
-                </androidx.cardview.widget.CardView>
 
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="10dp">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tag2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -98,7 +97,7 @@
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
                         android:text="Chemical" />
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
         </LinearLayout>
