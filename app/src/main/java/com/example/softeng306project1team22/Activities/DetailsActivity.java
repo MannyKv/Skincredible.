@@ -249,8 +249,9 @@ public class DetailsActivity extends AppCompatActivity {
         Map<String, Object> itemInfo = new HashMap<>();
 
         itemInfo.put("itemId", productId);
-        itemInfo.put("quantity", Integer.parseInt(viewHolder.quantityValue.getText().toString()));
+        itemInfo.put("quantity", viewHolder.quantityValue.getText().toString());
         itemInfo.put("categoryName", productCategory);
+        itemInfo.put("singleItemPrice", viewHolder.priceTextView.getText().toString().substring(1));
 
         database.collection("cart").document(productId).set(itemInfo);
     }

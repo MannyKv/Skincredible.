@@ -2,6 +2,7 @@ package com.example.softeng306project1team22.Activities;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,11 +25,13 @@ public class CartActivity extends AppCompatActivity {
     private class ViewHolder {
         Button backButton;
         RecyclerView recommendedItemsRecyclerView;
+        TextView totalPriceTextView;
 
 
         public ViewHolder() {
             backButton = findViewById(R.id.back_button);
             recommendedItemsRecyclerView = findViewById(R.id.rvCartItems);
+            totalPriceTextView = findViewById(R.id.totalPriceTextView);
         }
     }
 
@@ -49,20 +52,25 @@ public class CartActivity extends AppCompatActivity {
 
         itemList = new ArrayList<>();
 
-        fetchCategoryData();
+        loadData();
 
     }
 
-    private void fetchCategoryData() {
+    private void loadData() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                double totalPrice = 0;
                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                     String categoryName = (String) document.get("categoryName");
                     String productId = document.getId();
+                    totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
+
                     fetchItemData(categoryName, productId);
                 }
+                String totalPriceString = "$" + String.format("%.2f", totalPrice);
+                viewHolder.totalPriceTextView.setText(totalPriceString);
             }
         });
     }
