@@ -32,14 +32,16 @@ public class MainActivity extends AppCompatActivity {
     List<Item> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
+    Boolean isActivityResumed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isActivityResumed = true;
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
-        searchBar.setQueryHint("Search Items");
+        //searchBar.("Search Items");
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +85,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    protected void onResume() {
+        super.onResume();
+
+        if (!isActivityResumed) {
+            fetchRecentlyViewed();
+        }
+        isActivityResumed = true;
+        //adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        isActivityResumed = false; // Mark the activity as paused
+    }
+
     private void fetchCategoryData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = db.collection("category");
@@ -99,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchRecentlyViewed() {
-
+        recentlyViewed.clear();
         //DISCLAIMER! TEST DATA
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection("recently-viewed");
@@ -133,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     itemAdapter.notifyDataSetChanged();
                 });
             }
+
             itemAdapter.notifyDataSetChanged();
         });
     }

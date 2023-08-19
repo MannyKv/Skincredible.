@@ -25,10 +25,9 @@
             android:layout_gravity="center"
             android:background="@drawable/bg_search_rounded"
             android:clickable="true"
+            android:tooltipText="Search Items"
             android:paddingTop="10dp"
-            android:radius="250dp"
-
-            />
+            android:radius="250dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
