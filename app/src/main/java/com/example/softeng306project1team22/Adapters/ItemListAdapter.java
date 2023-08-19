@@ -1,16 +1,17 @@
 package com.example.softeng306project1team22.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.softeng306project1team22.Activities.DetailsActivity;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 
@@ -125,9 +126,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public void onClick(View v) {
             // what to do when the view item is clicked
             IItem clickedItem = mItems.get(getAdapterPosition());
-//            clickedItem.getId();
-//            clickedItem.getCategoryName();
-            Toast.makeText(mContext, clickedItem.getName() + " is clicked in position " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(mContext, DetailsActivity.class);
+            intent.putExtra("productCategory", clickedItem.getCategoryName());
+            intent.putExtra("productId", clickedItem.getId());
+            mContext.startActivity(intent);
         }
     }
 
