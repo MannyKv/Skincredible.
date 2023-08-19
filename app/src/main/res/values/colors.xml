@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="dark_gray">#FF2C302E</color>
+    <color name="light_gray">#FF9B9B9B</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="darkest_green">#FF093833</color>
+    <color name="dark_green">#FF2E5E58</color>
+    <color name="medium_green">#FF57958D</color>
+    <color name="light_green">#FF88CEC6</color>
+    <color name="lightest_green">#FFCBEBE7</color>
 </resources>

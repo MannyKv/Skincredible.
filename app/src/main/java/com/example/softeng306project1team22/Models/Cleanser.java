@@ -6,6 +6,7 @@ public class Cleanser extends Item {
     private String ph;
     private String cleanserType;
 
+
     public Cleanser() {
 
     }
@@ -32,4 +33,7 @@ public class Cleanser extends Item {
     public String getPh() {
         return this.ph;
     }
+
+
 }
+
