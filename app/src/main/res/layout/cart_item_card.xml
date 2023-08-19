@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:elevation="5dp"
+        android:background="@drawable/circular_remove_button"
+        android:src="@drawable/close_icon" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:cardCornerRadius="250dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/item_icon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Product"
+                    android:src="@drawable/cle1_img1" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/brand_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="MISSHA" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="10dp"
+                        android:text="Aqua Sun Gel" />
+
+                    <ImageButton
+                        android:id="@+id/decreaseQuantityButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="65dp"
+                        android:elevation="1dp"
+                        android:background="@drawable/circular_quantity_button"
+                        android:src="@drawable/remove_icon" />
+
+                    <ImageButton
+                        android:id="@+id/increaseQuantityButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="22dp"
+                        android:elevation="1dp"
+                        android:background="@drawable/circular_quantity_button"
+                        android:src="@drawable/add_icon" />
+
+                    <RelativeLayout
+                        android:id="@+id/quantityContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="50dp"
+                        android:layout_toRightOf="@id/product_name"
+                        android:gravity="center_horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/quantityCardView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="@color/lightest_green"
+                            android:layout_centerVertical="true">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/quantityValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="20dp"
+                                android:paddingTop="1dp"
+                                android:paddingEnd="20dp"
+                                android:text="1"
+                                android:textSize="15sp" />
+                        </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/dollarSign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/product_name"
+                        android:text="$" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/product_name"
+                        android:layout_toRightOf="@id/dollarSign"
+                        android:text="16.99" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
