@@ -1,7 +1,9 @@
 package com.example.softeng306project1team22;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -46,7 +48,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         //searchView.setQuery("", true);
-        searchView.clearFocus();
+        searchView.setIconified(false);
+        searchView.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
         recyclerView = findViewById(R.id.search_recycled);
 
         itemAdapter = new ItemListAdapter(filtered);
