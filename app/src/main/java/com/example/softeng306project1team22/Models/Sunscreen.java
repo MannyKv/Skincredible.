@@ -10,9 +10,7 @@ public class Sunscreen extends Item {
     public Sunscreen() {
     }
 
-
     public Sunscreen(String id, String name, String brand, ArrayList<String> imageNames, String price, String categoryName, ArrayList<String> skinType, String sunscreenType, String spf, String howToUse) {
-
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -23,7 +21,6 @@ public class Sunscreen extends Item {
         this.howToUse = howToUse;
         this.sunscreenType = sunscreenType;
         this.spf = spf;
-
     }
 
     @Override

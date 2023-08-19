@@ -1,7 +1,5 @@
 package com.example.softeng306project1team22.Activities;
 
-
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     List<Item> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
         collectionRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Data retrieved successfully");
-            categoryList.addAll(queryDocumentSnapshots.toObjects(Category.class));
+            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                categoryList.add(new Category(document.get("name", String.class), document.getId(), document.get("imageName", String.class)));
+            }
             adapter.notifyDataSetChanged();
-
         }).addOnFailureListener(e -> {
             System.out.println("Category Data Retrieval Failure");
         });
@@ -142,10 +140,10 @@ public class MainActivity extends AppCompatActivity {
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
         // Create intent and pass data here
-        Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("categoryName", clickedCategory.getName());
+        Intent intent = new Intent(MainActivity.this, ListActivity.class);
+        intent.putExtra("categoryId", clickedCategory.getId());
         // Add any other relevant data to the intent
-        this.startActivity(intent);
+        startActivity(intent);
     }
 
     public void viewItem(int position) {
