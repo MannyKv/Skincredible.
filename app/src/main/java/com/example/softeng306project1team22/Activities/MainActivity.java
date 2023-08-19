@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection("recently-viewed");
 
-        colRef.orderBy("timeAdded", Query.Direction.ASCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Recently viewed retrieved successfully");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 String id = documentSnapshot.getString("itemId");
@@ -149,9 +149,10 @@ public class MainActivity extends AppCompatActivity {
     public void viewItem(int position) {
         Item clickedItem = recentlyViewed.get(position);
         // Create intent and pass data here
-        Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("name", clickedItem.getName());
+        Intent intent = new Intent(this, DetailsActivity.class);
         // Add any other relevant data to the intent
+        intent.putExtra("productCategory", clickedItem.getCategoryName());
+        intent.putExtra("productId", clickedItem.getId());
         this.startActivity(intent);
     }
 
@@ -159,5 +160,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ListActivity.class);
         this.startActivity(intent);
     }
-
 }
