@@ -205,7 +205,7 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemToCart(productId);
+                addItemToCart(productId, productCategory.toLowerCase());
             }
         });
     }
@@ -243,13 +243,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     // This function writes to the item ID and quantity to the "cart" category in Firestore
-    private void addItemToCart(String productId) {
+    private void addItemToCart(String productId, String productCategory) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         Map<String, Object> itemInfo = new HashMap<>();
 
         itemInfo.put("itemId", productId);
         itemInfo.put("quantity", Integer.parseInt(viewHolder.quantityValue.getText().toString()));
+        itemInfo.put("categoryName", productCategory);
 
         database.collection("cart").document(productId).set(itemInfo);
     }

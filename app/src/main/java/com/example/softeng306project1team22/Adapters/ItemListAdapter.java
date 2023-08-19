@@ -47,15 +47,19 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         switch (category) {
             case "cle":
                 itemView = inflater.inflate(R.layout.cleanser_item_card, parent, false);
-                holder = new ViewHolder(itemView);
+                holder = new ViewHolder(itemView, false);
                 break;
             case "mos":
                 itemView = inflater.inflate(R.layout.moisturiser_item_card, parent, false);
-                holder = new ViewHolder(itemView);
+                holder = new ViewHolder(itemView, false);
+                break;
+            case "sun":
+                itemView = inflater.inflate(R.layout.sunscreen_item_card, parent, false);
+                holder = new ViewHolder(itemView, false);
                 break;
             default:
-                itemView = inflater.inflate(R.layout.sunscreen_item_card, parent, false);
-                holder = new ViewHolder(itemView);
+                itemView = inflater.inflate(R.layout.cart_item_card, parent, false);
+                holder = new ViewHolder(itemView, true);
                 break;
         }
         // Return a new holder instance
@@ -76,20 +80,22 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                 mContext.getPackageName());
         holder.productImageView.setImageResource(i);
 
-        // check type of item
-        switch (currItem.getCategoryName()) {
-            case "Cleanser":
-                holder.tagOneTextView.setText(String.format("pH %s", currItem.getPh()));
-                holder.tagTwoTextView.setText(currItem.getCleanserType());
-                break;
-            case "Sunscreen":
-                holder.tagOneTextView.setText(currItem.getSpf());
-                holder.tagTwoTextView.setText(currItem.getSunscreenType());
-                break;
-            case "Moisturiser":
-                holder.tagOneTextView.setText(currItem.getTimeToUse());
-                holder.tagTwoTextView.setText(currItem.getMoisturiserType());
-                break;
+        if (!this.category.equals("")) {
+            // check type of item
+            switch (currItem.getCategoryName()) {
+                case "Cleanser":
+                    holder.tagOneTextView.setText(String.format("pH %s", currItem.getPh()));
+                    holder.tagTwoTextView.setText(currItem.getCleanserType());
+                    break;
+                case "Sunscreen":
+                    holder.tagOneTextView.setText(currItem.getSpf());
+                    holder.tagTwoTextView.setText(currItem.getSunscreenType());
+                    break;
+                case "Moisturiser":
+                    holder.tagOneTextView.setText(currItem.getTimeToUse());
+                    holder.tagTwoTextView.setText(currItem.getMoisturiserType());
+                    break;
+            }
         }
     }
 
@@ -110,16 +116,24 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public TextView tagTwoTextView;
         public ImageView productImageView;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, boolean cart) {
             super(view);
             view.setOnClickListener(this);
-            // initialising view objects
-            brandTextView = view.findViewById(R.id.brand_name);
-            productNameTextView = view.findViewById(R.id.product_name);
-            priceTextView = view.findViewById(R.id.price);
-            tagOneTextView = view.findViewById(R.id.tag1);
-            tagTwoTextView = view.findViewById(R.id.tag2);
-            productImageView = view.findViewById(R.id.item_icon);
+
+            if (cart) {
+                brandTextView = view.findViewById(R.id.brand_name);
+                productNameTextView = view.findViewById(R.id.product_name);
+                priceTextView = view.findViewById(R.id.price);
+                productImageView = view.findViewById(R.id.item_icon);
+            } else {
+                // initialising view objects
+                brandTextView = view.findViewById(R.id.brand_name);
+                productNameTextView = view.findViewById(R.id.product_name);
+                priceTextView = view.findViewById(R.id.price);
+                tagOneTextView = view.findViewById(R.id.tag1);
+                tagTwoTextView = view.findViewById(R.id.tag2);
+                productImageView = view.findViewById(R.id.item_icon);
+            }
         }
 
         @Override

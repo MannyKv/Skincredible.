@@ -76,6 +76,18 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginBottom="10dp"
                         android:text="Aqua Sun Gel" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/product_name">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="16.99" />
 
                     <ImageButton
                         android:id="@+id/decreaseQuantityButton"
@@ -107,8 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="50dp"
-                        android:layout_toRightOf="@id/product_name"
+                        android:layout_marginEnd="30dp"
                         android:gravity="center_horizontal">
 
                         <androidx.cardview.widget.CardView
@@ -127,24 +138,9 @@
                                 android:paddingEnd="20dp"
                                 android:text="1"
                                 android:textSize="15sp" />
+
                         </androidx.cardview.widget.CardView>
                     </RelativeLayout>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/dollarSign"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/product_name"
-                        android:text="$" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/product_name"
-                        android:layout_toRightOf="@id/dollarSign"
-                        android:text="16.99" />
-
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
