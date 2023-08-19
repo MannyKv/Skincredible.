@@ -41,6 +41,8 @@ public class CartActivity extends AppCompatActivity {
 
     private ItemListAdapter listAdapter;
 
+    private ArrayList<String> itemQuantities;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.backButton.setOnClickListener(v -> finish());
 
         itemList = new ArrayList<>();
+
+        itemQuantities = new ArrayList<>();
 
         loadData();
 
@@ -66,8 +70,8 @@ public class CartActivity extends AppCompatActivity {
                     String categoryName = (String) document.get("categoryName");
                     String productId = document.getId();
                     totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
-
-                    fetchItemData(categoryName, productId);
+                    String itemQuantity = document.get("quantity").toString();
+                    fetchItemData(categoryName, productId, itemQuantity);
                 }
                 String totalPriceString = "$" + String.format("%.2f", totalPrice);
                 viewHolder.totalPriceTextView.setText(totalPriceString);
@@ -75,7 +79,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchItemData(String cartItemCategoryName, String productId) {
+    private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         database.collection(cartItemCategoryName).document(productId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -94,16 +98,19 @@ public class CartActivity extends AppCompatActivity {
                         String sunscreenType = (String) documentSnapshot.get("sunscreenType");
                         String spf = (String) documentSnapshot.get("spf");
                         itemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
+                        itemQuantities.add(itemQuantity);
                         break;
                     case "cleanser":
                         String cleanserType = (String) documentSnapshot.get("cleanserType");
                         String ph = (String) documentSnapshot.get("ph");
                         itemList.add(new Cleanser(productId, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse));
+                        itemQuantities.add(itemQuantity);
                         break;
                     case "moisturiser":
                         String moisturiserType = (String) documentSnapshot.get("moisturiserType");
                         String timeToUse = (String) documentSnapshot.get("timeToUse");
                         itemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
+                        itemQuantities.add(itemQuantity);
                         break;
                 }
                 propagateListAdapter();
@@ -112,7 +119,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void propagateListAdapter() {
-        listAdapter = new ItemListAdapter(itemList);
+        listAdapter = new ItemListAdapter(itemList, itemQuantities);
         viewHolder.recommendedItemsRecyclerView.setAdapter(listAdapter);
         viewHolder.recommendedItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

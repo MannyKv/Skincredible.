@@ -23,6 +23,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     private List<IItem> mItems;
     private Context mContext;
     private String category;
+    private List<String> itemQuantities;
 
     public ItemListAdapter(List<IItem> items, String categoryId) {
         mItems = items;
@@ -30,9 +31,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     }
 
     // constructor when displaying items from various categories (no id specified)
-    public ItemListAdapter(List<IItem> items) {
+    public ItemListAdapter(List<IItem> items, List<String> itemQuantities) {
         mItems = items;
         category = "";
+        this.itemQuantities = itemQuantities;
     }
 
     // inflating layout from XML and returning holder
@@ -96,6 +98,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                     holder.tagTwoTextView.setText(currItem.getMoisturiserType());
                     break;
             }
+        } else {
+            holder.cartQuantityTextView.setText(itemQuantities.get(position));
         }
     }
 
@@ -108,13 +112,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     // onClick(View v) method.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        // all views to be manipulated in sunscreen_item_card.xml
+        // all views to be manipulated in sunscreen_item_card.xml and cart_item_card.xml
         public TextView brandTextView;
         public TextView productNameTextView;
         public TextView priceTextView;
         public TextView tagOneTextView;
         public TextView tagTwoTextView;
         public ImageView productImageView;
+
+        public TextView cartQuantityTextView;
 
         public ViewHolder(View view, boolean cart) {
             super(view);
@@ -125,6 +131,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                 productNameTextView = view.findViewById(R.id.product_name);
                 priceTextView = view.findViewById(R.id.price);
                 productImageView = view.findViewById(R.id.item_icon);
+                cartQuantityTextView = view.findViewById(R.id.cart_quantity_text_view);
             } else {
                 // initialising view objects
                 brandTextView = view.findViewById(R.id.brand_name);
