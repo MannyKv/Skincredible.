@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchItem() {
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, SearchActivity.class);
         this.startActivity(intent);
     }
 }
