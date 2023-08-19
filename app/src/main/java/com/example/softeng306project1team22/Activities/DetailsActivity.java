@@ -101,7 +101,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         // Adding the item to the recently-viewed collection in Firestore
-        addItemToRecentlyViewed(productId);
+        addItemToRecentlyViewed(productId, productCategory.toLowerCase());
 
         // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
@@ -255,7 +255,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     // This function adds the current item to the recently viewed collection in Firestore
-    private void addItemToRecentlyViewed(String productId) {
+    private void addItemToRecentlyViewed(String productId, String productCategory) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Determine the size of the recently-viewed collection
@@ -271,6 +271,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Map<String, Object> itemInfo = new HashMap<>();
                     itemInfo.put("itemId", productId);
                     itemInfo.put("timeAdded", FieldValue.serverTimestamp());
+                    itemInfo.put("categoryName", productCategory);
 
                     // If there are more than 5 documents in the recently-viewed collection and the document being added is not already in it, delete the oldest one and then add the newest one
                     if (documents.size() > 5 && !documents.contains(productId)) {
