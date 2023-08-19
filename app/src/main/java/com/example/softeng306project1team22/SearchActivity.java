@@ -45,6 +45,8 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+        //searchView.setQuery("", true);
+        searchView.clearFocus();
         recyclerView = findViewById(R.id.search_recycled);
 
         itemAdapter = new ItemListAdapter(filtered);
