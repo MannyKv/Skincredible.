@@ -51,7 +51,7 @@
         android:textColor="@color/light_gray"
         android:padding="50dp"
         android:visibility="gone"
-        android:text="Item Not Found!" />
+        android:text="No Items Found!" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
