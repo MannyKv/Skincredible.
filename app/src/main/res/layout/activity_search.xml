@@ -42,6 +42,17 @@
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:id="@+id/not_found"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:textSize="40sp"
+        android:textColor="@color/light_gray"
+        android:padding="50dp"
+        android:visibility="gone"
+        android:text="Item Not Found!" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -3,8 +3,10 @@ package com.example.softeng306project1team22.Activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -30,11 +32,13 @@ public class SearchActivity extends AppCompatActivity {
     List<IItem> filtered = new ArrayList<>();
 
     RecyclerView recyclerView;
+    TextView notFoundMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        notFoundMsg = findViewById(R.id.not_found);
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
         SearchView searchView = findViewById(R.id.searchView);
@@ -99,6 +103,11 @@ public class SearchActivity extends AppCompatActivity {
                 filtered.add(allItems.get(x));
 
             }
+        }
+        if (filtered.size() == 0) {
+            notFoundMsg.setVisibility(View.VISIBLE);
+        } else {
+            notFoundMsg.setVisibility(View.GONE);
         }
         itemAdapter.notifyDataSetChanged();
     }
