@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/headerContainer"
-
+        android:layout_above="@id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -65,7 +65,7 @@
         android:id="@+id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerContainer"
+        android:layout_above="@id/productNameTextView"
         android:textAlignment="center"
         android:textSize="17sp" />
 
@@ -73,16 +73,15 @@
         android:id="@+id/productNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/brandTextView"
-
+        android:layout_above="@id/imageSliderContainer"
         android:textAlignment="center"
         android:textSize="23sp" />
 
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/productNameTextView">
+        android:layout_height="290dp"
+        android:layout_above="@id/productInfoContainer">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productImageCardView"
@@ -146,7 +145,7 @@
         android:id="@+id/productInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageSliderContainer"
+        android:layout_above="@id/quantityContainer"
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
@@ -328,7 +327,7 @@
         android:id="@+id/quantityContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/productInfoContainer"
+        android:layout_above="@id/addToCartContainer"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
@@ -385,7 +384,7 @@
         android:id="@+id/addToCartContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/quantityContainer"
+        android:layout_above="@id/nav_buttons"
         android:layout_marginTop="5dp">
 
         <com.google.android.material.button.MaterialButton
