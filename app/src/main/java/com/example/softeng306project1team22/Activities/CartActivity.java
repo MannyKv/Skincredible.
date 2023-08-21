@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +25,7 @@ import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -98,8 +99,16 @@ public class CartActivity extends AppCompatActivity {
                     productIds.clear();
                     clearCart();
                     viewHolder.totalPriceTextView.setText("$0.00");
-                    Toast toast = Toast.makeText(CartActivity.this, "Thank you for your purchase!", Toast.LENGTH_LONG);
-                    toast.show();
+
+                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(CartActivity.this, R.style.alert_dialog);
+
+                    dialogBuilder
+                            .setTitle("Thank you!")
+                            .setMessage("Your order has been confirmed!")
+                            .setPositiveButton("ok", null)
+                            .setIcon(R.drawable.alert_success_icon)
+                            .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
+                            .show();
                     propagateListAdapter();
                 }
             }
