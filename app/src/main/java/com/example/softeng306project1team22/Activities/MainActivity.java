@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
+        searchBar.setIconifiedByDefault(true);
         searchBar.setQueryHint("Search Items");
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override

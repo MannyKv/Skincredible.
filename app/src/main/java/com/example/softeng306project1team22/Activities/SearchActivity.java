@@ -42,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
         SearchView searchView = findViewById(R.id.searchView);
+        searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Search Items");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
