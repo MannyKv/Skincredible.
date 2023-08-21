@@ -107,7 +107,7 @@ public class DetailsActivity extends AppCompatActivity {
         addItemToRecentlyViewed(productId, productCategory.toLowerCase());
 
         // Updating the text of the cart button depending on if the current item is in the cart
-        setAddToCartButtonText(productId);
+        setCartInfo(productId);
 
         // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
@@ -309,7 +309,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void setAddToCartButtonText(String productId) {
+    private void setCartInfo(String productId) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -318,6 +318,9 @@ public class DetailsActivity extends AppCompatActivity {
                 ArrayList<String> itemsInCart = new ArrayList<>();
                 for (DocumentSnapshot document : task.getResult()) {
                     itemsInCart.add(document.getId());
+                    if (document.getId().equals(productId)) {
+                        viewHolder.quantityValue.setText(document.get("quantity").toString());
+                    }
                 }
                 if (itemsInCart.contains(productId)) {
                     viewHolder.cartButton.setText("UPDATE CART");

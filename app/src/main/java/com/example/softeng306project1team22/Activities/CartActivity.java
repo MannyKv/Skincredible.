@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,13 +39,14 @@ public class CartActivity extends AppCompatActivity {
         RecyclerView cartItemsRecyclerView;
         RecyclerView recommendedItemsRecyclerView;
         TextView totalPriceTextView;
-
+        Button checkoutButton;
 
         public ViewHolder() {
             backButton = findViewById(R.id.back_button);
             cartItemsRecyclerView = findViewById(R.id.rvCartItems);
             recommendedItemsRecyclerView = findViewById(R.id.rvRecommendedItems);
             totalPriceTextView = findViewById(R.id.totalPriceTextView);
+            checkoutButton = findViewById(R.id.checkoutButton);
         }
     }
 
@@ -87,8 +89,25 @@ public class CartActivity extends AppCompatActivity {
 
         productIds = new ArrayList<>();
 
-        loadData();
+        viewHolder.checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemList.size() > 0) {
+                    itemList.clear();
+                    productSkinTypes.clear();
+                    productIds.clear();
+                    clearCart();
+                    viewHolder.totalPriceTextView.setText("$0.00");
+                    Toast toast = Toast.makeText(CartActivity.this, "Thank you for your purchase!", Toast.LENGTH_LONG);
+                    toast.show();
+                    propagateListAdapter();
+                }
+            }
+        });
 
+        propagateListAdapter();
+
+        loadData();
     }
 
     @Override
@@ -290,6 +309,18 @@ public class CartActivity extends AppCompatActivity {
         }
 
         return mostCommonElement;
+    }
+
+    private void clearCart() {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    database.collection("cart").document(document.getId()).delete();
+                }
+            }
+        });
     }
 
     private void propagateListAdapter() {
