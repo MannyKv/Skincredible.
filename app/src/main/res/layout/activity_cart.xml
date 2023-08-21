@@ -95,7 +95,7 @@
                 android:layout_gravity="end"
                 android:textColor="@color/dark_green"
                 android:textStyle="bold"
-                android:text="$96.99" />
+                android:text="$0.00" />
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
