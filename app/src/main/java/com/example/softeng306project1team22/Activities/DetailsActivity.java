@@ -237,12 +237,12 @@ public class DetailsActivity extends AppCompatActivity {
                     viewHolder.priceTextView.setText(priceText);
 
                     viewHolder.firstDetailTitle.setText(firstDetailName);
-                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString());
+                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString().toLowerCase());
 
                     viewHolder.secondDetailTitle.setText(secondDetailName);
-                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString());
+                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString().toLowerCase());
 
-                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")));
+                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")).toLowerCase());
 
                     viewHolder.howToUseText.setText(documentSnapshot.get("howToUse").toString());
                 });
