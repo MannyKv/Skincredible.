@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,19 @@ import java.util.Map;
 public class CartActivity extends AppCompatActivity {
     private class ViewHolder {
         Button backButton;
+        TextView noItemsTextView, recommendedItemsHeader;
         RecyclerView cartItemsRecyclerView;
+        RelativeLayout cartTotalContainer;
         RecyclerView recommendedItemsRecyclerView;
         TextView totalPriceTextView;
         Button checkoutButton;
 
         public ViewHolder() {
             backButton = findViewById(R.id.back_button);
+            noItemsTextView = findViewById(R.id.noItemsTextView);
+            recommendedItemsHeader = findViewById(R.id.recommendedItemsHeader);
             cartItemsRecyclerView = findViewById(R.id.rvCartItems);
+            cartTotalContainer = findViewById(R.id.cartTotalContainer);
             recommendedItemsRecyclerView = findViewById(R.id.rvRecommendedItems);
             totalPriceTextView = findViewById(R.id.totalPriceTextView);
             checkoutButton = findViewById(R.id.checkoutButton);
@@ -99,6 +105,12 @@ public class CartActivity extends AppCompatActivity {
                     productIds.clear();
                     clearCart();
                     viewHolder.totalPriceTextView.setText("$0.00");
+                    viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                    viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                    viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                    viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                    viewHolder.checkoutButton.setVisibility(View.GONE);
 
                     MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(CartActivity.this, R.style.alert_dialog);
 
@@ -138,6 +150,21 @@ public class CartActivity extends AppCompatActivity {
         database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.getDocuments().size() == 0) {
+                    viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                    viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                    viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                    viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                    viewHolder.checkoutButton.setVisibility(View.GONE);
+                } else {
+                    viewHolder.noItemsTextView.setVisibility(View.GONE);
+                    viewHolder.cartItemsRecyclerView.setVisibility(View.VISIBLE);
+                    viewHolder.cartTotalContainer.setVisibility(View.VISIBLE);
+                    viewHolder.recommendedItemsHeader.setVisibility(View.VISIBLE);
+                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.VISIBLE);
+                    viewHolder.checkoutButton.setVisibility(View.VISIBLE);
+                }
                 double totalPrice = 0;
                 int documentPosition = 1;
                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
