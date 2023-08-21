@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -46,6 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
         Button addToCartButton;
+        BottomNavigationView navigationView;
 
         public ViewHolder() {
             backButton = findViewById(R.id.backButton);
@@ -71,6 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
             secondDetailValue = findViewById(R.id.secondDetailValue);
             thirdDetailValue = findViewById(R.id.thirdDetailValue);
             addToCartButton = findViewById(R.id.addToCartButton);
+            navigationView = findViewById(R.id.nav_buttons);
         }
     }
 
@@ -208,6 +211,8 @@ public class DetailsActivity extends AppCompatActivity {
                 addItemToCart(productId);
             }
         });
+
+        setNavigationViewLinks();
     }
 
     // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
@@ -337,5 +342,17 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
         imageView.startAnimation(animationOut);
+    }
+
+    private void setNavigationViewLinks() {
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(DetailsActivity.this, MainActivity.class));
+            } else if (itemId == R.id.search) {
+            } else if (itemId == R.id.cart) {
+            }
+            return true;
+        });
     }
 }

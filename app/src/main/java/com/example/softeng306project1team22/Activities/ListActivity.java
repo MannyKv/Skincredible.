@@ -38,6 +38,14 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         vh.backButton.setOnClickListener(v -> finish());
+        setNavigationViewLinks();
+        itemList = new ArrayList<>();
+        Intent intent = getIntent();
+        String categoryId = intent.getStringExtra("categoryId");
+        fetchCategoryData(categoryId);
+    }
+
+    private void setNavigationViewLinks() {
         vh.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
@@ -48,10 +56,6 @@ public class ListActivity extends AppCompatActivity {
             }
             return true;
         });
-        itemList = new ArrayList<>();
-        Intent intent = getIntent();
-        String categoryId = intent.getStringExtra("categoryId");
-        fetchCategoryData(categoryId);
     }
 
     private void fetchCategoryData(String categoryId) {

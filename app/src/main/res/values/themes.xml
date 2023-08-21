@@ -25,36 +25,28 @@
         <item name="iconTint">@color/darkest_green</item>
     </style>
 
+    <style name="left_arrow_button" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="icon">@drawable/ic_action_name</item>
+        <item name="iconGravity">start</item>
+        <item name="iconSize">30dp</item>
+        <item name="iconTint">@color/light_gray</item>
+    </style>
+
+    <style name="right_arrow_button" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="icon">@drawable/ic_right_arrow</item>
+        <item name="iconGravity">end</item>
+        <item name="iconSize">30dp</item>
+        <item name="iconTint">@color/light_gray</item>
+    </style>
+
     <style name="see_more_button" parent="Widget.MaterialComponents.Button.Icon">
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="icon">@drawable/down_arrow</item>
         <item name="iconGravity">start</item>
         <item name="iconSize">30dp</item>
         <item name="iconTint">@color/dark_gray</item>
-    </style>
-
-    <style name="home_button" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="android:background">@drawable/left_corner_circle</item>
-        <item name="android:buttonTint">@color/dark_green</item>
-        <item name="icon">@drawable/home</item>
-        <item name="iconSize">35dp</item>
-        <item name="iconGravity">end</item>
-        <item name="iconTint">@color/lightest_green</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
-    </style>
-
-    <style name="home_button_active" parent="home_button">
-        <item name="iconTint">@color/dark_green</item>
-        <item name="android:buttonTint">@color/lightest_green</item>
-    </style>
-
-    <style name="cart_button" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="android:background">@drawable/right_corner_circle</item>
-        <item name="icon">@drawable/cart</item>
-        <item name="iconGravity">end</item>
-        <item name="iconSize">35dp</item>
-        <item name="iconTint">@color/lightest_green</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
 </resources>
