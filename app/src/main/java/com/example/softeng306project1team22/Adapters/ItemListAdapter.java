@@ -16,6 +16,7 @@ import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
 
@@ -23,7 +24,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     private List<IItem> mItems;
     private Context mContext;
     private String category;
-    private List<String> itemQuantities;
+    private Map<String, String> itemQuantities;
 
     public ItemListAdapter(List<IItem> items, String categoryId) {
         mItems = items;
@@ -31,7 +32,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     }
 
     // constructor when displaying items from various categories (no id specified)
-    public ItemListAdapter(List<IItem> items, List<String> itemQuantities) {
+    public ItemListAdapter(List<IItem> items, Map<String, String> itemQuantities) {
         mItems = items;
         category = "";
         this.itemQuantities = itemQuantities;
@@ -99,7 +100,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                     break;
             }
         } else {
-            holder.cartQuantityTextView.setText(itemQuantities.get(position));
+            holder.cartQuantityTextView.setText(itemQuantities.get(currItem.getId()));
         }
     }
 
