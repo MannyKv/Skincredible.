@@ -9,6 +9,7 @@
         <item name="colorAccent">@color/darkest_green</item>
         <item name="android:windowBackground">@drawable/background_gradient</item>
         <item name="android:textColor">@color/darkest_green</item>
+        <item name="colorOnPrimarySurface">@android:color/transparent</item>
         <item name="fontFamily">@font/urbanist_medium</item>
     </style>
 
@@ -34,11 +35,17 @@
 
     <style name="home_button" parent="Widget.MaterialComponents.Button.Icon">
         <item name="android:background">@drawable/left_corner_circle</item>
+        <item name="android:buttonTint">@color/dark_green</item>
         <item name="icon">@drawable/home</item>
         <item name="iconSize">35dp</item>
         <item name="iconGravity">end</item>
         <item name="iconTint">@color/lightest_green</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="home_button_active" parent="home_button">
+        <item name="iconTint">@color/dark_green</item>
+        <item name="android:buttonTint">@color/lightest_green</item>
     </style>
 
     <style name="cart_button" parent="Widget.MaterialComponents.Button.Icon">

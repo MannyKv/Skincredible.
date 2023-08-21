@@ -18,6 +18,7 @@ import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     List<Item> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
+    BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
+        navigationView = findViewById(R.id.nav_buttons);
+        navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+            } else if (itemId == R.id.search) {
+            } else if (itemId == R.id.cart) {
+            }
+            return true;
+        });
+
         searchBar.setQueryHint("Search Items");
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
         //Set layout managers!
         historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
 
     private void fetchCategoryData() {
