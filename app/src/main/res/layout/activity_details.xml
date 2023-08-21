@@ -382,7 +382,7 @@
         android:layout_marginTop="5dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addToCartButton"
+            android:id="@+id/cartButton"
             android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

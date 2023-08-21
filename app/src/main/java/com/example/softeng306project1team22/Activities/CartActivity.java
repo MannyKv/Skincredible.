@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -293,6 +294,23 @@ public class CartActivity extends AppCompatActivity {
 
     private void propagateListAdapter() {
         listAdapter = new ItemListAdapter(itemList, itemQuantities);
+        listAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        double totalPrice = 0;
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
+                        }
+                        String totalPriceString = "$" + String.format("%.2f", totalPrice);
+                        viewHolder.totalPriceTextView.setText(totalPriceString);
+                    }
+                });
+            }
+        });
         viewHolder.cartItemsRecyclerView.setAdapter(listAdapter);
         viewHolder.cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
