@@ -122,12 +122,12 @@ public class CartActivity extends AppCompatActivity {
                             .setIcon(R.drawable.alert_success_icon)
                             .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
                             .show();
-                    propagateListAdapter();
+                    propagateCartAdapter();
                 }
             }
         });
 
-        propagateListAdapter();
+        propagateCartAdapter();
 
         loadData();
 
@@ -250,7 +250,7 @@ public class CartActivity extends AppCompatActivity {
                 // If all the documents have been accessed, propagate the list adapters
                 if (documentPosition == numberOfDocuments) {
                     getRecommendedItems(productSkinTypes, productIds);
-                    propagateListAdapter();
+                    propagateCartAdapter();
                 }
             }
         });
@@ -399,7 +399,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     // This function propagates the cart item list based on the data retrieved from the cart collection
-    private void propagateListAdapter() {
+    private void propagateCartAdapter() {
         cartAdapter = new CartAdapter(itemList, itemQuantities);
         cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -408,6 +408,14 @@ public class CartActivity extends AppCompatActivity {
                 database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.getDocuments().isEmpty()) {
+                            viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                            viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                            viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                            viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                            viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                            viewHolder.checkoutButton.setVisibility(View.GONE);
+                        }
                         double totalPrice = 0;
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
@@ -417,6 +425,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
             }
+
         });
         viewHolder.cartItemsRecyclerView.setAdapter(cartAdapter);
         viewHolder.cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
