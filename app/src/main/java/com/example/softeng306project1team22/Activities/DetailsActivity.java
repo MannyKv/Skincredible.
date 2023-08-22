@@ -203,7 +203,11 @@ public class DetailsActivity extends AppCompatActivity {
                 startActivity(new Intent(DetailsActivity.this, MainActivity.class));
                 finish();
             } else if (itemId == R.id.search) {
+                startActivity(new Intent(DetailsActivity.this, SearchActivity.class));
+                finish();
             } else if (itemId == R.id.cart) {
+                startActivity(new Intent(DetailsActivity.this, CartActivity.class));
+                finish();
             }
             return true;
         });

@@ -1,6 +1,7 @@
 package com.example.softeng306project1team22.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     ItemListAdapter itemAdapter;
     List<IItem> allItems = new ArrayList<>();
     List<IItem> filtered = new ArrayList<>();
-
+    BottomNavigationView navigationView;
     RecyclerView recyclerView;
     TextView notFoundMsg;
 
@@ -42,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
         SearchView searchView = findViewById(R.id.searchView);
+        navigationView = findViewById(R.id.nav_buttons);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Search Items");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -68,6 +71,26 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         itemAdapter.notifyDataSetChanged();
 
+        setNavigationViewLinks();
+
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(SearchActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+                startActivity(new Intent(SearchActivity.this, SearchActivity.class));
+                finish();
+            } else if (itemId == R.id.cart) {
+                startActivity(new Intent(SearchActivity.this, CartActivity.class));
+                finish();
+            }
+            return true;
+        });
     }
 
     protected void retrieveAllItems() {

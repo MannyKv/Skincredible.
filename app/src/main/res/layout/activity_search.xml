@@ -53,9 +53,30 @@
         android:visibility="gone"
         android:text="No Items Found!" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/search_recycled" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/search_recycled"
+            android:layout_above="@+id/nav_buttons" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_nav"
+            android:transitionName="fade"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemIconSize="30sp"
+            app:itemIconTint="@color/nav_colors"
+            app:itemTextColor="@color/nav_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu" />
+
+    </RelativeLayout>
 
 </LinearLayout>

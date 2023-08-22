@@ -53,7 +53,11 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(new Intent(ListActivity.this, MainActivity.class));
                 finish();
             } else if (itemId == R.id.search) {
+                startActivity(new Intent(ListActivity.this, SearchActivity.class));
+                finish();
             } else if (itemId == R.id.cart) {
+                startActivity(new Intent(ListActivity.this, CartActivity.class));
+                finish();
             }
             return true;
         });

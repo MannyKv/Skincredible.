@@ -96,8 +96,14 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                finish();
             } else if (itemId == R.id.search) {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                finish();
             } else if (itemId == R.id.cart) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                finish();
             }
             return true;
         });
