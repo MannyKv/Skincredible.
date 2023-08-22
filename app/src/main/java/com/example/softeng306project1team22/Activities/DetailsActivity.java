@@ -45,7 +45,6 @@ public class DetailsActivity extends AppCompatActivity {
         BottomNavigationView navigationView;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
-        Button decreaseQuantityButton, increaseQuantityButton;
         TextView quantityValue;
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
