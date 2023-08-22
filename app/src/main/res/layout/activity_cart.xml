@@ -75,9 +75,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCartItems"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_above="@id/cartTotalContainer" />
+                android:layout_height="match_parent"
+                android:layout_above="@id/cartTotalContainer"
+                android:visibility="visible" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cartTotalContainer"
@@ -86,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
                 app:contentPadding="5dp"
                 app:contentPaddingLeft="15dp"
                 app:contentPaddingRight="15dp"
@@ -114,11 +113,12 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/recommendedItemsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/checkoutContainer">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/recommendedItemsHeader"
@@ -141,7 +141,7 @@
             tools:visibility="visible"
             android:orientation="horizontal" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/checkoutContainer"
