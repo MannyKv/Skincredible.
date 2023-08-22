@@ -18,6 +18,7 @@ import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,18 +38,29 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         vh = new ViewHolder();
         vh.backButton.setOnClickListener(v -> finish());
-        vh.homeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ListActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-        vh.cartButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ListActivity.this, CartActivity.class);
-            startActivity(intent);
-        });
+        setNavigationViewLinks();
         itemList = new ArrayList<>();
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");
         fetchCategoryData(categoryId);
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        vh.navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(ListActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+                startActivity(new Intent(ListActivity.this, SearchActivity.class));
+                finish();
+            } else if (itemId == R.id.cart) {
+                startActivity(new Intent(ListActivity.this, CartActivity.class));
+                finish();
+            }
+            return true;
+        });
     }
 
     private void fetchCategoryData(String categoryId) {
@@ -117,16 +129,14 @@ public class ListActivity extends AppCompatActivity {
         ImageView categoryIcon;
         RecyclerView itemRecyclerView;
         Button backButton;
-        Button homeButton;
-        Button cartButton;
+        BottomNavigationView navigationView;
 
         public ViewHolder() {
             categoryNameHeader = findViewById(R.id.category_name);
             categoryIcon = findViewById(R.id.category_icon);
             itemRecyclerView = findViewById(R.id.rvItems);
             backButton = findViewById(R.id.back_button);
-            homeButton = findViewById(R.id.home_button);
-            cartButton = findViewById(R.id.cart_button);
+            navigationView = findViewById(R.id.nav_buttons);
         }
     }
 

@@ -18,6 +18,8 @@ import androidx.cardview.widget.CardView;
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,9 +41,10 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView categoryImageView;
         ImageView productImageView;
         Button previousImageButton, nextImageButton;
+        FloatingActionButton decreaseQuantityButton, increaseQuantityButton;
+        BottomNavigationView navigationView;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
-        Button decreaseQuantityButton, increaseQuantityButton;
         TextView quantityValue;
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
@@ -69,6 +72,9 @@ public class DetailsActivity extends AppCompatActivity {
             secondDetailValue = findViewById(R.id.secondDetailValue);
             thirdDetailValue = findViewById(R.id.thirdDetailValue);
             cartButton = findViewById(R.id.cartButton);
+            navigationView = findViewById(R.id.nav_buttons);
+            decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
+            increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
         }
     }
 
@@ -171,8 +177,10 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
 
-                quantityValue++;
-                viewHolder.quantityValue.setText(String.valueOf(quantityValue));
+                if (quantityValue < 99) {
+                    quantityValue++;
+                    viewHolder.quantityValue.setText(String.valueOf(quantityValue));
+                }
             }
         });
 
@@ -182,6 +190,26 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 addItemToCart(productId, productCategory.toLowerCase());
             }
+        });
+
+        setNavigationViewLinks();
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(DetailsActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+                startActivity(new Intent(DetailsActivity.this, SearchActivity.class));
+                finish();
+            } else if (itemId == R.id.cart) {
+                startActivity(new Intent(DetailsActivity.this, CartActivity.class));
+                finish();
+            }
+            return true;
         });
     }
 
@@ -194,9 +222,9 @@ public class DetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     Resources resources = getResources();
                     viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
-                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString().toUpperCase());
+                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString());
                     viewHolder.brandTextView.setText(documentSnapshot.get("brand").toString());
-                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString().toUpperCase());
+                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString());
 
                     ArrayList<String> databaseImageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
                     imageNames.addAll(databaseImageNames);
@@ -339,4 +367,5 @@ public class DetailsActivity extends AppCompatActivity {
         });
         imageView.startAnimation(animationOut);
     }
+
 }

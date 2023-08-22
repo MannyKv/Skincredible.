@@ -26,6 +26,7 @@ import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,16 +38,15 @@ import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
     private class ViewHolder {
-        Button backButton;
         TextView noItemsTextView, recommendedItemsHeader;
         RecyclerView cartItemsRecyclerView;
         CardView cartTotalContainer;
         RecyclerView recommendedItemsRecyclerView;
         TextView totalPriceTextView;
         Button checkoutButton;
+        BottomNavigationView navigationView;
 
         public ViewHolder() {
-            backButton = findViewById(R.id.back_button);
             noItemsTextView = findViewById(R.id.noItemsTextView);
             recommendedItemsHeader = findViewById(R.id.recommendedItemsHeader);
             cartItemsRecyclerView = findViewById(R.id.rvCartItems);
@@ -54,6 +54,7 @@ public class CartActivity extends AppCompatActivity {
             recommendedItemsRecyclerView = findViewById(R.id.rvRecommendedItems);
             totalPriceTextView = findViewById(R.id.totalPriceTextView);
             checkoutButton = findViewById(R.id.checkoutButton);
+            navigationView = findViewById(R.id.nav_buttons);
         }
     }
 
@@ -83,9 +84,7 @@ public class CartActivity extends AppCompatActivity {
         onResumeCalled = false;
 
         viewHolder = new ViewHolder();
-
-        viewHolder.backButton.setOnClickListener(v -> finish());
-
+        
         itemList = new ArrayList<>();
 
         recommendedItemList = new ArrayList<>();
@@ -131,6 +130,8 @@ public class CartActivity extends AppCompatActivity {
         propagateCartAdapter();
 
         loadData();
+
+        setNavigationViewLinks();
     }
 
     // This function is called when the activity is navigated back to from another activity
@@ -147,6 +148,25 @@ public class CartActivity extends AppCompatActivity {
         } else {
             onResumeCalled = true;
         }
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        viewHolder.navigationView.setSelectedItemId(R.id.cart);
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(CartActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+                startActivity(new Intent(CartActivity.this, SearchActivity.class));
+                finish();
+            } else if (itemId == R.id.cart) {
+                startActivity(new Intent(CartActivity.this, CartActivity.class));
+                finish();
+            }
+            return true;
+        });
     }
 
     // This function retrieves and sets the data from the database

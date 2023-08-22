@@ -18,6 +18,7 @@ import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     List<Item> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
+    BottomNavigationView navigationView;
     Boolean isActivityResumed = false;
 
     @Override
@@ -41,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
-
         searchBar.setIconifiedByDefault(true);
         searchBar.setQueryHint("Search Items");
-
+        navigationView = findViewById(R.id.nav_buttons);
 
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,27 @@ public class MainActivity extends AppCompatActivity {
         historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Set nav view links
+        setNavigationViewLinks();
+    }
 
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        navigationView.setSelectedItemId(R.id.home);
+        navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                finish();
+            } else if (itemId == R.id.cart) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                finish();
+            }
+            return true;
+        });
     }
 
     protected void onResume() {

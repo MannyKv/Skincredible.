@@ -7,55 +7,28 @@
     android:orientation="vertical"
     tools:context=".Activities.CartActivity">
 
-    <LinearLayout
-        android:id="@+id/headerContainer"
-        android:layout_width="match_parent"
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/category_name"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/back_button"
-                style="@style/back_button"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Go back" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/category_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:letterSpacing="0.1"
-                android:text="SHOPPING CART"
-                android:textColor="@android:color/black"
-                android:textSize="25sp"
-                app:textAllCaps="true" />
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_centerVertical="true"
+        android:letterSpacing="0.1"
+        android:text="SHOPPING CART"
+        android:layout_margin="12dp"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        app:textAllCaps="true" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/noItemsTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="no items in cart!"
-        android:textColor="@color/darkest_green"
+        android:textColor="@color/light_gray"
         android:textSize="30sp"
         android:visibility="gone" />
 
@@ -67,7 +40,6 @@
         android:layout_weight="1"
         android:layout_above="@id/cartTotalContainer"
         android:visibility="visible" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartTotalContainer"
@@ -97,9 +69,7 @@
             android:text="$0.00"
             android:textColor="@color/dark_green"
             android:textStyle="bold" />
-
     </androidx.cardview.widget.CardView>
-
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/recommendedItemsHeader"
@@ -122,7 +92,6 @@
         tools:visibility="visible"
         android:orientation="horizontal" />
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/checkoutButton"
         android:layout_width="wrap_content"
@@ -141,32 +110,17 @@
         android:textStyle="bold"
         android:text="CHECKOUT" />
 
-    <RelativeLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_buttons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/home_button"
-            style="@style/home_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentStart="true"
-            android:backgroundTint="@color/dark_green"
-            android:contentDescription="Home"
-            android:paddingTop="15dp"
-            android:paddingEnd="20dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cart_button"
-            style="@style/cart_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/dark_green"
-            android:contentDescription="Cart"
-            android:paddingTop="15dp"
-            android:paddingEnd="5dp" />
-    </RelativeLayout>
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_nav"
+        android:transitionName="fade"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
+        app:itemIconSize="30sp"
+        app:itemIconTint="@color/nav_colors"
+        app:itemTextColor="@color/nav_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu" />
 </LinearLayout>

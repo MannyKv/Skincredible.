@@ -21,12 +21,6 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/back_button"
-                style="@style/back_button"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Go back" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.SearchView
@@ -42,20 +36,42 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/not_found"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:textSize="40sp"
-        android:textColor="@color/light_gray"
-        android:padding="50dp"
-        android:visibility="gone"
-        android:text="No Items Found!" />
+        android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/search_recycled" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:id="@+id/not_found"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/light_gray"
+            android:padding="50dp"
+            android:visibility="gone"
+            android:text="no items found."
+            android:layout_above="@+id/nav_buttons" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/search_recycled"
+            android:layout_above="@+id/nav_buttons" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_nav"
+            android:transitionName="fade"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemIconSize="30sp"
+            app:itemIconTint="@color/nav_colors"
+            app:itemTextColor="@color/nav_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu" />
+
+    </RelativeLayout>
 
 </LinearLayout>
