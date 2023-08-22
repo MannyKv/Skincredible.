@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SOFTENG 306 Project 1 Team 22</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>
