@@ -59,109 +59,87 @@
         android:textSize="30sp"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCartItems"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/cartTotalContainer"
-                android:visibility="visible" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cartTotalContainer"
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                app:contentPadding="5dp"
-                app:contentPaddingLeft="15dp"
-                app:contentPaddingRight="15dp"
-                app:cardCornerRadius="50dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:textColor="@color/dark_green"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="CART TOTAL" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/totalPriceTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textColor="@color/dark_green"
-                    android:textStyle="bold"
-                    android:text="$0.00" />
-
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/recommendedItemsContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_above="@id/cartTotalContainer"
+        android:visibility="visible" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/recommendedItemsHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="recommended for you"
-            android:visibility="visible"
-            android:textColor="@color/darkest_green"
-            android:textSize="22dp"
-            android:textAlignment="center" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRecommendedItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:visibility="visible"
-            android:orientation="horizontal" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/checkoutContainer"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cartTotalContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_margin="15dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="50dp"
+        app:contentPadding="5dp"
+        app:contentPaddingLeft="15dp"
+        app:contentPaddingRight="15dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/checkoutButton"
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:backgroundTint="#57958D"
-            android:textSize="17sp"
-            app:icon="@drawable/right_arrow"
-            app:iconSize="30dp"
-            app:iconGravity="end"
+            android:layout_gravity="start"
+            android:text="CART TOTAL"
             android:textAllCaps="true"
-            android:visibility="visible"
-            android:textStyle="bold"
-            android:text="CHECKOUT" />
-    </RelativeLayout>
+            android:textColor="@color/dark_green"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/totalPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="$0.00"
+            android:textColor="@color/dark_green"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/recommendedItemsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="recommended for you"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:layout_weight="0.1"
+        android:textColor="@color/darkest_green"
+        android:textSize="22dp"
+        android:textAlignment="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecommendedItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        tools:visibility="visible"
+        android:orientation="horizontal" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/checkoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:backgroundTint="#57958D"
+        android:textSize="17sp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        app:icon="@drawable/right_arrow"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        android:textAllCaps="true"
+        android:visibility="visible"
+        android:textStyle="bold"
+        android:text="CHECKOUT" />
 
     <RelativeLayout
         android:id="@+id/nav_buttons"

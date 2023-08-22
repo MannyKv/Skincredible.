@@ -14,9 +14,9 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.softeng306project1team22.Adapters.CartAdapter;
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
-import com.example.softeng306project1team22.Adapters.ItemListAdapter;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Item;
@@ -63,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<Item> recommendedItemList;
 
-    private ItemListAdapter listAdapter;
+    private CartAdapter cartAdapter;
 
     private CompactItemAdapter itemAdapter;
 
@@ -380,8 +380,8 @@ public class CartActivity extends AppCompatActivity {
 
     // This function propagates the cart item list based on the data retrieved from the cart collection
     private void propagateListAdapter() {
-        listAdapter = new ItemListAdapter(itemList, itemQuantities);
-        listAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        cartAdapter = new CartAdapter(itemList, itemQuantities);
+        cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -398,7 +398,7 @@ public class CartActivity extends AppCompatActivity {
                 });
             }
         });
-        viewHolder.cartItemsRecyclerView.setAdapter(listAdapter);
+        viewHolder.cartItemsRecyclerView.setAdapter(cartAdapter);
         viewHolder.cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
