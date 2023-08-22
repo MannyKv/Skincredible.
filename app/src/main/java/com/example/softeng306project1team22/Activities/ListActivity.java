@@ -41,6 +41,10 @@ public class ListActivity extends AppCompatActivity {
             Intent intent = new Intent(ListActivity.this, MainActivity.class);
             startActivity(intent);
         });
+        vh.cartButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ListActivity.this, CartActivity.class);
+            startActivity(intent);
+        });
         itemList = new ArrayList<>();
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");

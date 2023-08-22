@@ -24,6 +24,7 @@
             android:theme="@style/Theme.SOFTENG306Project1Team22" />
         <activity
             android:name=".Activities.ListActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
@@ -35,7 +36,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.DetailsActivity" />
+        <activity
+            android:name=".Activities.DetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.CartActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -38,26 +39,23 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView categoryImageView;
         ImageView productImageView;
         Button previousImageButton, nextImageButton;
-        Button detailsButton, howToUseButton;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
         Button decreaseQuantityButton, increaseQuantityButton;
         TextView quantityValue;
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
-        Button addToCartButton;
+        Button cartButton;
 
         public ViewHolder() {
-            backButton = findViewById(R.id.backButton);
-            categoryImageView = findViewById(R.id.categoryImageView);
-            categoryTextView = findViewById(R.id.categoryTextView);
+            backButton = findViewById(R.id.back_button);
+            categoryImageView = findViewById(R.id.category_icon);
+            categoryTextView = findViewById(R.id.category_name);
             brandTextView = findViewById(R.id.brandTextView);
             productNameTextView = findViewById(R.id.productNameTextView);
             productImageView = findViewById(R.id.productImageView);
             previousImageButton = findViewById(R.id.previousImageButton);
             nextImageButton = findViewById(R.id.nextImageButton);
-            detailsButton = findViewById(R.id.detailsButton);
-            howToUseButton = findViewById(R.id.howToUseButton);
             productDetailsCardView = findViewById(R.id.productDetailsCardView);
             howToUseCardView = findViewById(R.id.howToUseCardView);
             howToUseText = findViewById(R.id.howToUseText);
@@ -70,12 +68,12 @@ public class DetailsActivity extends AppCompatActivity {
             secondDetailTitle = findViewById(R.id.secondDetailTitle);
             secondDetailValue = findViewById(R.id.secondDetailValue);
             thirdDetailValue = findViewById(R.id.thirdDetailValue);
-            addToCartButton = findViewById(R.id.addToCartButton);
+            cartButton = findViewById(R.id.cartButton);
         }
     }
 
     private ViewHolder viewHolder;
-    private ArrayList<String> imageNames = new ArrayList<String>();
+    private ArrayList<String> imageNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,8 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String productCategory = intent.getStringExtra("productCategory");
         String productId = intent.getStringExtra("productId");
+
+        imageNames = new ArrayList<>();
 
         // Instantiating the ViewHolder so views can be referenced in methods
         viewHolder = new ViewHolder();
@@ -101,7 +101,10 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         // Adding the item to the recently-viewed collection in Firestore
-        addItemToRecentlyViewed(productId);
+        addItemToRecentlyViewed(productId, productCategory.toLowerCase());
+
+        // Updating the text of the cart button depending on if the current item is in the cart
+        setCartInfo(productId);
 
         // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
@@ -148,34 +151,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        // Setting the on click functionality for the details tab button
-        viewHolder.detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show the details view and hide the how to use view
-                viewHolder.howToUseCardView.setVisibility(View.GONE);
-                viewHolder.productDetailsCardView.setVisibility(View.VISIBLE);
-
-                // Set the details button colour to white and the how to use button colour to green
-                viewHolder.detailsButton.setBackgroundColor(0xFFFFFFFF);
-                viewHolder.howToUseButton.setBackgroundColor(0xFF88CEC6);
-            }
-        });
-
-        // Setting the on click functionality for the how to use tab button
-        viewHolder.howToUseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show the how to use view and hide the details view
-                viewHolder.howToUseCardView.setVisibility(View.VISIBLE);
-                viewHolder.productDetailsCardView.setVisibility(View.GONE);
-
-                // Set the how to use button colour to white and the details button colour to green
-                viewHolder.detailsButton.setBackgroundColor(0xFF88CEC6);
-                viewHolder.howToUseButton.setBackgroundColor(0xFFFFFFFF);
-            }
-        });
-
         // Setting the on click functionality for the decrease quantity button
         viewHolder.decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,10 +177,10 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         // Setting the on click functionality for the add to cart button
-        viewHolder.addToCartButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemToCart(productId);
+                addItemToCart(productId, productCategory.toLowerCase());
             }
         });
     }
@@ -231,31 +206,33 @@ public class DetailsActivity extends AppCompatActivity {
                     viewHolder.priceTextView.setText(priceText);
 
                     viewHolder.firstDetailTitle.setText(firstDetailName);
-                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString());
+                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString().toLowerCase());
 
                     viewHolder.secondDetailTitle.setText(secondDetailName);
-                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString());
+                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString().toLowerCase());
 
-                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")));
+                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")).toLowerCase());
 
                     viewHolder.howToUseText.setText(documentSnapshot.get("howToUse").toString());
                 });
     }
 
     // This function writes to the item ID and quantity to the "cart" category in Firestore
-    private void addItemToCart(String productId) {
+    private void addItemToCart(String productId, String productCategory) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         Map<String, Object> itemInfo = new HashMap<>();
 
         itemInfo.put("itemId", productId);
-        itemInfo.put("quantity", Integer.parseInt(viewHolder.quantityValue.getText().toString()));
+        itemInfo.put("quantity", viewHolder.quantityValue.getText().toString());
+        itemInfo.put("categoryName", productCategory);
+        itemInfo.put("singleItemPrice", viewHolder.priceTextView.getText().toString().substring(1));
 
         database.collection("cart").document(productId).set(itemInfo);
     }
 
     // This function adds the current item to the recently viewed collection in Firestore
-    private void addItemToRecentlyViewed(String productId) {
+    private void addItemToRecentlyViewed(String productId, String productCategory) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Determine the size of the recently-viewed collection
@@ -271,6 +248,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Map<String, Object> itemInfo = new HashMap<>();
                     itemInfo.put("itemId", productId);
                     itemInfo.put("timeAdded", FieldValue.serverTimestamp());
+                    itemInfo.put("categoryName", productCategory);
 
                     // If there are more than 5 documents in the recently-viewed collection and the document being added is not already in it, delete the oldest one and then add the newest one
                     if (documents.size() > 5 && !documents.contains(productId)) {
@@ -298,6 +276,29 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setCartInfo(String productId) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                ArrayList<String> itemsInCart = new ArrayList<>();
+                for (DocumentSnapshot document : task.getResult()) {
+                    itemsInCart.add(document.getId());
+                    if (document.getId().equals(productId)) {
+                        viewHolder.quantityValue.setText(document.get("quantity").toString());
+                    }
+                }
+                if (itemsInCart.contains(productId)) {
+                    viewHolder.cartButton.setText("UPDATE CART");
+                } else {
+                    viewHolder.cartButton.setText("ADD TO CART");
+                }
+            }
+        });
+
     }
 
     // This function provides fade in and fade out animation transitions for the ImageView images
