@@ -39,7 +39,6 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView categoryImageView;
         ImageView productImageView;
         Button previousImageButton, nextImageButton;
-        Button detailsButton, howToUseButton;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
         Button decreaseQuantityButton, increaseQuantityButton;
@@ -49,16 +48,14 @@ public class DetailsActivity extends AppCompatActivity {
         Button cartButton;
 
         public ViewHolder() {
-            backButton = findViewById(R.id.backButton);
-            categoryImageView = findViewById(R.id.categoryImageView);
-            categoryTextView = findViewById(R.id.categoryTextView);
+            backButton = findViewById(R.id.back_button);
+            categoryImageView = findViewById(R.id.category_icon);
+            categoryTextView = findViewById(R.id.category_name);
             brandTextView = findViewById(R.id.brandTextView);
             productNameTextView = findViewById(R.id.productNameTextView);
             productImageView = findViewById(R.id.productImageView);
             previousImageButton = findViewById(R.id.previousImageButton);
             nextImageButton = findViewById(R.id.nextImageButton);
-            detailsButton = findViewById(R.id.detailsButton);
-            howToUseButton = findViewById(R.id.howToUseButton);
             productDetailsCardView = findViewById(R.id.productDetailsCardView);
             howToUseCardView = findViewById(R.id.howToUseCardView);
             howToUseText = findViewById(R.id.howToUseText);
@@ -151,34 +148,6 @@ public class DetailsActivity extends AppCompatActivity {
                     imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
                     viewHolder.productImageView.setTag("0");
                 }
-            }
-        });
-
-        // Setting the on click functionality for the details tab button
-        viewHolder.detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show the details view and hide the how to use view
-                viewHolder.howToUseCardView.setVisibility(View.GONE);
-                viewHolder.productDetailsCardView.setVisibility(View.VISIBLE);
-
-                // Set the details button colour to white and the how to use button colour to green
-                viewHolder.detailsButton.setBackgroundColor(0xFFFFFFFF);
-                viewHolder.howToUseButton.setBackgroundColor(0xFF88CEC6);
-            }
-        });
-
-        // Setting the on click functionality for the how to use tab button
-        viewHolder.howToUseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show the how to use view and hide the details view
-                viewHolder.howToUseCardView.setVisibility(View.VISIBLE);
-                viewHolder.productDetailsCardView.setVisibility(View.GONE);
-
-                // Set the how to use button colour to white and the details button colour to green
-                viewHolder.detailsButton.setBackgroundColor(0xFF88CEC6);
-                viewHolder.howToUseButton.setBackgroundColor(0xFFFFFFFF);
             }
         });
 
