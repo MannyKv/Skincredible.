@@ -96,10 +96,12 @@ public class CartActivity extends AppCompatActivity {
 
         productIds = new ArrayList<>();
 
+        // Setting onclick functionality for the checkout button
         viewHolder.checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (itemList.size() > 0) {
+                    // Clear all the cart information and set the total price to $0.00
                     itemList.clear();
                     productSkinTypes.clear();
                     productIds.clear();
@@ -112,8 +114,8 @@ public class CartActivity extends AppCompatActivity {
                     viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
                     viewHolder.checkoutButton.setVisibility(View.GONE);
 
+                    // Display popup dialog confirming purchase
                     MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(CartActivity.this, R.style.alert_dialog);
-
                     dialogBuilder
                             .setTitle("Thank you!")
                             .setMessage("Your order has been confirmed!")
@@ -131,10 +133,12 @@ public class CartActivity extends AppCompatActivity {
         loadData();
     }
 
+    // This function is called when the activity is navigated back to from another activity
     @Override
     protected void onResume() {
         super.onResume();
         if (onResumeCalled) {
+            // Clear the cart and recommended info and load the data
             itemList.clear();
             recommendedItemList.clear();
             productSkinTypes.clear();
@@ -145,11 +149,15 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    // This function retrieves and sets the data from the database
     private void loadData() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        // Retrieve the cart information
         database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                // Display the "cart empty" message if the cart is empty
                 if (queryDocumentSnapshots.getDocuments().size() == 0) {
                     viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
                     viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
@@ -167,6 +175,8 @@ public class CartActivity extends AppCompatActivity {
                 }
                 double totalPrice = 0;
                 int documentPosition = 1;
+
+                // For each item in the cart, fetch it's data and load it
                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                     String categoryName = (String) document.get("categoryName");
                     String productId = document.getId();
@@ -181,6 +191,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
+    // This function fetches the data for a specific item and loads the views on the activity page
     private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int documentPosition, int numberOfDocuments) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -204,7 +215,6 @@ public class CartActivity extends AppCompatActivity {
                         String sunscreenType = (String) documentSnapshot.get("sunscreenType");
                         String spf = (String) documentSnapshot.get("spf");
                         itemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
-
                         break;
                     case "cleanser":
                         String cleanserType = (String) documentSnapshot.get("cleanserType");
@@ -217,6 +227,7 @@ public class CartActivity extends AppCompatActivity {
                         itemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
                         break;
                 }
+                // If all the documents have been accessed, propagate the list adapters
                 if (documentPosition == numberOfDocuments) {
                     getRecommendedItems(productSkinTypes, productIds);
                     propagateListAdapter();
@@ -225,10 +236,12 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
+    // This function calculates the recommended items to display to the user based on the items in their cart
     private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIds) {
         String mostCommonSkinType = findMostCommonElement(productSkinTypes);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
+        // Find two sunscreens based on the most commonly occurring skin type in the cart
         database.collection("sunscreen")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
@@ -261,6 +274,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
 
+        // Find two cleansers based on the most commonly occurring skin type in the cart
         database.collection("cleanser")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
@@ -293,6 +307,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
 
+        // Find two moisturisers based on the most commonly occurring skin type in the cart
         database.collection("moisturiser")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
@@ -326,9 +341,11 @@ public class CartActivity extends AppCompatActivity {
                 });
     }
 
+    // This helper function finds the most commonly occurring element in a given ArrayList
     private String findMostCommonElement(ArrayList<String> arrayList) {
         Map<String, Integer> elementMap = new HashMap<>();
 
+        // Find occurrences of each element in the ArrayList
         for (String element : arrayList) {
             elementMap.put(element, elementMap.get(element) == null ? 1 : elementMap.get(element) + 1);
         }
@@ -336,6 +353,7 @@ public class CartActivity extends AppCompatActivity {
         String mostCommonElement = "";
         int maxValue = 0;
 
+        // Find the most commonly occurring element based on the occurrences in the map
         for (String key : elementMap.keySet()) {
             int value = elementMap.get(key);
             if (value > maxValue) {
@@ -347,6 +365,7 @@ public class CartActivity extends AppCompatActivity {
         return mostCommonElement;
     }
 
+    // This function clears the cart of all items
     private void clearCart() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -359,6 +378,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
+    // This function propagates the cart item list based on the data retrieved from the cart collection
     private void propagateListAdapter() {
         listAdapter = new ItemListAdapter(itemList, itemQuantities);
         listAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -382,6 +402,7 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    // This function propagates the recommended item list based on the calculated recommended items to display
     private void propagateItemAdapter() {
         itemAdapter = new CompactItemAdapter(recommendedItemList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
             @Override
@@ -393,6 +414,7 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.recommendedItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
+    // This function defines the onclick activity to open DetailsActivity for clicking an item in the recommended list
     public void viewItem(int position) {
         Item clickedItem = recommendedItemList.get(position);
         Intent intent = new Intent(this, DetailsActivity.class);
