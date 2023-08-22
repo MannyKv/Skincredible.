@@ -38,7 +38,6 @@ import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
     private class ViewHolder {
-        Button backButton;
         TextView noItemsTextView, recommendedItemsHeader;
         RecyclerView cartItemsRecyclerView;
         CardView cartTotalContainer;
@@ -48,7 +47,6 @@ public class CartActivity extends AppCompatActivity {
         BottomNavigationView navigationView;
 
         public ViewHolder() {
-            backButton = findViewById(R.id.back_button);
             noItemsTextView = findViewById(R.id.noItemsTextView);
             recommendedItemsHeader = findViewById(R.id.recommendedItemsHeader);
             cartItemsRecyclerView = findViewById(R.id.rvCartItems);
@@ -86,9 +84,7 @@ public class CartActivity extends AppCompatActivity {
         onResumeCalled = false;
 
         viewHolder = new ViewHolder();
-
-        viewHolder.backButton.setOnClickListener(v -> finish());
-
+        
         itemList = new ArrayList<>();
 
         recommendedItemList = new ArrayList<>();
@@ -156,6 +152,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function sets the navigation links for the navigation bar
     private void setNavigationViewLinks() {
+        viewHolder.navigationView.setSelectedItemId(R.id.cart);
         viewHolder.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {

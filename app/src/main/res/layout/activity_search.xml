@@ -20,13 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_weight="1"
             android:gravity="center">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/back_button"
-                style="@style/back_button"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Go back" />
+            
         </RelativeLayout>
 
         <androidx.appcompat.widget.SearchView
@@ -42,20 +36,21 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:id="@+id/not_found"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:textSize="40sp"
-        android:textColor="@color/light_gray"
-        android:padding="50dp"
-        android:visibility="gone"
-        android:text="No Items Found!" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:id="@+id/not_found"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:textSize="40sp"
+            android:textColor="@color/light_gray"
+            android:padding="50dp"
+            android:visibility="gone"
+            android:text="No Items Found!"
+            android:layout_above="@+id/nav_buttons" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

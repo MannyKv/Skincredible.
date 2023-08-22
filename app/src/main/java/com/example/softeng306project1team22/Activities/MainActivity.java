@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     // This function sets the navigation links for the navigation bar
     private void setNavigationViewLinks() {
+        navigationView.setSelectedItemId(R.id.home);
         navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {

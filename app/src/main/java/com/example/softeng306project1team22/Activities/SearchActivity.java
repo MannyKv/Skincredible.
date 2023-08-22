@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,8 +40,6 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         notFoundMsg = findViewById(R.id.not_found);
-        Button backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> finish());
         SearchView searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_buttons);
         searchView.setIconifiedByDefault(false);
@@ -77,6 +74,7 @@ public class SearchActivity extends AppCompatActivity {
 
     // This function sets the navigation links for the navigation bar
     private void setNavigationViewLinks() {
+        navigationView.setSelectedItemId(R.id.search);
         navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
