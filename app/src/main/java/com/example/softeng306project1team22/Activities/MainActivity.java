@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
-        //searchBar.("Search Items");
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             fetchRecentlyViewed();
         }
         isActivityResumed = true;
-        //adapter.notifyDataSetChanged();
     }
 
     @Override
