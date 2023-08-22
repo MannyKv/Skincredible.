@@ -133,8 +133,10 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
 
-                quantityValue++;
-                viewHolder.quantityValue.setText(String.valueOf(quantityValue));
+                if (quantityValue < 99) {
+                    quantityValue++;
+                    viewHolder.quantityValue.setText(String.valueOf(quantityValue));
+                }
             }
         });
 

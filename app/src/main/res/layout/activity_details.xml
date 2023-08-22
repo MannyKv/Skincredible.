@@ -179,7 +179,7 @@
                     android:layout_width="35dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingHorizontal="10dp"
+                    android:paddingHorizontal="5dp"
                     android:text="1"
                     android:textSize="20sp" />
 
