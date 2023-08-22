@@ -34,24 +34,19 @@ public class MainActivity extends AppCompatActivity {
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
     BottomNavigationView navigationView;
+    Boolean isActivityResumed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isActivityResumed = true;
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
-        navigationView = findViewById(R.id.nav_buttons);
-        navigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.home) {
-            } else if (itemId == R.id.search) {
-            } else if (itemId == R.id.cart) {
-            }
-            return true;
-        });
-
+        searchBar.setIconifiedByDefault(true);
         searchBar.setQueryHint("Search Items");
+
+
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +103,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    protected void onResume() {
+        super.onResume();
+
+        if (!isActivityResumed) {
+            fetchRecentlyViewed();
+        }
+        isActivityResumed = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        isActivityResumed = false; // Mark the activity as paused
+    }
+
     private void fetchCategoryData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = db.collection("category");
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchRecentlyViewed() {
-
+        recentlyViewed.clear();
         //DISCLAIMER! TEST DATA
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection("recently-viewed");
@@ -158,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     itemAdapter.notifyDataSetChanged();
                 });
             }
+
             itemAdapter.notifyDataSetChanged();
         });
     }
@@ -182,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchItem() {
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, SearchActivity.class);
         this.startActivity(intent);
     }
 }

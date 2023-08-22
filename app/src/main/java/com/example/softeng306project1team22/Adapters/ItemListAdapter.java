@@ -110,6 +110,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public TextView tagTwoTextView;
         public ImageView productImageView;
 
+
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
@@ -120,6 +121,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             tagOneTextView = view.findViewById(R.id.tag1);
             tagTwoTextView = view.findViewById(R.id.tag2);
             productImageView = view.findViewById(R.id.item_icon);
+
         }
 
         @Override

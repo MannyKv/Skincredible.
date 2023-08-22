@@ -34,6 +34,51 @@ import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    // Declaring ViewHolder class to store the views from the XML
+    private class ViewHolder {
+        Button backButton;
+        TextView categoryTextView, brandTextView, productNameTextView;
+        ImageView categoryImageView;
+        ImageView productImageView;
+        Button previousImageButton, nextImageButton;
+        FloatingActionButton decreaseQuantityButton, increaseQuantityButton;
+        BottomNavigationView navigationView;
+        CardView productDetailsCardView, howToUseCardView;
+        TextView howToUseText;
+        Button decreaseQuantityButton, increaseQuantityButton;
+        TextView quantityValue;
+        TextView priceTextView;
+        TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
+        Button cartButton;
+
+        public ViewHolder() {
+            backButton = findViewById(R.id.back_button);
+            categoryImageView = findViewById(R.id.category_icon);
+            categoryTextView = findViewById(R.id.category_name);
+            brandTextView = findViewById(R.id.brandTextView);
+            productNameTextView = findViewById(R.id.productNameTextView);
+            productImageView = findViewById(R.id.productImageView);
+            previousImageButton = findViewById(R.id.previousImageButton);
+            nextImageButton = findViewById(R.id.nextImageButton);
+            productDetailsCardView = findViewById(R.id.productDetailsCardView);
+            howToUseCardView = findViewById(R.id.howToUseCardView);
+            howToUseText = findViewById(R.id.howToUseText);
+            decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
+            increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
+            quantityValue = findViewById(R.id.quantityValue);
+            priceTextView = findViewById(R.id.priceTextView);
+            firstDetailTitle = findViewById(R.id.firstDetailTitle);
+            firstDetailValue = findViewById(R.id.firstDetailValue);
+            secondDetailTitle = findViewById(R.id.secondDetailTitle);
+            secondDetailValue = findViewById(R.id.secondDetailValue);
+            thirdDetailValue = findViewById(R.id.thirdDetailValue);
+            cartButton = findViewById(R.id.cartButton);
+            navigationView = findViewById(R.id.nav_buttons);
+            decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
+            increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
+        }
+    }
+
     private ViewHolder viewHolder;
     private ArrayList<String> imageNames;
 
@@ -320,46 +365,4 @@ public class DetailsActivity extends AppCompatActivity {
         imageView.startAnimation(animationOut);
     }
 
-    // Declaring ViewHolder class to store the views from the XML
-    private class ViewHolder {
-        Button backButton;
-        TextView categoryTextView, brandTextView, productNameTextView;
-        ImageView categoryImageView;
-        ImageView productImageView;
-        Button previousImageButton, nextImageButton;
-        CardView productDetailsCardView, howToUseCardView;
-        TextView howToUseText;
-        FloatingActionButton decreaseQuantityButton, increaseQuantityButton;
-        TextView quantityValue;
-        TextView priceTextView;
-        TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
-        Button cartButton;
-
-        BottomNavigationView navigationView;
-
-        public ViewHolder() {
-            navigationView = findViewById(R.id.nav_buttons);
-            backButton = findViewById(R.id.back_button);
-            categoryImageView = findViewById(R.id.category_icon);
-            categoryTextView = findViewById(R.id.category_name);
-            brandTextView = findViewById(R.id.brandTextView);
-            productNameTextView = findViewById(R.id.productNameTextView);
-            productImageView = findViewById(R.id.productImageView);
-            previousImageButton = findViewById(R.id.previousImageButton);
-            nextImageButton = findViewById(R.id.nextImageButton);
-            productDetailsCardView = findViewById(R.id.productDetailsCardView);
-            howToUseCardView = findViewById(R.id.howToUseCardView);
-            howToUseText = findViewById(R.id.howToUseText);
-            decreaseQuantityButton = findViewById(R.id.decreaseQuantityButton);
-            increaseQuantityButton = findViewById(R.id.increaseQuantityButton);
-            quantityValue = findViewById(R.id.quantityValue);
-            priceTextView = findViewById(R.id.priceTextView);
-            firstDetailTitle = findViewById(R.id.firstDetailTitle);
-            firstDetailValue = findViewById(R.id.firstDetailValue);
-            secondDetailTitle = findViewById(R.id.secondDetailTitle);
-            secondDetailValue = findViewById(R.id.secondDetailValue);
-            thirdDetailValue = findViewById(R.id.thirdDetailValue);
-            cartButton = findViewById(R.id.cartButton);
-        }
-    }
 }
