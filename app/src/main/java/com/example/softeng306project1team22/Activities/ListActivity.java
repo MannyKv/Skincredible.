@@ -45,6 +45,7 @@ public class ListActivity extends AppCompatActivity {
         fetchCategoryData(categoryId);
     }
 
+    // This function sets the navigation links for the navigation bar
     private void setNavigationViewLinks() {
         vh.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

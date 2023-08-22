@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="5dp"
+    app:cardBackgroundColor="@color/light_green"
     app:cardCornerRadius="30dp"
-    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardElevation="5dp"
     app:cardUseCompatPadding="true"
     app:strokeWidth="0dp">
 
@@ -39,6 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginHorizontal="5dp"
+            android:textStyle="bold"
+            android:textSize="16dp"
             android:gravity="center"
             android:text="Low pH Gel Cleanser" />
 
@@ -58,7 +61,8 @@
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="16.00" />
+                android:text="16.00"
+                android:textSize="15dp" />
 
         </LinearLayout>
 
@@ -74,7 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/lightest_green"
+                app:strokeWidth="3dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tag1"
@@ -90,7 +96,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/lightest_green"
+                app:strokeWidth="3dp">
 
                 <TextView
                     android:id="@+id/tag2"

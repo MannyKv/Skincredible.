@@ -18,6 +18,8 @@ import androidx.cardview.widget.CardView;
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -143,6 +145,22 @@ public class DetailsActivity extends AppCompatActivity {
                 addItemToCart(productId, productCategory.toLowerCase());
             }
         });
+
+        setNavigationViewLinks();
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                startActivity(new Intent(DetailsActivity.this, MainActivity.class));
+                finish();
+            } else if (itemId == R.id.search) {
+            } else if (itemId == R.id.cart) {
+            }
+            return true;
+        });
     }
 
     // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
@@ -154,9 +172,9 @@ public class DetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     Resources resources = getResources();
                     viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
-                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString().toUpperCase());
+                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString());
                     viewHolder.brandTextView.setText(documentSnapshot.get("brand").toString());
-                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString().toUpperCase());
+                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString());
 
                     ArrayList<String> databaseImageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
                     imageNames.addAll(databaseImageNames);
@@ -309,13 +327,16 @@ public class DetailsActivity extends AppCompatActivity {
         Button previousImageButton, nextImageButton;
         CardView productDetailsCardView, howToUseCardView;
         TextView howToUseText;
-        Button decreaseQuantityButton, increaseQuantityButton;
+        FloatingActionButton decreaseQuantityButton, increaseQuantityButton;
         TextView quantityValue;
         TextView priceTextView;
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
         Button cartButton;
 
+        BottomNavigationView navigationView;
+
         public ViewHolder() {
+            navigationView = findViewById(R.id.nav_buttons);
             backButton = findViewById(R.id.back_button);
             categoryImageView = findViewById(R.id.category_icon);
             categoryTextView = findViewById(R.id.category_name);

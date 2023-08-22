@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal">
@@ -20,7 +20,6 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:layout_weight="2"
             android:gravity="center">
 
@@ -43,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:letterSpacing="0.1"
-                android:text="CATEGORY"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 app:textAllCaps="true" />
@@ -60,21 +58,21 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerContainer"
         android:textAlignment="center"
+        app:textAllCaps="true"
         android:textSize="17sp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/productNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/brandTextView"
         android:textAlignment="center"
-        android:textSize="29sp" />
+        android:layout_marginHorizontal="10dp"
+        android:textSize="25sp" />
 
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
@@ -129,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            app:iconSize="18dp"
             android:layout_toStartOf="@id/productImageCardView"
             android:contentDescription="Previous Image" />
 
@@ -137,6 +136,7 @@
             style="@style/right_arrow_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:iconSize="18dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/productImageCardView"
             android:contentDescription="Next Image" />
@@ -144,71 +144,73 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/quantityCardView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
+            android:layout_margin="3dp"
             app:cardCornerRadius="45dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/quantityContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/decreaseQuantityButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:backgroundTint="#57958D"
-                    android:gravity="center"
-                    android:text="-"
-                    android:textSize="15sp" />
+                    android:layout_width="wrap_content"
+                    app:elevation="0dp"
+                    android:layout_height="wrap_content"
+                    app:fabCustomSize="30dp"
+                    android:backgroundTint="@color/medium_green"
+                    app:shapeAppearanceOverlay="@style/circular_image"
+                    android:layout_gravity="center"
+                    app:tint="@color/white"
+                    app:srcCompat="@drawable/remove" />
 
                 <TextView
                     android:id="@+id/quantityValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/decreaseQuantityButton"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingStart="20dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="3dp"
+                    android:paddingHorizontal="15dp"
                     android:text="1"
                     android:textSize="20sp" />
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/increaseQuantityButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_toEndOf="@+id/quantityValue"
-                    android:backgroundTint="#57958D"
-                    android:gravity="center"
-                    android:text="+"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fabCustomSize="30dp"
+                    app:elevation="0dp"
+                    android:backgroundTint="@color/medium_green"
+                    app:shapeAppearanceOverlay="@style/circular_image"
+                    android:layout_gravity="center"
+                    app:tint="@color/white"
+                    app:srcCompat="@drawable/add" />
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cartButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="center"
             android:backgroundTint="#57958D"
+            android:paddingHorizontal="10dp"
             android:text="ADD TO CART"
-            android:textSize="17sp"
-            app:icon="@drawable/cart_icon" />
+            app:elevation="18dp"
+            android:textSize="18sp"
+            app:icon="@drawable/add_to_cart" />
     </LinearLayout>
 
     <RelativeLayout
@@ -216,18 +218,20 @@
         android:layout_height="wrap_content">
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:layout_above="@id/nav_buttons">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/productInfoContainer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="20dp"
@@ -236,16 +240,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/brandTextView"
                         android:text="product details"
                         android:textAlignment="center"
-                        android:textSize="29sp" />
+                        android:textSize="25sp" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/productDetailsCardView"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:layout_marginVertical="30dp"
+                        android:layout_marginVertical="15dp"
                         android:backgroundTint="#FFFFFF"
                         android:visibility="visible"
                         app:cardCornerRadius="15dp"
@@ -366,28 +369,43 @@
 
                     </androidx.cardview.widget.CardView>
 
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    app:tint="@color/light_gray" />
+
+                <LinearLayout
+                    android:id="@+id/howToUseContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/brandTextView"
                         android:text="how to use"
                         android:textAlignment="center"
-                        android:textSize="29sp" />
+                        android:textSize="25sp" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/howToUseCardView"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:layout_marginTop="38dp"
+                        android:layout_marginVertical="10dp"
                         android:backgroundTint="#FFFFFF"
                         app:cardCornerRadius="15dp"
                         app:contentPadding="10dp">
 
                         <TextView
                             android:id="@+id/howToUseText"
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp" />
+                            android:textSize="16sp" />
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>

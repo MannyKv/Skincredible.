@@ -36,9 +36,10 @@
             android:layout_weight="1"
             android:paddingEnd="15dp"
             android:text="Sunscreen"
+            android:fontFamily="@font/urbanist_bold"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
-            android:textFontWeight="800"
+            android:textStyle="bold"
             android:textSize="24sp"
             app:textAllCaps="true" />
     </LinearLayout>

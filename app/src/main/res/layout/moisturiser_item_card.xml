@@ -6,8 +6,9 @@
     android:layout_gravity="center"
     android:layout_marginHorizontal="30dp"
     android:layout_marginTop="30dp"
+    app:cardBackgroundColor="@color/light_green"
     app:cardCornerRadius="35dp"
-    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardElevation="5dp"
     app:cardUseCompatPadding="true"
     app:strokeWidth="0dp">
 
@@ -33,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="18dp"
             android:text="ROUND LAB"
             app:textAllCaps="true" />
 
@@ -43,34 +45,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:textStyle="bold"
             android:layout_marginBottom="5dp"
             android:text="1025 Dokdo Cream"
-            android:textSize="20dp" />
+            android:textSize="22dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:gravity="start"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:textSize="18dp"
                 android:text="$" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="47.00" />
+                android:textSize="18dp" />
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:gravity="end"
             android:orientation="horizontal">
 
@@ -79,13 +82,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="20dp"
+                android:padding="10dp"
+                app:strokeColor="@color/lightest_green"
+                app:strokeWidth="3dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tag1"
+                    android:textSize="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="Day" />
@@ -95,13 +102,17 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="20dp"
+                android:padding="10dp"
+                app:strokeColor="@color/lightest_green"
+                app:strokeWidth="3dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tag2"
+                    android:textSize="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="Cream" />

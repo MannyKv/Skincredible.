@@ -91,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
         //Set layout managers!
         historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //Set nav view links
+        setNavigationViewLinks();
+    }
+
+    // This function sets the navigation links for the navigation bar
+    private void setNavigationViewLinks() {
+        navigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+            } else if (itemId == R.id.search) {
+            } else if (itemId == R.id.cart) {
+            }
+            return true;
+        });
     }
 
     private void fetchCategoryData() {
