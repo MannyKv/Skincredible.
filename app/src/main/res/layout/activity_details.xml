@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,6 @@
 
     <LinearLayout
         android:id="@+id/headerContainer"
-        android:layout_above="@id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -26,7 +25,7 @@
             android:gravity="center">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/backButton"
+                android:id="@+id/back_button"
                 style="@style/back_button"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
@@ -39,23 +38,23 @@
             android:layout_weight="3">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/categoryTextView"
+                android:id="@+id/category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:letterSpacing="0.1"
                 android:text="CATEGORY"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 app:textAllCaps="true" />
 
             <ImageView
-                android:id="@+id/categoryImageView"
+                android:id="@+id/category_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/categoryTextView"
+                android:layout_toEndOf="@id/category_name"
                 android:contentDescription="Cleanser Icon"
                 android:src="@drawable/mos" />
         </RelativeLayout>
@@ -65,7 +64,7 @@
         android:id="@+id/brandTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/productNameTextView"
+        android:layout_below="@id/headerContainer"
         android:textAlignment="center"
         android:textSize="17sp" />
 
@@ -73,15 +72,15 @@
         android:id="@+id/productNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/imageSliderContainer"
+        android:layout_below="@id/brandTextView"
         android:textAlignment="center"
-        android:textSize="23sp" />
+        android:textSize="29sp" />
 
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
         android:layout_width="match_parent"
         android:layout_height="290dp"
-        android:layout_above="@id/productInfoContainer">
+        android:layout_below="@id/productNameTextView">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productImageCardView"
@@ -95,7 +94,8 @@
             <ImageView
                 android:id="@+id/productImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:contentDescription="Product" />
 
         </androidx.cardview.widget.CardView>
 
@@ -129,7 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/productImageCardView" />
+            android:layout_toStartOf="@id/productImageCardView"
+            android:contentDescription="Previous Image" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/nextImageButton"
@@ -137,284 +138,274 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/productImageCardView" />
+            android:layout_toEndOf="@id/productImageCardView"
+            android:contentDescription="Next Image" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/productInfoContainer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/quantityContainer"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/detailsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="#FFFFFF"
-            android:paddingBottom="15dp"
-            android:text="details"
-            android:textColor="@color/darkest_green"
-            android:textSize="18sp"
-            android:translationZ="20dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/howToUseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/detailsButton"
-            android:backgroundTint="#88CEC6"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="15dp"
-            android:text="how to use"
-            android:textAlignment="center"
-            android:textColor="@color/darkest_green"
-            android:textSize="18sp"
-            android:translationZ="20dp" />
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/productDetailsCardView"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="38dp"
-            android:backgroundTint="#FFFFFF"
-            android:elevation="0dp"
-            android:visibility="visible"
-            app:cardCornerRadius="15dp"
-            app:contentPaddingLeft="10dp"
-            app:contentPaddingRight="10dp">
+            android:id="@+id/quantityCardView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="45dp">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/quantityContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:gravity="center">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/productInfoComponent1"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/decreaseQuantityButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:backgroundTint="#57958D"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/quantityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:cardBackgroundColor="#CBEBE7"
-                    app:cardCornerRadius="20dp">
+                    android:layout_toEndOf="@id/decreaseQuantityButton"
+                    android:gravity="center"
+                    android:paddingStart="20dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="3dp"
+                    android:text="1"
+                    android:textSize="20sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="3dp">
-
-                        <TextView
-                            android:id="@+id/firstDetailTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/firstDetailValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/productInfoComponent2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/productInfoComponent1"
-                    android:layout_marginTop="15dp"
-                    app:cardBackgroundColor="#CBEBE7"
-                    app:cardCornerRadius="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="3dp">
-
-                        <TextView
-                            android:id="@+id/secondDetailTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/secondDetailValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/productInfoComponent3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/productInfoComponent2"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    app:cardBackgroundColor="#CBEBE7"
-                    app:cardCornerRadius="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="3dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="skin types"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/thirdDetailValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/increaseQuantityButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toEndOf="@+id/quantityValue"
+                    android:backgroundTint="#57958D"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/howToUseCardView"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="38dp"
-            android:backgroundTint="#FFFFFF"
-            android:visibility="gone"
-            app:cardCornerRadius="15dp"
-            app:contentPadding="10dp">
-
-            <TextView
-                android:id="@+id/howToUseText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textSize="15sp" />
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/quantityContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/addToCartContainer"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/quantityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="90dp"
-            android:text="QUANTITY"
-            android:textSize="17sp"
-            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/decreaseQuantityButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/quantityCardView"
+            android:id="@+id/cartButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
             android:backgroundTint="#57958D"
-            app:iconGravity="start"
-            app:icon="@drawable/remove" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/quantityCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/quantityTextView">
-
-            <TextView
-                android:id="@+id/quantityValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="3dp"
-                android:text="1"
-                android:textSize="20sp" />
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/increaseQuantityButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/quantityCardView"
-            android:backgroundTint="#57958D"
-            app:icon="@drawable/add" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/addToCartContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/nav_buttons"
-        android:layout_marginTop="5dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addToCartButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginHorizontal="40dp"
-            android:backgroundTint="@color/medium_green"
-            android:letterSpacing="0.1"
             android:text="ADD TO CART"
-            android:textSize="20dp"
-            app:icon="@drawable/add_to_cart"
-            app:iconSize="25dp" />
-    </RelativeLayout>
+            android:textSize="17sp"
+            app:icon="@drawable/cart_icon" />
+    </LinearLayout>
 
-    <!--    Bottom Navigation Bar -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_buttons"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/rounded_nav"
-        android:transitionName="fade"
-        app:itemActiveIndicatorStyle="@android:color/transparent"
-        app:itemIconSize="30sp"
-        app:itemIconTint="@color/nav_colors"
-        app:itemTextColor="@color/nav_colors"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/menu" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/nav_buttons">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/productInfoContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/brandTextView"
+                        android:text="product details"
+                        android:textAlignment="center"
+                        android:textSize="29sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/productDetailsCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginVertical="30dp"
+                        android:backgroundTint="#FFFFFF"
+                        android:visibility="visible"
+                        app:cardCornerRadius="15dp"
+                        app:contentPaddingLeft="10dp"
+                        app:contentPaddingRight="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/productInfoComponent1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                app:cardBackgroundColor="#CBEBE7"
+                                app:cardCornerRadius="20dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="3dp"
+                                    android:paddingEnd="10dp"
+                                    android:paddingBottom="3dp">
+
+                                    <TextView
+                                        android:id="@+id/firstDetailTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/firstDetailValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:textSize="15sp" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/productInfoComponent2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/productInfoComponent1"
+                                android:layout_marginTop="15dp"
+                                app:cardBackgroundColor="#CBEBE7"
+                                app:cardCornerRadius="20dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="3dp"
+                                    android:paddingEnd="10dp"
+                                    android:paddingBottom="3dp">
+
+                                    <TextView
+                                        android:id="@+id/secondDetailTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/secondDetailValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:textSize="15sp" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/productInfoComponent3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/productInfoComponent2"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="15dp"
+                                app:cardBackgroundColor="#CBEBE7"
+                                app:cardCornerRadius="20dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="3dp"
+                                    android:paddingEnd="10dp"
+                                    android:paddingBottom="3dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:text="skin types"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/thirdDetailValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:textSize="15sp" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/brandTextView"
+                        android:text="how to use"
+                        android:textAlignment="center"
+                        android:textSize="29sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/howToUseCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="38dp"
+                        android:backgroundTint="#FFFFFF"
+                        app:cardCornerRadius="15dp"
+                        app:contentPadding="10dp">
+
+                        <TextView
+                            android:id="@+id/howToUseText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <!--    Bottom Navigation Bar -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_nav"
+            android:transitionName="fade"
+            app:itemActiveIndicatorStyle="@style/nav_button_highlight"
+            app:itemIconSize="30sp"
+            app:itemIconTint="@color/nav_colors"
+            app:itemTextColor="@color/nav_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu" />
+    </RelativeLayout>
+</LinearLayout>

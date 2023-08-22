@@ -5,24 +5,26 @@
     android:id="@+id/category_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
+    android:layout_margin="10dp"
     android:backgroundTint="@color/medium_green"
     app:cardCornerRadius="50dp"
-    app:cardElevation="@dimen/cardview_default_elevation">
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/category_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@color/white"
             android:contentDescription="Category"
             android:scaleType="fitCenter"
             android:src="@drawable/sun"
+            android:translationZ="30dp"
             app:contentPadding="15dp"
             app:shapeAppearance="@style/circular_image" />
 
@@ -32,12 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:layout_weight="1"
-            android:padding="20dp"
+            android:paddingEnd="15dp"
             android:text="Sunscreen"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textFontWeight="800"
-            android:textSize="28sp"
+            android:textSize="24sp"
             app:textAllCaps="true" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

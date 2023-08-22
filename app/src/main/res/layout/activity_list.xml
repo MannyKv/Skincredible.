@@ -85,26 +85,5 @@
             app:menu="@menu/menu" />
 
     </RelativeLayout>
-
-
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:gravity="center">-->
-
-    <!--        <com.google.android.material.textview.MaterialTextView-->
-    <!--            android:id="@+id/see_more_text"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="see more" />-->
-
-    <!--        <com.google.android.material.button.MaterialButton-->
-    <!--            android:id="@+id/see_more_button"-->
-    <!--            style="@style/see_more_button"-->
-    <!--            android:layout_width="48dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_below="@id/see_more_text"-->
-    <!--            android:layout_gravity="center"-->
-    <!--            android:contentDescription="See more" />-->
-    <!--    </RelativeLayout>-->
+    
 </LinearLayout>
