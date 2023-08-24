@@ -1,9 +1,6 @@
 package com.example.softeng306project1team22;
 
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
@@ -26,6 +23,15 @@ public class DataProvider {
         return categories;
     }
 
+    public static Category getCategoryById(String id) {
+        for (Category category : categories) {
+            if (category.getId().equals(id)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
     public static CompletableFuture<List<IItem>> getAllItems() {
         CompletableFuture<List<IItem>> future = new CompletableFuture<>();
         if (allItems.size() > 0) {
@@ -38,7 +44,7 @@ public class DataProvider {
         return future;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public static CompletableFuture<List<Category>> fetchCategoryData() {
         categories.clear();
         CompletableFuture<List<Category>> future = new CompletableFuture<>();
@@ -62,34 +68,39 @@ public class DataProvider {
     }
 
     public static CompletableFuture<List<IItem>> fetchAllItems() {
-        CompletableFuture<List<IItem>> future = new CompletableFuture<>();
+
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
 
         CollectionReference colRef1 = dbs.collection("cleanser");
         CollectionReference colRef2 = dbs.collection("moisturiser");
         CollectionReference colRef3 = dbs.collection("sunscreen");
 
-        CompletableFuture<Void> fetchCleanser = retrieveFromCollection(colRef1, Cleanser.class);
-        CompletableFuture<Void> fetchMoisturiser = retrieveFromCollection(colRef2, Moisturiser.class);
-        CompletableFuture<Void> fetchSunscreen = retrieveFromCollection(colRef3, Sunscreen.class);
+        CompletableFuture<List<IItem>> fetchCleanser = retrieveFromCollection(colRef1, Cleanser.class);
+        CompletableFuture<List<IItem>> fetchMoisturiser = retrieveFromCollection(colRef2, Moisturiser.class);
+        CompletableFuture<List<IItem>> fetchSunscreen = retrieveFromCollection(colRef3, Sunscreen.class);
         CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(fetchCleanser, fetchMoisturiser, fetchSunscreen);
-        combinedFuture.thenRun(() -> {
-            future.complete(allItems);
+        CompletableFuture<List<IItem>> future = combinedFuture.thenApply(voidResult -> {
+            //List<IItem> allItems = new ArrayList<>();
+            allItems.addAll(fetchCleanser.join());
+            allItems.addAll(fetchMoisturiser.join());
+            allItems.addAll(fetchSunscreen.join());
+            return allItems;
         });
 
         return future;
     }
 
-    private static CompletableFuture<Void> retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
-        CompletableFuture<Void> fetchFuture = new CompletableFuture<>();
+    public static CompletableFuture<List<IItem>> retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
+        CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
+        List<IItem> items = new ArrayList<>();
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "All Items Retrieved");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 IItem item = (IItem) documentSnapshot.toObject(itemClass);
-                allItems.add(item);
+                items.add(item);
 
             }
-            fetchFuture.complete(null);
+            fetchFuture.complete(items);
         });
         return fetchFuture;
     }

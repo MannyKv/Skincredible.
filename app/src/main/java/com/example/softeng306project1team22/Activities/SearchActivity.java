@@ -59,9 +59,8 @@ public class SearchActivity extends AppCompatActivity {
             System.out.println("amt in itemslist second step : " + allItems.size());
             itemAdapter = new ItemListAdapter(filtered);
             recyclerView.setAdapter(itemAdapter);
-            //retrieveAllItems();
-
         });
+
         searchView.setIconified(false);
         searchView.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
