@@ -53,8 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/category_name"
-                android:contentDescription="Cleanser Icon"
-                android:src="@drawable/mos" />
+                android:contentDescription="Cleanser Icon" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -113,8 +112,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="#88CEC6"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="15dp"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -143,16 +142,36 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
         android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@color/white"
+            android:layout_alignParentEnd="true"
+            android:paddingVertical="10dp"
+            android:text="ADD TO CART"
+            app:iconSize="25dp"
+            android:textSize="20sp"
+            android:textColor="@color/darkest_green"
+            app:iconTint="@color/medium_green"
+            android:elevation="2dp"
+            android:stateListAnimator="@null"
+            app:icon="@drawable/add_to_cart" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/quantityCardView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_margin="3dp"
             app:cardCornerRadius="45dp">
 
@@ -181,7 +200,8 @@
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
                     android:text="1"
-                    android:textSize="20sp" />
+                    android:textColor="@color/darkest_green"
+                    android:textSize="21sp" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/increaseQuantityButton"
@@ -199,19 +219,7 @@
         </androidx.cardview.widget.CardView>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_gravity="center"
-            android:backgroundTint="#57958D"
-            android:paddingHorizontal="10dp"
-            android:text="ADD TO CART"
-            app:elevation="18dp"
-            android:textSize="18sp"
-            app:icon="@drawable/add_to_cart" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
