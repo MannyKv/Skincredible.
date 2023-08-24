@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/image_card"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="250dp"
@@ -13,7 +13,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/itemcycle"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         app:shapeAppearance="@style/circular_image"
         app:strokeWidth="5dp"
         app:strokeColor="@color/light_green"
