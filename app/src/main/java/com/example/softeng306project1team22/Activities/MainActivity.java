@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 searchItem();
             }
         });
+
         //Create recyclerView instances for layout
         RecyclerView recyclerView = findViewById(R.id.category);
         RecyclerView historyView = findViewById(R.id.carousel_recycler_view);

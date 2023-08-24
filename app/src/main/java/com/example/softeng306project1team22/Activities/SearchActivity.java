@@ -3,7 +3,6 @@ package com.example.softeng306project1team22.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -14,23 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.Models.Cleanser;
+import com.example.softeng306project1team22.DataProvider;
 import com.example.softeng306project1team22.Models.IItem;
-import com.example.softeng306project1team22.Models.Moisturiser;
-import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     ItemListAdapter itemAdapter;
-    List<IItem> allItems = new ArrayList<>();
-    List<IItem> filtered = new ArrayList<>();
+    List<IItem> allItems;
+    List<IItem> filtered;
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
     TextView notFoundMsg;
@@ -42,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
         notFoundMsg = findViewById(R.id.not_found);
         SearchView searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_buttons);
+        recyclerView = findViewById(R.id.search_recycled);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Search Items");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -56,18 +51,23 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        DataProvider.fetchAllItems().thenAccept(items -> {
+            allItems = new ArrayList<>(items);
+            System.out.println("amt in itemslist first step : " + allItems.size());
+            filtered = new ArrayList<>(items);
+            System.out.println("amt in itemslist second step : " + allItems.size());
+            itemAdapter = new ItemListAdapter(filtered);
+            recyclerView.setAdapter(itemAdapter);
+            //retrieveAllItems();
+
+        });
         searchView.setIconified(false);
         searchView.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
-        recyclerView = findViewById(R.id.search_recycled);
 
-        itemAdapter = new ItemListAdapter(filtered);
-        recyclerView.setAdapter(itemAdapter);
-        retrieveAllItems();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        itemAdapter.notifyDataSetChanged();
-
         setNavigationViewLinks();
 
     }
@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    protected void retrieveAllItems() {
+   /* protected void retrieveAllItems() {
         // allItems = getAllItems();
 
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
@@ -115,11 +115,11 @@ public class SearchActivity extends AppCompatActivity {
             }
             itemAdapter.notifyDataSetChanged();
         });
-    }
+    }*/
 
     protected void setFiltered(String filterBy) {
         filtered.clear();
-
+        System.out.println("amt in itemslist : " + allItems.size());
         for (int x = 0; x < allItems.size(); x++) {
             if (allItems.get(x).getName().toLowerCase().contains(filterBy.toLowerCase())) {
                 filtered.add(allItems.get(x));
