@@ -26,6 +26,17 @@ public class DataProvider {
         return categories;
     }
 
+    public static CompletableFuture<List<IItem>> getAllItems() {
+        CompletableFuture<List<IItem>> future = new CompletableFuture<>();
+        if (allItems.size() > 0) {
+
+            future.complete(allItems);
+            return future;
+        } else {
+            fetchAllItems().thenAccept(allItems -> future.complete(allItems));
+        }
+        return future;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static CompletableFuture<List<Category>> fetchCategoryData() {
@@ -57,7 +68,7 @@ public class DataProvider {
         CollectionReference colRef1 = dbs.collection("cleanser");
         CollectionReference colRef2 = dbs.collection("moisturiser");
         CollectionReference colRef3 = dbs.collection("sunscreen");
-        
+
         CompletableFuture<Void> fetchCleanser = retrieveFromCollection(colRef1, Cleanser.class);
         CompletableFuture<Void> fetchMoisturiser = retrieveFromCollection(colRef2, Moisturiser.class);
         CompletableFuture<Void> fetchSunscreen = retrieveFromCollection(colRef3, Sunscreen.class);

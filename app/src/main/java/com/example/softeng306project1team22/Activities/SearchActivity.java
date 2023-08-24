@@ -52,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        DataProvider.fetchAllItems().thenAccept(items -> {
+        DataProvider.getAllItems().thenAccept(items -> {
             allItems = new ArrayList<>(items);
             System.out.println("amt in itemslist first step : " + allItems.size());
             filtered = new ArrayList<>(items);
