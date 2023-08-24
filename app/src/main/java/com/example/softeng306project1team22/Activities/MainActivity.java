@@ -1,10 +1,12 @@
 package com.example.softeng306project1team22.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
+import com.example.softeng306project1team22.DataProvider;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.Item;
@@ -29,13 +32,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Category> categoryList = new ArrayList<>();
+    List<Category> categoryList;
     List<Item> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
     BottomNavigationView navigationView;
     Boolean isActivityResumed = false;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +63,18 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
-        fetchCategoryData();
+        DataProvider.fetchCategoryData().thenAccept(categories -> {
+            categoryList = new ArrayList<>(DataProvider.getCategories());
+            adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(View view, int position) {
+                    System.out.println("Made it to onItemClick : " + position);
+                    viewCategory(position);
+                }
+            });
+            recyclerView.setAdapter(adapter);
+        });
         fetchRecentlyViewed();
 
         //Create Adapters for different views
@@ -69,18 +85,10 @@ public class MainActivity extends AppCompatActivity {
                 viewItem(position);
             }
         });
-        adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(View view, int position) {
-                System.out.println("Made it to onItemClick : " + position);
-                viewCategory(position);
-            }
-        });
 
         //Set adapters that recyclerViews will use
         historyView.setAdapter(itemAdapter);
-        recyclerView.setAdapter(adapter);
 
 
         //Set layout managers!
@@ -126,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = false; // Mark the activity as paused
     }
 
-    private void fetchCategoryData() {
+  /*  private void fetchCategoryData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = db.collection("category");
 
@@ -139,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             System.out.println("Category Data Retrieval Failure");
         });
-    }
+    }*/
 
     private void fetchRecentlyViewed() {
         recentlyViewed.clear();
