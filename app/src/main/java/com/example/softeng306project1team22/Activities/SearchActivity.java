@@ -85,8 +85,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(new Intent(SearchActivity.this, MainActivity.class));
                 finish();
             } else if (itemId == R.id.search) {
-                startActivity(new Intent(SearchActivity.this, SearchActivity.class));
-                finish();
+
             } else if (itemId == R.id.cart) {
                 startActivity(new Intent(SearchActivity.this, CartActivity.class));
                 finish();

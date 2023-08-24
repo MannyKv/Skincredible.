@@ -84,7 +84,7 @@ public class CartActivity extends AppCompatActivity {
         onResumeCalled = false;
 
         viewHolder = new ViewHolder();
-        
+
         itemList = new ArrayList<>();
 
         recommendedItemList = new ArrayList<>();
@@ -162,8 +162,6 @@ public class CartActivity extends AppCompatActivity {
                 startActivity(new Intent(CartActivity.this, SearchActivity.class));
                 finish();
             } else if (itemId == R.id.cart) {
-                startActivity(new Intent(CartActivity.this, CartActivity.class));
-                finish();
             }
             return true;
         });
