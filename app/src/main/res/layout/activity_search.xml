@@ -30,9 +30,13 @@
             android:layout_height="43dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_search_rounded"
+            app:searchIcon="@drawable/search"
             android:paddingTop="10dp"
             android:radius="250dp"
-            app:showAsAction="ifRoom|collapseActionView" />
+            app:showAsAction="ifRoom|collapseActionView"
+            app:queryBackground="@android:color/transparent"
+
+            />
 
     </LinearLayout>
 

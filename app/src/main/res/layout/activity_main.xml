@@ -13,7 +13,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/lightest_green"
@@ -25,16 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:queryHint="search items..."
             android:clickable="true" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_weight="5"
+        android:layout_weight="2"
         android:text="Recently Viewed"
         android:textSize="25sp"
         app:textAllCaps="true" />
@@ -42,7 +42,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="4">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/carousel_recycler_view"
@@ -57,7 +57,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="browse categories..."
         android:textFontWeight="400"
@@ -66,7 +66,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="30dp"
         android:layout_weight="8"
         android:gravity="bottom"
