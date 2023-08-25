@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.softeng306project1team22.DataProvider;
+import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -80,6 +82,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private ViewHolder viewHolder;
     private ArrayList<String> imageNames;
+
+    private IItem currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,32 +221,46 @@ public class DetailsActivity extends AppCompatActivity {
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        database.collection(productCategory.toLowerCase()).document(productId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    Resources resources = getResources();
-                    viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
-                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString());
-                    viewHolder.brandTextView.setText(documentSnapshot.get("brand").toString());
-                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString());
+        DataProvider.fetchItemById(productCategory, productId).thenAccept(item -> {
+            currentItem = item;
+            System.out.println(item.getName());
+            Resources resources = getResources();
+            viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
+            viewHolder.categoryTextView.setText(currentItem.getCategoryName());
+            viewHolder.brandTextView.setText(currentItem.getBrand());
+            viewHolder.productNameTextView.setText(currentItem.getName());
 
-                    ArrayList<String> databaseImageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                    imageNames.addAll(databaseImageNames);
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+            ArrayList<String> databaseImageNames = currentItem.getImageNames();
+            imageNames.addAll(databaseImageNames);
+            viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
 
-                    String priceText = "$" + documentSnapshot.get("price").toString();
-                    viewHolder.priceTextView.setText(priceText);
+            String priceText = "$" + currentItem.getPrice();
+            viewHolder.priceTextView.setText(priceText);
 
-                    viewHolder.firstDetailTitle.setText(firstDetailName);
-                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString().toLowerCase());
+            viewHolder.firstDetailTitle.setText(firstDetailName);
+            viewHolder.secondDetailTitle.setText(secondDetailName);
 
-                    viewHolder.secondDetailTitle.setText(secondDetailName);
-                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString().toLowerCase());
+            switch (currentItem.getCategoryName()) {
+                case "Sunscreen":
+                    viewHolder.firstDetailValue.setText(currentItem.getSunscreenType());
+                    viewHolder.secondDetailValue.setText(currentItem.getSpf());
+                    break;
+                case "Cleanser":
+                    viewHolder.firstDetailValue.setText(currentItem.getCleanserType());
+                    viewHolder.secondDetailValue.setText(currentItem.getPh());
 
-                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")).toLowerCase());
+                    break;
+                case "Moisturiser":
+                    viewHolder.firstDetailValue.setText(currentItem.getMoisturiserType());
+                    viewHolder.secondDetailValue.setText(currentItem.getTimeToUse());
 
-                    viewHolder.howToUseText.setText(documentSnapshot.get("howToUse").toString());
-                });
+                    break;
+            }
+
+            viewHolder.thirdDetailValue.setText(String.join(", ", currentItem.getSkinType()));
+
+            viewHolder.howToUseText.setText(item.getHowToUse());
+        });
     }
 
     // This function writes to the item ID and quantity to the "cart" category in Firestore

@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class DataProvider {
     static List<Category> categories = new ArrayList<>();
     static List<IItem> allItems = new ArrayList<>();
+    //static IItem recievedItems;
 
     public static List<Category> getCategories() {
         return categories;
@@ -103,6 +104,32 @@ public class DataProvider {
             fetchFuture.complete(items);
         });
         return fetchFuture;
+    }
+
+    public static CompletableFuture<IItem> fetchItemById(String productCategory, String productId) {
+        CompletableFuture<IItem> future = new CompletableFuture<>();
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        database.collection(productCategory.toLowerCase()).document(productId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    switch (productCategory) {
+                        case "Sunscreen":
+                            IItem recievedItems = (IItem) documentSnapshot.toObject(Sunscreen.class);
+                            future.complete(recievedItems);
+                            break;
+                        case "Cleanser":
+                            IItem recievedItems1 = (IItem) documentSnapshot.toObject(Cleanser.class);
+                            future.complete(recievedItems1);
+                            break;
+                        case "Moisturiser":
+                            IItem recievedItems2 = (IItem) documentSnapshot.toObject(Moisturiser.class);
+                            future.complete(recievedItems2);
+                    }
+
+                    //future.complete(recievedItems);
+                });
+        return future;
     }
 
 }
