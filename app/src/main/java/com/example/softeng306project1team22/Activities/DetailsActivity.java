@@ -256,9 +256,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     break;
             }
-
             viewHolder.thirdDetailValue.setText(String.join(", ", currentItem.getSkinType()));
-
             viewHolder.howToUseText.setText(item.getHowToUse());
         });
     }

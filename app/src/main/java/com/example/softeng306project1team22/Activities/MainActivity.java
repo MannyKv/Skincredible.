@@ -3,7 +3,6 @@ package com.example.softeng306project1team22.Activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -16,16 +15,9 @@ import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
 import com.example.softeng306project1team22.DataProvider;
 import com.example.softeng306project1team22.Models.Category;
-import com.example.softeng306project1team22.Models.Cleanser;
-import com.example.softeng306project1team22.Models.Item;
-import com.example.softeng306project1team22.Models.Moisturiser;
-import com.example.softeng306project1team22.Models.Sunscreen;
+import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +25,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     List<Category> categoryList;
-    List<Item> recentlyViewed = new ArrayList<>();
+    List<IItem> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
     BottomNavigationView navigationView;
     Boolean isActivityResumed = false;
+    RecyclerView historyView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fetchRecentlyViewed();
         isActivityResumed = true;
         setContentView(R.layout.activity_main);
         SearchView searchBar = findViewById(R.id.searchB);
@@ -51,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         searchBar.setIconifiedByDefault(true);
         searchBar.setQueryHint("Search Items");
         navigationView = findViewById(R.id.nav_buttons);
+
 
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Create recyclerView instances for layout
         RecyclerView recyclerView = findViewById(R.id.category);
-        RecyclerView historyView = findViewById(R.id.carousel_recycler_view);
+        historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
         DataProvider.fetchCategoryData().thenAccept(categories -> {
@@ -76,24 +71,13 @@ public class MainActivity extends AppCompatActivity {
             });
             recyclerView.setAdapter(adapter);
         });
-        fetchRecentlyViewed();
+
 
         //Create Adapters for different views
-        itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-                viewItem(position);
-            }
-        });
-
-
-        //Set adapters that recyclerViews will use
-        historyView.setAdapter(itemAdapter);
 
 
         //Set layout managers!
-        historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //Set nav view links
@@ -151,9 +135,8 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void fetchRecentlyViewed() {
-        recentlyViewed.clear();
-        //DISCLAIMER! TEST DATA
-        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
+
+       /* FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection("recently-viewed");
 
         colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -187,6 +170,25 @@ public class MainActivity extends AppCompatActivity {
             }
 
             itemAdapter.notifyDataSetChanged();
+        });*/
+        System.out.println("Made it into the fetchRecent");
+        DataProvider.fetchRecentlyViewed().thenAccept(items -> {
+            System.out.println("data received");
+            recentlyViewed.clear();
+            recentlyViewed.addAll(items);
+            System.out.println(recentlyViewed.get(0).getName());
+            itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(View view, int position) {
+                    viewItem(position);
+                }
+            });
+
+
+            //Set adapters that recyclerViews will use
+            historyView.setAdapter(itemAdapter);
+            historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         });
     }
 
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewItem(int position) {
-        Item clickedItem = recentlyViewed.get(position);
+        IItem clickedItem = recentlyViewed.get(position);
         // Create intent and pass data here
         Intent intent = new Intent(this, DetailsActivity.class);
         // Add any other relevant data to the intent

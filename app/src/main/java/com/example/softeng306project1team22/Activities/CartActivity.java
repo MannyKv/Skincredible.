@@ -19,7 +19,6 @@ import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
-import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
@@ -62,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<IItem> itemList;
 
-    private ArrayList<Item> recommendedItemList;
+    private ArrayList<IItem> recommendedItemList;
 
     private CartAdapter cartAdapter;
 
@@ -84,7 +83,7 @@ public class CartActivity extends AppCompatActivity {
         onResumeCalled = false;
 
         viewHolder = new ViewHolder();
-        
+
         itemList = new ArrayList<>();
 
         recommendedItemList = new ArrayList<>();
@@ -445,7 +444,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function defines the onclick activity to open DetailsActivity for clicking an item in the recommended list
     public void viewItem(int position) {
-        Item clickedItem = recommendedItemList.get(position);
+        IItem clickedItem = recommendedItemList.get(position);
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("productCategory", clickedItem.getCategoryName());
         intent.putExtra("productId", clickedItem.getId());

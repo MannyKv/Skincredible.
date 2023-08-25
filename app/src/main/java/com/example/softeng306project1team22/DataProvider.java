@@ -10,6 +10,7 @@ import com.example.softeng306project1team22.Models.Sunscreen;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,6 @@ public class DataProvider {
     public static CompletableFuture<List<IItem>> getAllItems() {
         CompletableFuture<List<IItem>> future = new CompletableFuture<>();
         if (allItems.size() > 0) {
-
             future.complete(allItems);
             return future;
         } else {
@@ -113,22 +113,52 @@ public class DataProvider {
         database.collection(productCategory.toLowerCase()).document(productId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    switch (productCategory) {
-                        case "Sunscreen":
+                    switch (productCategory.toLowerCase()) {
+                        case "sunscreen":
                             IItem recievedItems = (IItem) documentSnapshot.toObject(Sunscreen.class);
                             future.complete(recievedItems);
                             break;
-                        case "Cleanser":
+                        case "cleanser":
                             IItem recievedItems1 = (IItem) documentSnapshot.toObject(Cleanser.class);
                             future.complete(recievedItems1);
                             break;
-                        case "Moisturiser":
+                        case "moisturiser":
                             IItem recievedItems2 = (IItem) documentSnapshot.toObject(Moisturiser.class);
                             future.complete(recievedItems2);
                     }
 
                     //future.complete(recievedItems);
                 });
+        return future;
+    }
+
+    public static CompletableFuture<List<IItem>> fetchRecentlyViewed() {
+        CompletableFuture<List<IItem>> future = new CompletableFuture<>();
+        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
+        CollectionReference colRef = dbs.collection("recently-viewed");
+        List<IItem> recentlyViewed = new ArrayList<>();
+        colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("Firestore", "Recently viewed retrieved successfully");
+
+            List<CompletableFuture<IItem>> fetchFutures = new ArrayList<>();
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                String id = documentSnapshot.getString("itemId");
+                String categoryName = documentSnapshot.getString("categoryName");
+                //CollectionReference itemRef;
+
+
+                fetchItemById(categoryName, id).thenAccept(item -> {
+                    recentlyViewed.add(item);
+                    System.out.println("Added item");
+                    if (recentlyViewed.size() == 9) {
+                        future.complete(recentlyViewed);
+                    }
+                });
+            }
+
+
+        });
+        System.out.println("Fetch Recent Compleyed");
         return future;
     }
 
