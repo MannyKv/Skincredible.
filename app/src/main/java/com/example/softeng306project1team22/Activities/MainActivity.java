@@ -72,12 +72,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
         });
 
-
-        //Create Adapters for different views
-
-
         //Set layout managers!
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //Set nav view links
@@ -119,58 +114,7 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = false; // Mark the activity as paused
     }
 
-  /*  private void fetchCategoryData() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference collectionRef = db.collection("category");
-
-        collectionRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Data retrieved successfully");
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                categoryList.add(new Category(document.get("name", String.class), document.getId(), document.get("imageName", String.class)));
-            }
-            adapter.notifyDataSetChanged();
-        }).addOnFailureListener(e -> {
-            System.out.println("Category Data Retrieval Failure");
-        });
-    }*/
-
     private void fetchRecentlyViewed() {
-
-       /* FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef = dbs.collection("recently-viewed");
-
-        colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Recently viewed retrieved successfully");
-            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                String id = documentSnapshot.getString("itemId");
-                CollectionReference itemRef;
-                if (id.contains("sun")) {
-                    itemRef = dbs.collection("sunscreen");
-                } else if (id.contains("mos")) {
-                    itemRef = dbs.collection("moisturiser");
-                } else {
-                    itemRef = dbs.collection("cleanser");
-                }
-
-                itemRef.document(id).get().addOnSuccessListener(referencedDocSnapshot -> {
-                    if (referencedDocSnapshot.getString("categoryName").equals("Sunscreen")) {
-                        Sunscreen sunscreen = referencedDocSnapshot.toObject(Sunscreen.class);
-                        recentlyViewed.add(sunscreen);
-
-                    } else if (referencedDocSnapshot.getString("categoryName").equals("Cleanser")) {
-                        Cleanser cleanser = referencedDocSnapshot.toObject(Cleanser.class);
-                        System.out.println("this is a real class: " + cleanser.getName());
-                        recentlyViewed.add(cleanser);
-                    } else if (referencedDocSnapshot.getString("categoryName").equals("Moisturiser")) {
-                        Moisturiser moisturiser = referencedDocSnapshot.toObject(Moisturiser.class);
-                        recentlyViewed.add(moisturiser);
-                    }
-                    itemAdapter.notifyDataSetChanged();
-                });
-            }
-
-            itemAdapter.notifyDataSetChanged();
-        });*/
         System.out.println("Made it into the fetchRecent");
         DataProvider.fetchRecentlyViewed().thenAccept(items -> {
             System.out.println("data received");
