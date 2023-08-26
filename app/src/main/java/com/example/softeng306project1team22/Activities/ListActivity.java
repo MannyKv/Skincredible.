@@ -20,7 +20,6 @@ import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -74,22 +73,22 @@ public class ListActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         switch (categoryName) {
             case "Sunscreen":
-                CollectionReference colRef1 = db.collection("sunscreen");
-                DataProvider.retrieveFromCollection(colRef1, Sunscreen.class).thenAccept(item -> {
+
+                DataProvider.retrieveFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Cleanser":
-                CollectionReference colRef2 = db.collection("cleanser");
-                DataProvider.retrieveFromCollection(colRef2, Cleanser.class).thenAccept(item -> {
+
+                DataProvider.retrieveFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Moisturiser":
-                CollectionReference colRef3 = db.collection("moisturiser");
-                DataProvider.retrieveFromCollection(colRef3, Moisturiser.class).thenAccept(item -> {
+
+                DataProvider.retrieveFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });

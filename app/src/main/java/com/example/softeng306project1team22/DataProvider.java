@@ -95,15 +95,13 @@ public class DataProvider {
      */
     public static CompletableFuture<List<IItem>> fetchAllItems() {
 
-        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
+
         //create a ref for all the collections
-        CollectionReference colRef1 = dbs.collection("cleanser");
-        CollectionReference colRef2 = dbs.collection("moisturiser");
-        CollectionReference colRef3 = dbs.collection("sunscreen");
+
         //create a completeable future for all items and call the retriever
-        CompletableFuture<List<IItem>> fetchCleanser = retrieveFromCollection(colRef1, Cleanser.class);
-        CompletableFuture<List<IItem>> fetchMoisturiser = retrieveFromCollection(colRef2, Moisturiser.class);
-        CompletableFuture<List<IItem>> fetchSunscreen = retrieveFromCollection(colRef3, Sunscreen.class);
+        CompletableFuture<List<IItem>> fetchCleanser = retrieveFromCollection("cleanser", Cleanser.class);
+        CompletableFuture<List<IItem>> fetchMoisturiser = retrieveFromCollection("moisturiser", Moisturiser.class);
+        CompletableFuture<List<IItem>> fetchSunscreen = retrieveFromCollection("sunscreen", Sunscreen.class);
         CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(fetchCleanser, fetchMoisturiser, fetchSunscreen);
         CompletableFuture<List<IItem>> future = combinedFuture.thenApply(voidResult -> { //create a new combined future to the future only returns once everything has been retrieved
             allItems.addAll(fetchCleanser.join());
@@ -119,13 +117,15 @@ public class DataProvider {
      * Retrieves a collection of items based on the reference and the Item class type
      * Only works for categories not collections with a mix of object types
      *
-     * @param colRef    a collection reference of the items
-     * @param itemClass the type of item class
+     * @param categoryName the category name
+     * @param itemClass    the type of item class
      * @return a compeleteable future of a list of items from that category
      */
-    public static CompletableFuture<List<IItem>> retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
+    public static CompletableFuture<List<IItem>> retrieveFromCollection(String categoryName, Class<?> itemClass) {
         CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
+        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         List<IItem> items = new ArrayList<>();
+        CollectionReference colRef = dbs.collection(categoryName);
         colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "All Items Retrieved");
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
