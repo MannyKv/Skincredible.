@@ -194,7 +194,6 @@ public class CartActivity extends AppCompatActivity {
                     viewHolder.checkoutButton.setVisibility(View.VISIBLE);
                 }
                 double totalPrice = 0;
-                int documentPosition = 1;
 
                 // For each item in the cart, fetch it's data and load it
                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
@@ -203,7 +202,7 @@ public class CartActivity extends AppCompatActivity {
                     totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
                     String itemQuantity = document.get("quantity").toString();
                     fetchItemData(categoryName, productId, itemQuantity, queryDocumentSnapshots.getDocuments().size());
-                    documentPosition++;
+
                 }
                 String totalPriceString = "$" + String.format("%.2f", totalPrice);
                 viewHolder.totalPriceTextView.setText(totalPriceString);
@@ -213,39 +212,6 @@ public class CartActivity extends AppCompatActivity {
 
     // This function fetches the data for a specific item and loads the views on the activity page
     private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int size) {
-
-
-       /* database.collection(cartItemCategoryName).document(productId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-
-                productSkinTypes.addAll(skinType);
-                productIds.add(productId);
-                itemQuantities.put(productId, itemQuantity);
-
-                switch (cartItemCategoryName) {
-                    case "sunscreen":
-                        IItem sunscreen = documentSnapshot.toObject(Sunscreen.class);
-                        itemList.add(sunscreen);
-                        break;
-                    case "cleanser":
-                        IItem cleanser = documentSnapshot.toObject(Cleanser.class);
-                        itemList.add(cleanser);
-                        break;
-                    case "moisturiser":
-                        IItem moisturiser = documentSnapshot.toObject(Moisturiser.class);
-                        itemList.add(moisturiser);
-                        break;
-                }
-                // If all the documents have been accessed, propagate the list adapters
-                if (documentPosition == numberOfDocuments) {
-                    getRecommendedItems(productSkinTypes, productIds);
-                    propagateCartAdapter();
-                }
-            }
-        });*/
 
         DataProvider.fetchItemById(cartItemCategoryName, productId).thenAccept(item -> {
             productSkinTypes.addAll(item.getSkinType());
@@ -274,23 +240,14 @@ public class CartActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int sunscreensFound = 0;
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String sunscreenType = (String) documentSnapshot.get("sunscreenType");
-                            String spf = (String) documentSnapshot.get("spf");
+                            IItem sunscreen = documentSnapshot.toObject(Sunscreen.class);
 
                             if (sunscreensFound > 1) {
                                 break;
                             }
 
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
+                            if (!productIds.contains(sunscreen.getId())) {
+                                recommendedItemList.add(sunscreen);
                                 sunscreensFound++;
                             }
                         }
@@ -307,23 +264,14 @@ public class CartActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int cleansersFound = 0;
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String cleanserType = (String) documentSnapshot.get("cleanserType");
-                            String ph = (String) documentSnapshot.get("ph");
+                            IItem cleanser = documentSnapshot.toObject(Cleanser.class);
 
                             if (cleansersFound > 1) {
                                 break;
                             }
 
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Cleanser(productId, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse));
+                            if (!productIds.contains(cleanser.getId())) {
+                                recommendedItemList.add(cleanser);
                                 cleansersFound++;
                             }
                         }
@@ -340,23 +288,14 @@ public class CartActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int moisturisersFound = 0;
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String moisturiserType = (String) documentSnapshot.get("moisturiserType");
-                            String timeToUse = (String) documentSnapshot.get("timeToUse");
+                            IItem moisturiser = documentSnapshot.toObject(Moisturiser.class);
 
                             if (moisturisersFound > 1) {
                                 break;
                             }
 
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
+                            if (!productIds.contains(moisturiser.getId())) {
+                                recommendedItemList.add(moisturiser);
                                 moisturisersFound++;
                             }
                         }

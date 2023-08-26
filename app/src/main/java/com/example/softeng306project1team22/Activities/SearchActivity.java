@@ -46,17 +46,15 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String newText) { //Query and pass in the string to the filter real time
                 setFiltered(newText);
                 return false;
             }
         });
-
+        //Calls the get all items method in data provider and awaits response
         DataProvider.getAllItems().thenAccept(items -> {
             allItems = new ArrayList<>(items);
-            System.out.println("amt in itemslist first step : " + allItems.size());
             filtered = new ArrayList<>(items);
-            System.out.println("amt in itemslist second step : " + allItems.size());
             itemAdapter = new ItemListAdapter(filtered);
             recyclerView.setAdapter(itemAdapter);
         });
@@ -65,7 +63,7 @@ public class SearchActivity extends AppCompatActivity {
         searchView.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
-
+        //Bind the recycler view layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setNavigationViewLinks();
 
@@ -90,47 +88,27 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-   /* protected void retrieveAllItems() {
-        // allItems = getAllItems();
 
-        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef1 = dbs.collection("cleanser");
-        CollectionReference colRef2 = dbs.collection("moisturiser");
-        CollectionReference colRef3 = dbs.collection("sunscreen");
-
-        retrieveFromCollection(colRef1, Cleanser.class);
-        retrieveFromCollection(colRef2, Moisturiser.class);
-        retrieveFromCollection(colRef3, Sunscreen.class);
-        // filtered = new ArrayList<>(allItems);
-    }
-
-    private void retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
-        colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Recently viewed retrieved successfully");
-            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                IItem item = (IItem) documentSnapshot.toObject(itemClass);
-                allItems.add(item);
-                filtered.add(item);
-            }
-            itemAdapter.notifyDataSetChanged();
-        });
-    }*/
-
+    /**
+     * Sets the filter based on the string in the search query
+     *
+     * @param filterBy
+     */
     protected void setFiltered(String filterBy) {
-        filtered.clear();
-        System.out.println("amt in itemslist : " + allItems.size());
+        filtered.clear(); //clear the current filtered items
+        //filter the items in the allItems list
         for (int x = 0; x < allItems.size(); x++) {
             if (allItems.get(x).getName().toLowerCase().contains(filterBy.toLowerCase())) {
                 filtered.add(allItems.get(x));
 
             }
         }
-        if (filtered.size() == 0) {
+        if (filtered.size() == 0) { //if there is no filtered item display error
             notFoundMsg.setVisibility(View.VISIBLE);
         } else {
             notFoundMsg.setVisibility(View.GONE);
         }
-        itemAdapter.notifyDataSetChanged();
+        itemAdapter.notifyDataSetChanged(); //notify the adapter the data set has just changed
     }
 
 }

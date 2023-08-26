@@ -1,11 +1,9 @@
 package com.example.softeng306project1team22.Activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView historyView;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Called when the activity is resumed
+     */
     protected void onResume() {
         super.onResume();
 
@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = true;
     }
 
+    /**
+     * called when a new activity is started
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -114,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = false; // Mark the activity as paused
     }
 
+    /**
+     * Called when the activity is started
+     * makes a database call from the DataProvider class and awaits a return.
+     * Creates the adapter and binds the on click and adapter to the recycler view
+     */
     private void fetchRecentlyViewed() {
         System.out.println("Made it into the fetchRecent");
         DataProvider.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
@@ -122,13 +130,11 @@ public class MainActivity extends AppCompatActivity {
             recentlyViewed.addAll(items);
             System.out.println(recentlyViewed.get(0).getName());
             itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-
                 @Override
                 public void onItemClick(View view, int position) {
                     viewItem(position);
                 }
             });
-
 
             //Set adapters that recyclerViews will use
             historyView.setAdapter(itemAdapter);
@@ -136,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Passes an intent to view a category based on the clicked category pos
+     *
+     * @param position
+     */
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
         // Create intent and pass data here
@@ -145,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * passes an intent to view an item based on the clicked item pos
+     *
+     * @param position
+     */
     public void viewItem(int position) {
         IItem clickedItem = recentlyViewed.get(position);
         // Create intent and pass data here
@@ -155,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    /**
+     * opens the search item activity via intents
+     */
     public void searchItem() {
         Intent intent = new Intent(this, SearchActivity.class);
         this.startActivity(intent);
