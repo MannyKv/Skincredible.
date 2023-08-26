@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         SearchView searchBar = findViewById(R.id.searchB);
         searchBar.setOnQueryTextListener(null);
         searchBar.setIconifiedByDefault(true);
-        searchBar.setQueryHint("Search Items");
+        searchBar.setQueryHint("search items...");
         navigationView = findViewById(R.id.nav_buttons);
 
         searchBar.setOnClickListener(new View.OnClickListener() {

@@ -5,9 +5,9 @@
     android:id="@+id/category_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:backgroundTint="@color/medium_green"
-    app:cardCornerRadius="50dp"
+    app:cardCornerRadius="100dp"
     app:cardElevation="10dp">
 
     <LinearLayout
@@ -18,14 +18,17 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/category_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:background="@color/white"
             android:contentDescription="Category"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sun"
-            android:translationZ="30dp"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:layout_weight="3"
             app:contentPadding="15dp"
+            android:src="@drawable/mos"
+            android:translationZ="30dp"
             app:shapeAppearance="@style/circular_image" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -33,14 +36,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:paddingEnd="15dp"
             android:text="Sunscreen"
             android:fontFamily="@font/urbanist_bold"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="24sp"
+            android:textSize="30sp"
             app:textAllCaps="true" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
