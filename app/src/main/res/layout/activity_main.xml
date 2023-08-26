@@ -12,10 +12,9 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/lightest_green"
         app:cardCornerRadius="150dp"
         app:cardElevation="2dp"
@@ -29,61 +28,72 @@
             android:clickable="true" />
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="skincredible."
-        android:textColor="@color/medium_green"
-        android:textSize="50sp" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="have another look..."
-        app:textAllCaps="true"
-        android:textSize="25sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/carousel_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:isScrollContainer="false"
-            android:layout_gravity="center" />
-    </LinearLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="shop the range"
-        android:textFontWeight="400"
-        android:textSize="30sp"
-        android:layout_weight="0.5" />
-
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:paddingBottom="35dp"
-            android:gravity="center"
-            android:layout_above="@id/nav_buttons" />
+            android:layout_above="@id/nav_buttons">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="skincredible."
+                    android:textColor="@color/medium_green"
+                    android:textSize="50sp" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="have another look..."
+                    app:textAllCaps="true"
+                    android:textSize="30sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/carousel_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:isScrollContainer="false"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="SHOP THE RANGE"
+                    android:textFontWeight="400"
+                    android:textSize="30sp"
+                    android:layout_weight="1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+        </ScrollView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_buttons"
@@ -91,12 +101,14 @@
             android:layout_height="50dp"
             android:background="@drawable/rounded_nav"
             android:transitionName="fade"
-            android:layout_alignParentBottom="true"
             app:itemActiveIndicatorStyle="@style/nav_button_highlight"
             app:itemIconSize="30sp"
             app:itemIconTint="@color/nav_colors"
+            android:layout_alignParentBottom="true"
             app:itemTextColor="@color/nav_colors"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/menu" />
     </RelativeLayout>
+
+
 </LinearLayout>
