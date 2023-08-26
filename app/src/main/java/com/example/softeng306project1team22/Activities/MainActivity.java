@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchRecentlyViewed() {
         System.out.println("Made it into the fetchRecent");
-        DataProvider.fetchRecentlyViewed().thenAccept(items -> {
+        DataProvider.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
             System.out.println("data received");
             recentlyViewed.clear();
             recentlyViewed.addAll(items);

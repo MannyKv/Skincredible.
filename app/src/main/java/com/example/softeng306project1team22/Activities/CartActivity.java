@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.softeng306project1team22.Adapters.CartAdapter;
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
+import com.example.softeng306project1team22.DataProvider;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
@@ -201,7 +202,7 @@ public class CartActivity extends AppCompatActivity {
                     String productId = document.getId();
                     totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
                     String itemQuantity = document.get("quantity").toString();
-                    fetchItemData(categoryName, productId, itemQuantity, documentPosition, queryDocumentSnapshots.getDocuments().size());
+                    fetchItemData(categoryName, productId, itemQuantity, queryDocumentSnapshots.getDocuments().size());
                     documentPosition++;
                 }
                 String totalPriceString = "$" + String.format("%.2f", totalPrice);
@@ -211,19 +212,14 @@ public class CartActivity extends AppCompatActivity {
     }
 
     // This function fetches the data for a specific item and loads the views on the activity page
-    private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int documentPosition, int numberOfDocuments) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
+    private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int size) {
 
-        database.collection(cartItemCategoryName).document(productId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+       /* database.collection(cartItemCategoryName).document(productId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String name = (String) documentSnapshot.get("name");
-                String brand = (String) documentSnapshot.get("brand");
-                ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                String price = (String) "$" + documentSnapshot.get("price");
-                String categoryName = (String) documentSnapshot.get("categoryName");
+
                 ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                String howToUse = (String) documentSnapshot.get("howToUse");
 
                 productSkinTypes.addAll(skinType);
                 productIds.add(productId);
@@ -231,19 +227,16 @@ public class CartActivity extends AppCompatActivity {
 
                 switch (cartItemCategoryName) {
                     case "sunscreen":
-                        String sunscreenType = (String) documentSnapshot.get("sunscreenType");
-                        String spf = (String) documentSnapshot.get("spf");
-                        itemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
+                        IItem sunscreen = documentSnapshot.toObject(Sunscreen.class);
+                        itemList.add(sunscreen);
                         break;
                     case "cleanser":
-                        String cleanserType = (String) documentSnapshot.get("cleanserType");
-                        String ph = (String) documentSnapshot.get("ph");
-                        itemList.add(new Cleanser(productId, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse));
+                        IItem cleanser = documentSnapshot.toObject(Cleanser.class);
+                        itemList.add(cleanser);
                         break;
                     case "moisturiser":
-                        String moisturiserType = (String) documentSnapshot.get("moisturiserType");
-                        String timeToUse = (String) documentSnapshot.get("timeToUse");
-                        itemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
+                        IItem moisturiser = documentSnapshot.toObject(Moisturiser.class);
+                        itemList.add(moisturiser);
                         break;
                 }
                 // If all the documents have been accessed, propagate the list adapters
@@ -252,7 +245,19 @@ public class CartActivity extends AppCompatActivity {
                     propagateCartAdapter();
                 }
             }
+        });*/
+
+        DataProvider.fetchItemById(cartItemCategoryName, productId).thenAccept(item -> {
+            productSkinTypes.addAll(item.getSkinType());
+            productIds.add(productId);
+            itemQuantities.put(productId, itemQuantity);
+            itemList.add(item);
+            if (itemList.size() == size) {
+                getRecommendedItems(productSkinTypes, productIds);
+                propagateCartAdapter();
+            }
         });
+
     }
 
     // This function calculates the recommended items to display to the user based on the items in their cart

@@ -117,6 +117,7 @@ public class DataProvider {
 
     /**
      * Retrieves a collection of items based on the reference and the Item class type
+     * Only works for categories not collections with a mix of object types
      *
      * @param colRef    a collection reference of the items
      * @param itemClass the type of item class
@@ -176,27 +177,30 @@ public class DataProvider {
      *
      * @return A completeable future that will contain a list of recently viewed items
      */
-    public static CompletableFuture<List<IItem>> fetchRecentlyViewed() {
+    public static CompletableFuture<List<IItem>> fetchRecentlyViewed(String collectionName) {
         CompletableFuture<List<IItem>> future = new CompletableFuture<>();
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef = dbs.collection("recently-viewed");
-        List<IItem> recentlyViewed = new ArrayList<>(9);
+        CollectionReference colRef = dbs.collection(collectionName);
+        List<IItem> listToReturn = new ArrayList<>();
         colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
             Log.d("Firestore", "Recently viewed retrieved successfully");
+            int numDocsInCollection = queryDocumentSnapshots.size();
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 String id = documentSnapshot.getString("itemId");
                 String categoryName = documentSnapshot.getString("categoryName");
 
                 fetchItemById(categoryName, id).thenAccept(item -> {
-                    recentlyViewed.add(item);
+                    listToReturn.add(item);
                     System.out.println("Added item");
-                    if (recentlyViewed.size() == 9) {
-                        future.complete(recentlyViewed);
+                    if (listToReturn.size() == numDocsInCollection) {
+                        future.complete(listToReturn);
                     }
                 });
             }
+
         });
         return future;
     }
+
 
 }
