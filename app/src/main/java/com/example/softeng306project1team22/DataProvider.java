@@ -99,9 +99,9 @@ public class DataProvider {
         //create a ref for all the collections
 
         //create a completeable future for all items and call the retriever
-        CompletableFuture<List<IItem>> fetchCleanser = retrieveFromCollection("cleanser", Cleanser.class);
-        CompletableFuture<List<IItem>> fetchMoisturiser = retrieveFromCollection("moisturiser", Moisturiser.class);
-        CompletableFuture<List<IItem>> fetchSunscreen = retrieveFromCollection("sunscreen", Sunscreen.class);
+        CompletableFuture<List<IItem>> fetchCleanser = fetchFromCollection("cleanser", Cleanser.class);
+        CompletableFuture<List<IItem>> fetchMoisturiser = fetchFromCollection("moisturiser", Moisturiser.class);
+        CompletableFuture<List<IItem>> fetchSunscreen = fetchFromCollection("sunscreen", Sunscreen.class);
         CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(fetchCleanser, fetchMoisturiser, fetchSunscreen);
         CompletableFuture<List<IItem>> future = combinedFuture.thenApply(voidResult -> { //create a new combined future to the future only returns once everything has been retrieved
             allItems.addAll(fetchCleanser.join());
@@ -121,7 +121,7 @@ public class DataProvider {
      * @param itemClass    the type of item class
      * @return a compeleteable future of a list of items from that category
      */
-    public static CompletableFuture<List<IItem>> retrieveFromCollection(String categoryName, Class<?> itemClass) {
+    public static CompletableFuture<List<IItem>> fetchFromCollection(String categoryName, Class<?> itemClass) {
         CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         List<IItem> items = new ArrayList<>();

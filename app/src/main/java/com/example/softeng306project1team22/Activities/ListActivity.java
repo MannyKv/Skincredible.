@@ -74,21 +74,21 @@ public class ListActivity extends AppCompatActivity {
         switch (categoryName) {
             case "Sunscreen":
 
-                DataProvider.retrieveFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
+                DataProvider.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Cleanser":
 
-                DataProvider.retrieveFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
+                DataProvider.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Moisturiser":
 
-                DataProvider.retrieveFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
+                DataProvider.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
