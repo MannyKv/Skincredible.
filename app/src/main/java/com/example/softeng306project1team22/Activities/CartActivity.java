@@ -171,65 +171,49 @@ public class CartActivity extends AppCompatActivity {
 
     // This function retrieves and sets the data from the database
     private void loadData() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Retrieve the cart information
-        database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                // Display the "cart empty" message if the cart is empty
-                if (queryDocumentSnapshots.getDocuments().size() == 0) {
-                    viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
-                    viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.cartTotalContainer.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.checkoutButton.setVisibility(View.GONE);
-                } else {
-                    viewHolder.noItemsTextView.setVisibility(View.GONE);
-                    viewHolder.cartItemsRecyclerView.setVisibility(View.VISIBLE);
-                    viewHolder.cartTotalContainer.setVisibility(View.VISIBLE);
-                    viewHolder.recommendedItemsHeader.setVisibility(View.VISIBLE);
-                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.VISIBLE);
-                    viewHolder.checkoutButton.setVisibility(View.VISIBLE);
-                }
-                double totalPrice = 0;
+        DataProvider.getCartDocuments().thenAccept(itemsMap -> {
 
-                // For each item in the cart, fetch it's data and load it
-                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                    String categoryName = (String) document.get("categoryName");
-                    String productId = document.getId();
-                    totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
-                    String itemQuantity = document.get("quantity").toString();
-                    fetchItemData(categoryName, productId, itemQuantity, queryDocumentSnapshots.getDocuments().size());
-
-                }
-                String totalPriceString = "$" + String.format("%.2f", totalPrice);
-                viewHolder.totalPriceTextView.setText(totalPriceString);
+            // Display the "cart empty" message if the cart is empty
+            if (itemsMap.size() == 0) {
+                viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.checkoutButton.setVisibility(View.GONE);
+            } else {
+                viewHolder.noItemsTextView.setVisibility(View.GONE);
+                viewHolder.cartItemsRecyclerView.setVisibility(View.VISIBLE);
+                viewHolder.cartTotalContainer.setVisibility(View.VISIBLE);
+                viewHolder.recommendedItemsHeader.setVisibility(View.VISIBLE);
+                viewHolder.recommendedItemsRecyclerView.setVisibility(View.VISIBLE);
+                viewHolder.checkoutButton.setVisibility(View.VISIBLE);
             }
+            double totalPrice = 0;
+
+            // For each item in the cart, fetch it's data and load it
+            for (IItem i : itemsMap.keySet()) {
+                totalPrice += (Double.parseDouble(i.getPrice())) * Double.parseDouble(itemsMap.get(i));
+                productSkinTypes.addAll(i.getSkinType());
+                productIds.add(i.getId());
+                itemQuantities.put(i.getId(), itemsMap.get(i));
+                itemList.add(i);
+                if (itemList.size() == itemsMap.size()) {
+                    getRecommendedItems(productSkinTypes, productIds);
+                    propagateCartAdapter();
+                }
+            }
+            String totalPriceString = "$" + String.format("%.2f", totalPrice);
+            viewHolder.totalPriceTextView.setText(totalPriceString);
         });
     }
 
-    // This function fetches the data for a specific item and loads the views on the activity page
-    private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int size) {
-
-        DataProvider.fetchItemById(cartItemCategoryName, productId).thenAccept(item -> {
-            productSkinTypes.addAll(item.getSkinType());
-            productIds.add(productId);
-            itemQuantities.put(productId, itemQuantity);
-            itemList.add(item);
-            if (itemList.size() == size) {
-                getRecommendedItems(productSkinTypes, productIds);
-                propagateCartAdapter();
-            }
-        });
-
-    }
 
     // This function calculates the recommended items to display to the user based on the items in their cart
     private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIds) {
         String mostCommonSkinType = findMostCommonElement(productSkinTypes);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
 
@@ -246,7 +230,7 @@ public class CartActivity extends AppCompatActivity {
             }
             propagateItemAdapter();
         });
-        
+
         DataProvider.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
             int cleanserFound = 0;
             for (IItem singleItem : item) {

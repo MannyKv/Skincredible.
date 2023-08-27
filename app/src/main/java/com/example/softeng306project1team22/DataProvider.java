@@ -200,7 +200,7 @@ public class DataProvider {
 
                 fetchItemById(categoryName, id).thenAccept(item -> {
                     listToReturn.add(item);
-                    System.out.println("Added item");
+
                     if (listToReturn.size() == numDocsInCollection) {
                         future.complete(listToReturn);
                     }
@@ -235,7 +235,7 @@ public class DataProvider {
 
         itemInfo.put("itemId", productId);
         itemInfo.put("quantity", quantity);
-        itemInfo.put("categoryName", productCategory);
+        itemInfo.put("categoryName", productCategory.toLowerCase());
         itemInfo.put("singleItemPrice", price);
 
         database.collection("cart").document(productId).set(itemInfo);
@@ -286,5 +286,24 @@ public class DataProvider {
                 }
             }
         });
+    }
+
+    public static CompletableFuture<HashMap<IItem, String>> getCartDocuments() {
+        CompletableFuture<HashMap<IItem, String>> future = new CompletableFuture<>();
+        HashMap<IItem, String> itemInfo = new HashMap<>();
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("cart").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            int noItems = queryDocumentSnapshots.size();
+            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                fetchItemById(document.getString("categoryName"), document.getString("itemId")).thenAccept(item -> {
+                    itemInfo.put(item, document.getString("quantity"));
+                    if (itemInfo.size() == noItems) {
+                        future.complete(itemInfo);
+                    }
+                });
+            }
+
+        });
+        return future;
     }
 }
