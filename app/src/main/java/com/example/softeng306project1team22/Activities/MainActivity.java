@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
         setNavigationViewLinks();
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * This function sets the navigation links for the navigation bar
+     */
+
     private void setNavigationViewLinks() {
         navigationView.setSelectedItemId(R.id.home);
         navigationView.setOnItemSelectedListener(item -> {

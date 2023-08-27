@@ -21,7 +21,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     Context mContext;
     private OnItemClickListener mOnItemClickListener;
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener { //custom on click listener to pass through to the main activity
         public void onItemClick(View view, int position);
     }
 
@@ -39,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         View categoryView = inflater.inflate(R.layout.category_card, parent, false);
         CategoryViewHolder holder = new CategoryViewHolder(categoryView);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() { //assigns onclick functionality for category
 
             @Override
             public void onClick(View v) {
@@ -47,9 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             }
         });
 
-
         return holder;
-
     }
 
     @Override
@@ -59,7 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         System.out.println(thisCategory.getImageName());
         String filePath = thisCategory.getImageName();
 
-
+        //sets image icon for the category
         int i = mContext.getResources().getIdentifier(filePath, "drawable", mContext.getPackageName());
         holder.imageView.setImageResource(i);
     }

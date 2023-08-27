@@ -31,12 +31,11 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactItemAdapter.
 
     @NonNull
     @Override
-
     public CompactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View itemView = inflater.inflate(R.layout.item_image_card, parent, false);
-        CompactViewHolder holder = new CompactViewHolder(itemView);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        CompactViewHolder holder = new CompactViewHolder(itemView); //create view holder
+        holder.cardView.setOnClickListener(new View.OnClickListener() { //assign on click for the item
 
             @Override
             public void onClick(View v) {
@@ -49,15 +48,16 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactItemAdapter.
     @Override
     public void onBindViewHolder(@NonNull CompactViewHolder holder, int position) {
         IItem thisItem = mItems.get(position);
-        String filePath = thisItem.getImageNames().get(0);
+        
+        String filePath = thisItem.getImageNames().get(0); //gets the first image to use as display
         System.out.println("This is the path for loading: " + filePath);
         int i = mContext.getResources().getIdentifier(filePath, "drawable", mContext.getPackageName());
         System.out.println("This is the image ID for loading: " + i);
+
         holder.imageView.setImageResource(i);
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_up);
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_up); //loads a slide up animation for the item when loaded
         holder.cardView.startAnimation(animation);
-
-
     }
 
     @Override
