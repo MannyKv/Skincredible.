@@ -76,8 +76,7 @@
     <RelativeLayout
         android:id="@+id/imageSliderContainer"
         android:layout_width="match_parent"
-        android:layout_height="290dp"
-        android:layout_below="@id/productNameTextView">
+        android:layout_height="290dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/productImageCardView"
@@ -193,6 +192,7 @@
                     app:fabCustomSize="30dp"
                     android:backgroundTint="@color/medium_green"
                     app:shapeAppearanceOverlay="@style/circular_image"
+                    android:contentDescription="Decrease quantity"
                     android:layout_gravity="center"
                     app:tint="@color/white"
                     app:srcCompat="@drawable/remove" />
@@ -212,6 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabCustomSize="30dp"
+                    android:contentDescription="Increase quantity"
                     app:elevation="0dp"
                     android:backgroundTint="@color/medium_green"
                     app:shapeAppearanceOverlay="@style/circular_image"
