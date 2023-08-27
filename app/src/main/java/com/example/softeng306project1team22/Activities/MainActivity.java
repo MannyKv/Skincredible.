@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fetchRecentlyViewed();
         isActivityResumed = true;
         setContentView(R.layout.activity_main);
-        SearchView searchBar = findViewById(R.id.searchB);
-        searchBar.setOnQueryTextListener(null);
-        searchBar.setIconifiedByDefault(true);
-        searchBar.setQueryHint("Search Items");
+        CardView searchBar = findViewById(R.id.search);
         navigationView = findViewById(R.id.nav_buttons);
 
 
@@ -82,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
-                startActivity(new Intent(MainActivity.this, MainActivity.class));
-                finish();
+
             } else if (itemId == R.id.search) {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 finish();

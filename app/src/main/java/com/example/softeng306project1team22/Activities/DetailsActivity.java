@@ -8,16 +8,19 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView categoryTextView, brandTextView, productNameTextView;
         ImageView categoryImageView;
         ImageView productImageView;
-        Button previousImageButton, nextImageButton;
+        ImageButton previousImageButton, nextImageButton;
         FloatingActionButton decreaseQuantityButton, increaseQuantityButton;
         BottomNavigationView navigationView;
         CardView productDetailsCardView, howToUseCardView;
@@ -178,7 +181,21 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 addItemToCart();
+
+                
+                // Display popup dialog confirming purchase
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
+                dialogBuilder
+                        .setTitle("Success!")
+                        .setMessage("Cart updated!")
+                        .setPositiveButton("ok", null)
+                        .setIcon(R.drawable.alert_success_icon)
+                        .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
+                        .show();
+                viewHolder.cartButton.setText("UPDATE CART");
+
             }
         });
 
