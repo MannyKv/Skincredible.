@@ -43,8 +43,9 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:text="skincredible."
                 android:textColor="@color/medium_green"
                 android:textSize="50sp" />
@@ -53,17 +54,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:layout_weight="0.25"
-                android:text="have another look"
+                android:layout_weight="0.2"
+                android:text="have another look at these!"
                 app:textAllCaps="true"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/carousel_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
                 android:layout_marginHorizontal="10dp"
                 android:isScrollContainer="false"
                 android:layout_gravity="center" />

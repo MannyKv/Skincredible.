@@ -14,13 +14,19 @@
     app:strokeColor="@color/light_green"
     android:layout_margin="12dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/itemcycle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:shapeAppearance="@style/circular_image"
-        android:contentDescription="Product image"
-        android:src="@drawable/mos1_img1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/itemcycle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            app:shapeAppearance="@style/circular_image"
+            android:contentDescription="Product image"
+            android:src="@drawable/mos1_img1" />
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
