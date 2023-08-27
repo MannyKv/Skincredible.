@@ -228,6 +228,14 @@ public class DataProvider {
         return fetchFuture;
     }
 
+    /**
+     * Adds and item to cart
+     *
+     * @param productId
+     * @param productCategory
+     * @param price
+     * @param quantity
+     */
     public static void addItemToCart(String productId, String productCategory, String price, String quantity) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -241,7 +249,11 @@ public class DataProvider {
         database.collection("cart").document(productId).set(itemInfo);
     }
 
-
+    /**
+     * adds an item to the recently viewed list
+     *
+     * @param item
+     */
     public static void addItemToRecentlyViewed(IItem item) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -288,6 +300,11 @@ public class DataProvider {
         });
     }
 
+    /**
+     * retrieves all cart documents and places it into a hash map with the Item as a key and quantity as a value
+     *
+     * @return Hashmap IItem,String
+     */
     public static CompletableFuture<HashMap<IItem, String>> getCartDocuments() {
         CompletableFuture<HashMap<IItem, String>> future = new CompletableFuture<>();
         HashMap<IItem, String> itemInfo = new HashMap<>();
