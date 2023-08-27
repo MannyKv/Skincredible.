@@ -11,6 +11,8 @@
         <item name="android:textColor">@color/darkest_green</item>
         <item name="colorOnPrimarySurface">@android:color/transparent</item>
         <item name="fontFamily">@font/urbanist_medium</item>
+        <item name="android:windowSplashScreenBackground">@color/lightest_green</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/skincredible_logo1</item>
     </style>
 
     <style name="circular_image">
