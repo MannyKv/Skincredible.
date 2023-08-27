@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
-import com.example.softeng306project1team22.Data.DataProvider;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
-        DataProvider.fetchCategoryData().thenAccept(categories -> {
-            categoryList = new ArrayList<>(DataProvider.getCategories());
+        DataRepository.fetchCategoryData().thenAccept(categories -> {
+            categoryList = new ArrayList<>(DataRepository.getCategories());
             adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
 
                 @Override
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void fetchRecentlyViewed() {
         System.out.println("Made it into the fetchRecent");
-        DataProvider.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
+        DataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
             System.out.println("data received");
             recentlyViewed.clear();
             recentlyViewed.addAll(items);

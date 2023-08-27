@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Activities.DetailsActivity;
-import com.example.softeng306project1team22.Data.DataProvider;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 
@@ -86,7 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.removeFromCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataProvider.deleteItemById(currentItem.getId());
+                DataRepository.deleteItemById(currentItem.getId());
                 mItems.remove(currentItem);
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyItemRangeChanged(holder.getAdapterPosition(), mItems.size() - holder.getAdapterPosition());
@@ -100,7 +100,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     private void changeItemQuantity(String productId, int quantityValue) {
-        DataProvider.modifyItemQuantity(productId, quantityValue);
+        DataRepository.modifyItemQuantity(productId, quantityValue);
         mItemQuantities.put(productId, String.valueOf(quantityValue));
     }
 

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.Data.DataProvider;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         //Calls the get all items method in data provider and awaits response
-        DataProvider.getAllItems().thenAccept(items -> {
+        DataRepository.getAllItems().thenAccept(items -> {
             allItems = new ArrayList<>(items);
             filtered = new ArrayList<>(items);
             itemAdapter = new ItemListAdapter(filtered);

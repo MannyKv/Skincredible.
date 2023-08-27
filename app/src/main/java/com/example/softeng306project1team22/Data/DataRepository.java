@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class DataProvider {
-    static List<Category> categories = new ArrayList<>();
-    static List<IItem> allItems = new ArrayList<>();
+public class DataRepository {
+    private static List<Category> categories = new ArrayList<>();
+    private static List<IItem> allItems = new ArrayList<>();
 
     /**
      * returns the list of categories

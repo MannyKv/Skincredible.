@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.Data.DataProvider;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
@@ -63,7 +63,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void fetchCategoryData(String categoryId) {
-        category = DataProvider.getCategoryById(categoryId);
+        category = DataRepository.getCategoryById(categoryId);
         populateCategoryDetails(category);
         fetchItemListData(category.getName());
 
@@ -74,21 +74,21 @@ public class ListActivity extends AppCompatActivity {
         switch (categoryName) {
             case "Sunscreen":
 
-                DataProvider.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
+                DataRepository.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Cleanser":
 
-                DataProvider.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
+                DataRepository.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Moisturiser":
 
-                DataProvider.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
+                DataRepository.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });

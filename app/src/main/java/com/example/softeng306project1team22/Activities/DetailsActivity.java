@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.softeng306project1team22.Data.DataProvider;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -207,7 +207,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
 
 
-        DataProvider.fetchItemById(productCategory, productId).thenAccept(item -> {
+        DataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
             // Adding the item to the recently-viewed collection in Firestore
             currentItem = item;
             addItemToRecentlyViewed();
@@ -252,18 +252,18 @@ public class DetailsActivity extends AppCompatActivity {
     // This function writes to the item ID and quantity to the "cart" category in Firestore
     private void addItemToCart() {
         String quantity = viewHolder.quantityValue.getText().toString();
-        DataProvider.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
+        DataRepository.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
     }
 
     // This function adds the current item to the recently viewed collection in Firestore
     private void addItemToRecentlyViewed() {
 
-        DataProvider.addItemToRecentlyViewed(currentItem);
+        DataRepository.addItemToRecentlyViewed(currentItem);
     }
 
     private void setCartInfo(String productId) {
 
-        DataProvider.getCartDocuments().thenAccept(itemsMap -> {
+        DataRepository.getCartDocuments().thenAccept(itemsMap -> {
 
             ArrayList<String> itemsInCart = new ArrayList<>();
             for (IItem i : itemsMap.keySet()) {
