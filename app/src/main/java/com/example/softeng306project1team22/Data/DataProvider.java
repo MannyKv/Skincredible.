@@ -345,4 +345,14 @@ public class DataProvider {
             }
         });
     }
+
+    public static void deleteItemById(String id) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("cart").document(id).delete();
+    }
+
+    public static void modifyItemQuantity(String productId, int quantityValue) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("cart").document(productId).update("quantity", String.valueOf(quantityValue));
+    }
 }

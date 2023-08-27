@@ -203,7 +203,6 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-
     // This function calculates the recommended items to display to the user based on the items in their cart
     private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIds) {
         String mostCommonSkinType = findMostCommonElement(productSkinTypes);
