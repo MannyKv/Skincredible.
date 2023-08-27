@@ -165,10 +165,8 @@ public class CartActivity extends AppCompatActivity {
     private void loadData() {
         // Retrieve the cart information
         dataRepository.getCartDocuments().thenAccept(itemsMap -> {
-            System.out.println("before the empty item map : " + itemsMap.size());
             // Display the "cart empty" message if the cart is empty
             if (itemsMap.isEmpty()) {
-                System.out.println("items are hidden");
                 viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
                 viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
                 viewHolder.cartTotalContainer.setVisibility(View.GONE);
@@ -238,7 +236,6 @@ public class CartActivity extends AppCompatActivity {
 
         dataRepository.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
             int moisturiserFound = 0;
-            System.out.println("This is number of recc items: " + item.size());
             for (IItem singleItem : item) {
                 if (moisturiserFound > 1) {
                     break;

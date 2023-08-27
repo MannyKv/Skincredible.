@@ -50,9 +50,7 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
     public void onBindViewHolder(@NonNull CompactViewHolder holder, int position) {
         IItem thisItem = items.get(position);
         String filePath = thisItem.getImageNames().get(0);
-        System.out.println("This is the path for loading: " + filePath);
         int i = context.getResources().getIdentifier(filePath, "drawable", context.getPackageName());
-        System.out.println("This is the image ID for loading: " + i);
         holder.imageView.setImageResource(i);
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_up);
         holder.cardView.startAnimation(animation);

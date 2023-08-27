@@ -98,7 +98,7 @@ public class DataRepository implements IDataRepo {
             future.complete(categories); //complete the future
 
         }).addOnFailureListener(e -> {
-            System.out.println("Category Data Retrieval Failure");
+            Log.e("Data Retrieval Error", "Failed to retrieve category data");
         });
 
 
@@ -334,7 +334,7 @@ public class DataRepository implements IDataRepo {
             }
 
         }).addOnFailureListener(queryDocumentsSnapshots -> {
-            System.out.println("CART RETRIEVE THINGY FAILED");
+            Log.e("Data Retrieval Error", "Failed to retrieve cart items");
         });
         return future;
     }

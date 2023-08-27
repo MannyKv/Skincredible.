@@ -232,7 +232,6 @@ public class DetailsActivity extends AppCompatActivity {
         dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
             currentItem = item;
             addItemToRecentlyViewed();
-            System.out.println(item.getName());
             Resources resources = getResources();
             viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
             viewHolder.categoryTextView.setText(currentItem.getCategoryName());

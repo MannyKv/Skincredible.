@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemClick(View view, int position) {
-                    System.out.println("Made it to onItemClick : " + position);
                     viewCategory(position);
                 }
             });
@@ -121,12 +120,9 @@ public class MainActivity extends AppCompatActivity {
      * Creates the adapter and binds the on click and adapter to the recycler view
      */
     private void fetchRecentlyViewed() {
-        System.out.println("Made it into the fetchRecent");
         dataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
-            System.out.println("data received");
             recentlyViewed.clear();
             recentlyViewed.addAll(items);
-            System.out.println(recentlyViewed.get(0).getName());
             itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
