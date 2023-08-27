@@ -30,6 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
+
+    /**
+     * This class stores the views that are present on the XML page
+     */
     private class ViewHolder {
         TextView noItemsTextView, recommendedItemsHeader;
         RecyclerView cartItemsRecyclerView;
@@ -39,6 +43,9 @@ public class CartActivity extends AppCompatActivity {
         Button checkoutButton;
         BottomNavigationView navigationView;
 
+        /**
+         * The constructor finds each view by its ID in the corresponding XML file
+         */
         public ViewHolder() {
             noItemsTextView = findViewById(R.id.noItemsTextView);
             recommendedItemsHeader = findViewById(R.id.recommendedItemsHeader);
@@ -65,7 +72,7 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<String> productSkinTypes;
 
-    private ArrayList<String> productIds;
+    private ArrayList<String> productIdsInCart;
     private DataRepository dataRepository = new DataRepository();
     private boolean onResumeCalled;
 
@@ -74,19 +81,14 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        // Initialise the lists and variables storing cart information
         onResumeCalled = false;
-
         viewHolder = new ViewHolder();
-
         itemList = new ArrayList<>();
-
         recommendedItemList = new ArrayList<>();
-
         itemQuantities = new HashMap<>();
-
         productSkinTypes = new ArrayList<>();
-
-        productIds = new ArrayList<>();
+        productIdsInCart = new ArrayList<>();
 
 
         // Setting onclick functionality for the checkout button
@@ -97,7 +99,7 @@ public class CartActivity extends AppCompatActivity {
                     // Clear all the cart information and set the total price to $0.00
                     itemList.clear();
                     productSkinTypes.clear();
-                    productIds.clear();
+                    productIdsInCart.clear();
                     clearCart();
                     viewHolder.totalPriceTextView.setText("$0.00");
                     viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
@@ -137,14 +139,16 @@ public class CartActivity extends AppCompatActivity {
             itemList.clear();
             recommendedItemList.clear();
             productSkinTypes.clear();
-            productIds.clear();
+            productIdsInCart.clear();
             loadData();
         } else {
             onResumeCalled = true;
         }
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * This function sets the navigation links for the navigation bar
+     */
     private void setNavigationViewLinks() {
         viewHolder.navigationView.setSelectedItemId(R.id.cart);
         viewHolder.navigationView.setOnItemSelectedListener(item -> {
@@ -161,14 +165,14 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    // This function retrieves and sets the data from the database
+    /**
+     * This function retrieves and sets the data from the database
+     */
     private void loadData() {
         // Retrieve the cart information
         dataRepository.getCartDocuments().thenAccept(itemsMap -> {
-            System.out.println("before the empty item map : " + itemsMap.size());
             // Display the "cart empty" message if the cart is empty
             if (itemsMap.isEmpty()) {
-                System.out.println("items are hidden");
                 viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
                 viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
                 viewHolder.cartTotalContainer.setVisibility(View.GONE);
@@ -185,15 +189,15 @@ public class CartActivity extends AppCompatActivity {
             }
             double totalPrice = 0;
 
-            // For each item in the cart, fetch it's data and load it
+            // For each item in the cart, fetch its data and load it
             for (IItem i : itemsMap.keySet()) {
                 totalPrice += (Double.parseDouble(i.getPrice())) * Double.parseDouble(itemsMap.get(i));
                 productSkinTypes.addAll(i.getSkinType());
-                productIds.add(i.getId());
+                productIdsInCart.add(i.getId());
                 itemQuantities.put(i.getId(), itemsMap.get(i));
                 itemList.add(i);
                 if (itemList.size() == itemsMap.size()) {
-                    getRecommendedItems(productSkinTypes, productIds);
+                    getRecommendedItems(productSkinTypes, productIdsInCart);
                     propagateCartAdapter();
                 }
             }
@@ -202,19 +206,23 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    // This function calculates the recommended items to display to the user based on the items in their cart
-    private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIds) {
+    /**
+     * This function calculates the recommended items to display to the user based on the items in their cart
+     *
+     * @param productSkinTypes An ArrayList containing the skin types products are made for
+     * @param productIdsInCart An ArrayList of the IDs of products in the cart
+     */
+    private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIdsInCart) {
         String mostCommonSkinType = findMostCommonElement(productSkinTypes);
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
-
         dataRepository.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
             int sunscreensFound = 0;
             for (IItem singleItem : item) {
                 if (sunscreensFound > 1) {
                     break;
                 }
-                if (!productIds.contains(singleItem.getId())) {
+                if (!productIdsInCart.contains(singleItem.getId())) {
                     recommendedItemList.add(singleItem);
                     sunscreensFound++;
                 }
@@ -222,13 +230,14 @@ public class CartActivity extends AppCompatActivity {
             propagateItemAdapter();
         });
 
+        // Find two cleansers based on the most commonly occurring skin type in the cart
         dataRepository.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
             int cleanserFound = 0;
             for (IItem singleItem : item) {
                 if (cleanserFound > 1) {
                     break;
                 }
-                if (!productIds.contains(singleItem.getId())) {
+                if (!productIdsInCart.contains(singleItem.getId())) {
                     recommendedItemList.add(singleItem);
                     cleanserFound++;
                 }
@@ -236,14 +245,14 @@ public class CartActivity extends AppCompatActivity {
             propagateItemAdapter();
         });
 
+        // Find two moisturisers based on the most commonly occurring skin type in the cart
         dataRepository.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
             int moisturiserFound = 0;
-            System.out.println("This is number of recc items: " + item.size());
             for (IItem singleItem : item) {
                 if (moisturiserFound > 1) {
                     break;
                 }
-                if (!productIds.contains(singleItem.getId())) {
+                if (!productIdsInCart.contains(singleItem.getId())) {
                     recommendedItemList.add(singleItem);
                     moisturiserFound++;
                 }
@@ -252,12 +261,17 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    // This helper function finds the most commonly occurring element in a given ArrayList
-    private String findMostCommonElement(ArrayList<String> arrayList) {
+    /**
+     * This helper function finds the most commonly occurring element in a given ArrayList
+     *
+     * @param elementsArrayList An ArrayList containing elements to find the most common from
+     * @return A string, the most commonly occurring element in the input ArrayList
+     */
+    private String findMostCommonElement(ArrayList<String> elementsArrayList) {
         Map<String, Integer> elementMap = new HashMap<>();
 
         // Find occurrences of each element in the ArrayList
-        for (String element : arrayList) {
+        for (String element : elementsArrayList) {
             elementMap.put(element, elementMap.get(element) == null ? 1 : elementMap.get(element) + 1);
         }
 
@@ -276,15 +290,21 @@ public class CartActivity extends AppCompatActivity {
         return mostCommonElement;
     }
 
-    // This function clears the cart of all items
+    /**
+     * This function clears the cart of all items
+     */
     private void clearCart() {
         dataRepository.clearCart();
     }
 
-    // This function propagates the cart item list based on the data retrieved from the cart collection
+    /**
+     * This function propagates the cart item list based on the data retrieved from the cart collection
+     */
     private void propagateCartAdapter() {
         cartAdapter = new CartAdapter(itemList, itemQuantities);
         cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+            // Update the total price displayed whenever an item is added or removed from the cart
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
 
@@ -313,7 +333,9 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    // This function propagates the recommended item list based on the calculated recommended items to display
+    /**
+     * This function propagates the recommended item list based on the calculated recommended items to display
+     */
     private void propagateItemAdapter() {
         itemAdapter = new CompactItemAdapter(recommendedItemList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
             @Override
@@ -325,7 +347,11 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.recommendedItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
-    // This function defines the onclick activity to open DetailsActivity for clicking an item in the recommended list
+    /**
+     * This function defines the onclick activity to open DetailsActivity for clicking an item in the recommended list
+     *
+     * @param position the position of the item clicked in the RecyclerView
+     */
     public void viewItem(int position) {
         IItem clickedItem = recommendedItemList.get(position);
         Intent intent = new Intent(this, DetailsActivity.class);

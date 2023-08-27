@@ -54,7 +54,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category thisCategory = mCategory.get(position);
         holder.textView.setText(thisCategory.getName());
-        System.out.println(thisCategory.getImageName());
         String filePath = thisCategory.getImageName();
 
         //sets image icon for the category

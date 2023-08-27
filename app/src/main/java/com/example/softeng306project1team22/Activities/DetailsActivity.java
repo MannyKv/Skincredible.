@@ -27,7 +27,9 @@ import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    // Declaring ViewHolder class to store the views from the XML
+    /**
+     * This class stores the views that are present on the XML page
+     */
     private class ViewHolder {
         Button backButton;
         TextView categoryTextView, brandTextView, productNameTextView;
@@ -43,6 +45,9 @@ public class DetailsActivity extends AppCompatActivity {
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
         Button cartButton;
 
+        /**
+         * The constructor finds each view by its ID in the corresponding XML file
+         */
         public ViewHolder() {
             backButton = findViewById(R.id.back_button);
             categoryImageView = findViewById(R.id.category_icon);
@@ -93,18 +98,30 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.productImageView.setTag("0");
 
         // Fetching and setting the item data based on the category and ID of the item passed in
-        if (productCategory.equals("Cleanser")) {
-            setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
-        } else if (productCategory.equals("Moisturiser")) {
-            setData(productCategory, productId, "moisturiser type", "moisturiserType", "time to use", "timeToUse");
-        } else {
-            setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
+        switch (productCategory) {
+            case "Cleanser":
+                setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
+                break;
+            case "Moisturiser":
+                setData(productCategory, productId, "moisturiser type", "moisturiserType", "time to use", "timeToUse");
+                break;
+            default:
+                setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
+                break;
         }
-
 
         // Updating the text of the cart button depending on if the current item is in the cart
         setCartInfo(productId);
 
+        setOnClickListeners();
+
+        setNavigationViewLinks();
+    }
+
+    /**
+     * This class sets the on click listeners for the elements in the view
+     */
+    private void setOnClickListeners() {
         // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
 
@@ -184,8 +201,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 addItemToCart();
 
-
-                // Display popup dialog confirming purchase
+                // Display popup dialog confirming the cart was updated
                 MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
                 dialogBuilder
                         .setTitle("Success!")
@@ -195,14 +211,13 @@ public class DetailsActivity extends AppCompatActivity {
                         .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
                         .show();
                 viewHolder.cartButton.setText("UPDATE CART");
-
             }
         });
-
-        setNavigationViewLinks();
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * This function sets the navigation links for the navigation bar
+     */
     private void setNavigationViewLinks() {
         viewHolder.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -220,28 +235,37 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
+    /**
+     * This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
+     *
+     * @param productCategory  A string representing the category of the product (Cleanser, Sunscreen or Moisturiser)
+     * @param productId        The ID of the product currently being displayed in the details activity
+     * @param firstDetailName  The name of the first custom detail unique to a specific category
+     * @param firstDetail      The value of the first custom detail unique to a specific category
+     * @param secondDetailName The name of the second custom detail unique to a specific category
+     * @param secondDetail     The value of the second custom detail unique to a specific category
+     */
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
-
-
+        // Use the data repository class to fetch the item's data
         dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
-            // Adding the item to the recently-viewed collection in Firestore
             currentItem = item;
             addItemToRecentlyViewed();
-            System.out.println(item.getName());
             Resources resources = getResources();
-            viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
-            viewHolder.categoryTextView.setText(currentItem.getCategoryName());
-            viewHolder.brandTextView.setText(currentItem.getBrand());
-            viewHolder.productNameTextView.setText(currentItem.getName());
 
+            // Set the image for the product image view
             ArrayList<String> databaseImageNames = currentItem.getImageNames();
             imageNames.addAll(databaseImageNames);
             viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
 
+            // Set the product information
+            viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
+            viewHolder.categoryTextView.setText(currentItem.getCategoryName());
+            viewHolder.brandTextView.setText(currentItem.getBrand());
+            viewHolder.productNameTextView.setText(currentItem.getName());
             String priceText = "$" + currentItem.getPrice();
             viewHolder.priceTextView.setText(priceText);
 
+            // Set the unique category detail values
             viewHolder.firstDetailTitle.setText(firstDetailName);
             viewHolder.secondDetailTitle.setText(secondDetailName);
 
@@ -266,19 +290,29 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    // This function writes to the item ID and quantity to the "cart" category in Firestore
+    /**
+     * This function writes to the item ID and quantity to the "cart" category in Firestore
+     */
     private void addItemToCart() {
         String quantity = viewHolder.quantityValue.getText().toString();
         dataRepository.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
     }
 
-    // This function adds the current item to the recently viewed collection in Firestore
+    /**
+     * This function adds the current item to the recently viewed collection in Firestore
+     */
     private void addItemToRecentlyViewed() {
         dataRepository.addItemToRecentlyViewed(currentItem);
     }
 
+    /**
+     * This function sets the info relating to the cart in the view
+     *
+     * @param productId The ID of the product currently being displayed in the details activity
+     */
     private void setCartInfo(String productId) {
 
+        // Set the text of the cart button depending on if the item is already in the cart
         dataRepository.getCartDocuments().thenAccept(itemsMap -> {
 
             ArrayList<String> itemsInCart = new ArrayList<>();
@@ -298,7 +332,13 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-    // This function provides fade in and fade out animation transitions for the ImageView images
+    /**
+     * This function provides fade in and fade out animation transitions for the ImageView images
+     *
+     * @param context    The context of the current activity
+     * @param imageView  The product image view
+     * @param imageResId The resource ID of the image to set in the image view
+     */
     private void imageViewTransition(Context context, ImageView imageView, int imageResId) {
         // Load the animations using the default Android fade in and fade out animations
         Animation animationOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);

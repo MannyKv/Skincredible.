@@ -50,9 +50,7 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactItemAdapter.
         IItem thisItem = mItems.get(position);
         
         String filePath = thisItem.getImageNames().get(0); //gets the first image to use as display
-        System.out.println("This is the path for loading: " + filePath);
         int i = mContext.getResources().getIdentifier(filePath, "drawable", mContext.getPackageName());
-        System.out.println("This is the image ID for loading: " + i);
 
         holder.imageView.setImageResource(i);
 
