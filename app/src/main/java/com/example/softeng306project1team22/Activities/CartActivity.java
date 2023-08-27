@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -23,9 +22,7 @@ import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -171,7 +168,6 @@ public class CartActivity extends AppCompatActivity {
 
     // This function retrieves and sets the data from the database
     private void loadData() {
-
         // Retrieve the cart information
         DataProvider.getCartDocuments().thenAccept(itemsMap -> {
 
@@ -287,15 +283,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function clears the cart of all items
     private void clearCart() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    database.collection("cart").document(document.getId()).delete();
-                }
-            }
-        });
+        DataProvider.clearCart();
     }
 
     // This function propagates the cart item list based on the data retrieved from the cart collection

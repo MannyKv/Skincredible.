@@ -11,20 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.softeng306project1team22.DataProvider;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -268,23 +262,22 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void setCartInfo(String productId) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                ArrayList<String> itemsInCart = new ArrayList<>();
-                for (DocumentSnapshot document : task.getResult()) {
-                    itemsInCart.add(document.getId());
-                    if (document.getId().equals(productId)) {
-                        viewHolder.quantityValue.setText(document.get("quantity").toString());
-                    }
-                }
-                if (itemsInCart.contains(productId)) {
-                    viewHolder.cartButton.setText("UPDATE CART");
-                } else {
-                    viewHolder.cartButton.setText("ADD TO CART");
+
+        DataProvider.getCartDocuments().thenAccept(itemsMap -> {
+            
+            ArrayList<String> itemsInCart = new ArrayList<>();
+            for (IItem i : itemsMap.keySet()) {
+                itemsInCart.add(i.getId());
+                if (i.getId().equals(productId)) {
+                    viewHolder.quantityValue.setText(itemsMap.get(i));
                 }
             }
+            if (itemsInCart.contains(productId)) {
+                viewHolder.cartButton.setText("UPDATE CART");
+            } else {
+                viewHolder.cartButton.setText("ADD TO CART");
+            }
+
         });
 
     }

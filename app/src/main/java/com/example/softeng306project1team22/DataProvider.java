@@ -323,4 +323,16 @@ public class DataProvider {
         });
         return future;
     }
+
+    public static void clearCart() {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    database.collection("cart").document(document.getId()).delete();
+                }
+            }
+        });
+    }
 }
