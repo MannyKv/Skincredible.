@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
 import com.example.softeng306project1team22.Data.DataRepository;
+import com.example.softeng306project1team22.Data.IDataRepository;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
@@ -24,19 +25,40 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
-    ViewHolder vh;
+
+    /**
+     * The ViewHolder class allows for activity views to be held in a single place for access
+     * within the ListActivity class.
+     */
+    private class ViewHolder {
+        TextView categoryNameHeader;
+        ImageView categoryIcon;
+        RecyclerView itemRecyclerView;
+        Button backButton;
+        BottomNavigationView navigationView;
+
+        public ViewHolder() {
+            categoryNameHeader = findViewById(R.id.category_name);
+            categoryIcon = findViewById(R.id.category_icon);
+            itemRecyclerView = findViewById(R.id.rvItems);
+            backButton = findViewById(R.id.back_button);
+            navigationView = findViewById(R.id.nav_buttons);
+        }
+    }
+
+    ViewHolder viewHolder;
     ArrayList<IItem> itemList;
     ItemListAdapter listAdapter;
     Category category;
-    private DataRepository dataRepository = new DataRepository();
+    private IDataRepository dataRepository = new DataRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         // initialising views and buttons
-        vh = new ViewHolder();
-        vh.backButton.setOnClickListener(v -> finish());
+        viewHolder = new ViewHolder();
+        viewHolder.backButton.setOnClickListener(v -> finish());
         setNavigationViewLinks();
         itemList = new ArrayList<>();
         // obtaining category data so that the appropriate details can be displayed.
@@ -50,7 +72,7 @@ public class ListActivity extends AppCompatActivity {
      * This method sets the navigation view links for the ListActivity.
      */
     private void setNavigationViewLinks() {
-        vh.navigationView.setOnItemSelectedListener(item -> {
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
                 startActivity(new Intent(ListActivity.this, MainActivity.class));
@@ -108,16 +130,16 @@ public class ListActivity extends AppCompatActivity {
      */
     private void propagateListAdapter(String categoryId) {
         listAdapter = new ItemListAdapter(itemList, categoryId);
-        vh.itemRecyclerView.setAdapter(listAdapter);
+        viewHolder.itemRecyclerView.setAdapter(listAdapter);
         switch (categoryId) {
             case "cle":
-                vh.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+                viewHolder.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
                 break;
             case "mos":
-                vh.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+                viewHolder.itemRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
                 break;
             default:
-                vh.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                viewHolder.itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 break;
         }
     }
@@ -128,31 +150,11 @@ public class ListActivity extends AppCompatActivity {
      * @param category the category of the items displayed on this screen.
      */
     private void populateCategoryDetails(Category category) {
-        vh.categoryNameHeader.setText(category.getName());
+        viewHolder.categoryNameHeader.setText(category.getName());
 
         int i = this.getResources().getIdentifier(
                 category.getImageName(), "drawable",
                 this.getPackageName());
-        vh.categoryIcon.setImageResource(i);
-    }
-
-    /**
-     * The ViewHolder class allows for activity views to be held in a single place for access
-     * within the ListActivity class.
-     */
-    private class ViewHolder {
-        TextView categoryNameHeader;
-        ImageView categoryIcon;
-        RecyclerView itemRecyclerView;
-        Button backButton;
-        BottomNavigationView navigationView;
-
-        public ViewHolder() {
-            categoryNameHeader = findViewById(R.id.category_name);
-            categoryIcon = findViewById(R.id.category_icon);
-            itemRecyclerView = findViewById(R.id.rvItems);
-            backButton = findViewById(R.id.back_button);
-            navigationView = findViewById(R.id.nav_buttons);
-        }
+        viewHolder.categoryIcon.setImageResource(i);
     }
 }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface IDataRepo {
+public interface IDataRepository {
 
     public CompletableFuture<List<Category>> getCategories();
 
