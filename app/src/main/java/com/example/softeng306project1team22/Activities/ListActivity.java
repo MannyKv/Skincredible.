@@ -20,33 +20,35 @@ import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
     ViewHolder vh;
-    Category category;
-    FirebaseFirestore db;
     ArrayList<IItem> itemList;
     ItemListAdapter listAdapter;
-
+    Category category;
     private DataRepository dataRepository = new DataRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        // initialising views and buttons
         vh = new ViewHolder();
         vh.backButton.setOnClickListener(v -> finish());
         setNavigationViewLinks();
         itemList = new ArrayList<>();
+        // obtaining category data so that the appropriate details can be displayed.
         Intent intent = getIntent();
-        String categoryId = intent.getStringExtra("categoryId");
-        fetchCategoryData(categoryId);
+        category = new Category(intent.getStringExtra("categoryName"), intent.getStringExtra("categoryId"), intent.getStringExtra("categoryIconName"));
+        populateCategoryDetails(category);
+        fetchItemListData(category);
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * This method sets the navigation view links for the ListActivity.
+     */
     private void setNavigationViewLinks() {
         vh.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -64,36 +66,31 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchCategoryData(String categoryId) {
-        dataRepository.getCategories().thenAccept(categories -> {
-            category = dataRepository.getCategoryById(categoryId);
-            populateCategoryDetails(category);
-            fetchItemListData(category.getName());
 
-        });
-
-
-    }
-
-    private void fetchItemListData(String categoryName) {
-        db = FirebaseFirestore.getInstance();
-        switch (categoryName) {
+    /**
+     * This method utilises the data repository in fetching required items from the database, and
+     * adding them to a list to be displayed on the screen, by propogating the recycler view adapter
+     * for the item list.
+     *
+     * @param category a specific category who's items are to be displayed.
+     */
+    private void fetchItemListData(Category category) {
+        switch (category.getName()) {
             case "Sunscreen":
-
                 dataRepository.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
-            case "Cleanser":
 
+            case "Cleanser":
                 dataRepository.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
-            case "Moisturiser":
 
+            case "Moisturiser":
                 dataRepository.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
@@ -102,6 +99,13 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method propagates the adapter for the recycler view with a list of items to be displayed.
+     * It additionally sets the layout manager of the item recycler view list to be different,
+     * depending on what category the item is.
+     *
+     * @param categoryId the ID of the category who's data is to be displayed.
+     */
     private void propagateListAdapter(String categoryId) {
         listAdapter = new ItemListAdapter(itemList, categoryId);
         vh.itemRecyclerView.setAdapter(listAdapter);
@@ -118,16 +122,24 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method updates the UI header with the appropriate category name and icon.
+     *
+     * @param category the category of the items displayed on this screen.
+     */
     private void populateCategoryDetails(Category category) {
         vh.categoryNameHeader.setText(category.getName());
 
         int i = this.getResources().getIdentifier(
                 category.getImageName(), "drawable",
                 this.getPackageName());
-
         vh.categoryIcon.setImageResource(i);
     }
 
+    /**
+     * The ViewHolder class allows for activity views to be held in a single place for access
+     * within the ListActivity class.
+     */
     private class ViewHolder {
         TextView categoryNameHeader;
         ImageView categoryIcon;
@@ -143,6 +155,4 @@ public class ListActivity extends AppCompatActivity {
             navigationView = findViewById(R.id.nav_buttons);
         }
     }
-
-
 }
