@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -17,6 +16,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.softeng306project1team22.Data.DataRepository;
+import com.example.softeng306project1team22.Data.IDataRepository;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -78,7 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private ViewHolder viewHolder;
     private ArrayList<String> imageNames;
-    private DataRepository dataRepository = new DataRepository();
+    private IDataRepository dataRepository = new DataRepository();
     private IItem currentItem;
 
     @Override
@@ -100,13 +100,13 @@ public class DetailsActivity extends AppCompatActivity {
         // Fetching and setting the item data based on the category and ID of the item passed in
         switch (productCategory) {
             case "Cleanser":
-                setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
+                setData(productCategory, productId, "cleanser type", "ph");
                 break;
             case "Moisturiser":
-                setData(productCategory, productId, "moisturiser type", "moisturiserType", "time to use", "timeToUse");
+                setData(productCategory, productId, "moisturiser type", "time to use");
                 break;
             default:
-                setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
+                setData(productCategory, productId, "sunscreen type", "spf");
                 break;
         }
 
@@ -126,92 +126,76 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.backButton.setOnClickListener(v -> finish());
 
         // Setting the on click functionality of the previous image button on the image slider
-        viewHolder.previousImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Using tags to determine the current image being displayed and then displaying the appropriate previous image based on this
-                if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("2");
-                } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("0");
-                } else {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("1");
-                }
+        viewHolder.previousImageButton.setOnClickListener(v -> {
+            // Using tags to determine the current image being displayed and then displaying the appropriate previous image based on this
+            if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("2");
+            } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("0");
+            } else {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("1");
             }
         });
 
         // Setting the on click functionality of the next image button on the image slider
-        viewHolder.nextImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Using tags to determine the current image being displayed and then displaying the appropriate next image based on this
-                if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("1");
-                } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("2");
-                } else {
-                    Resources resources = getResources();
-                    imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
-                    viewHolder.productImageView.setTag("0");
-                }
+        viewHolder.nextImageButton.setOnClickListener(v -> {
+            // Using tags to determine the current image being displayed and then displaying the appropriate next image based on this
+            if (String.valueOf(viewHolder.productImageView.getTag()).equals("0")) {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(1), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("1");
+            } else if (String.valueOf(viewHolder.productImageView.getTag()).equals("1")) {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(2), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("2");
+            } else {
+                Resources resources = getResources();
+                imageViewTransition(getBaseContext(), viewHolder.productImageView, resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+                viewHolder.productImageView.setTag("0");
             }
         });
 
         // Setting the on click functionality for the decrease quantity button
-        viewHolder.decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
+        viewHolder.decreaseQuantityButton.setOnClickListener(v -> {
+            int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
 
-                // Only decrease the quantity if it is not already 1, as users cannot add 0 items to the cart
-                if (quantityValue > 1) {
-                    quantityValue--;
-                    viewHolder.quantityValue.setText(String.valueOf(quantityValue));
-                }
+            // Only decrease the quantity if it is not already 1, as users cannot add 0 items to the cart
+            if (quantityValue > 1) {
+                quantityValue--;
+                viewHolder.quantityValue.setText(String.valueOf(quantityValue));
             }
         });
 
         // Setting the on click functionality for the increase quantity button
-        viewHolder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
+        viewHolder.increaseQuantityButton.setOnClickListener(v -> {
+            int quantityValue = Integer.parseInt(viewHolder.quantityValue.getText().toString());
 
-                if (quantityValue < 99) {
-                    quantityValue++;
-                    viewHolder.quantityValue.setText(String.valueOf(quantityValue));
-                }
+            if (quantityValue < 99) {
+                quantityValue++;
+                viewHolder.quantityValue.setText(String.valueOf(quantityValue));
             }
         });
 
         // Setting the on click functionality for the add to cart button
-        viewHolder.cartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.cartButton.setOnClickListener(v -> {
+            addItemToCart();
 
-                addItemToCart();
-
-                // Display popup dialog confirming the cart was updated
-                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
-                dialogBuilder
-                        .setTitle("Success!")
-                        .setMessage("Cart updated!")
-                        .setPositiveButton("ok", null)
-                        .setIcon(R.drawable.alert_success_icon)
-                        .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
-                        .show();
-                viewHolder.cartButton.setText("UPDATE CART");
-            }
+            // Display popup dialog confirming the cart was updated
+            MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
+            dialogBuilder
+                    .setTitle("Success!")
+                    .setMessage("Cart updated!")
+                    .setPositiveButton("ok", null)
+                    .setIcon(R.drawable.alert_success_icon)
+                    .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
+                    .show();
+            viewHolder.cartButton.setText("UPDATE CART");
         });
     }
 
@@ -241,11 +225,9 @@ public class DetailsActivity extends AppCompatActivity {
      * @param productCategory  A string representing the category of the product (Cleanser, Sunscreen or Moisturiser)
      * @param productId        The ID of the product currently being displayed in the details activity
      * @param firstDetailName  The name of the first custom detail unique to a specific category
-     * @param firstDetail      The value of the first custom detail unique to a specific category
      * @param secondDetailName The name of the second custom detail unique to a specific category
-     * @param secondDetail     The value of the second custom detail unique to a specific category
      */
-    private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
+    private void setData(String productCategory, String productId, String firstDetailName, String secondDetailName) {
         // Use the data repository class to fetch the item's data
         dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
             currentItem = item;

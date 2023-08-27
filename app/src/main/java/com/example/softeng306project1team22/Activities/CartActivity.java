@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.CartAdapter;
-import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
 import com.example.softeng306project1team22.Data.DataRepository;
+import com.example.softeng306project1team22.Data.IDataRepository;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
@@ -64,16 +64,12 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<IItem> recommendedItemList;
 
-    private CartAdapter cartAdapter;
-
-    private CompactItemAdapter itemAdapter;
-
     private Map<String, String> itemQuantities;
 
     private ArrayList<String> productSkinTypes;
 
     private ArrayList<String> productIdsInCart;
-    private DataRepository dataRepository = new DataRepository();
+    private IDataRepository dataRepository = new DataRepository();
     private boolean onResumeCalled;
 
     @Override
@@ -92,34 +88,31 @@ public class CartActivity extends AppCompatActivity {
 
 
         // Setting onclick functionality for the checkout button
-        viewHolder.checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemList.size() > 0) {
-                    // Clear all the cart information and set the total price to $0.00
-                    itemList.clear();
-                    productSkinTypes.clear();
-                    productIdsInCart.clear();
-                    clearCart();
-                    viewHolder.totalPriceTextView.setText("$0.00");
-                    viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
-                    viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.cartTotalContainer.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.checkoutButton.setVisibility(View.GONE);
+        viewHolder.checkoutButton.setOnClickListener(v -> {
+            if (itemList.size() > 0) {
+                // Clear all the cart information and set the total price to $0.00
+                itemList.clear();
+                productSkinTypes.clear();
+                productIdsInCart.clear();
+                clearCart();
+                viewHolder.totalPriceTextView.setText("$0.00");
+                viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.checkoutButton.setVisibility(View.GONE);
 
-                    // Display popup dialog confirming purchase
-                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(CartActivity.this, R.style.alert_dialog);
-                    dialogBuilder
-                            .setTitle("Thank you!")
-                            .setMessage("Your order has been confirmed!")
-                            .setPositiveButton("ok", null)
-                            .setIcon(R.drawable.alert_success_icon)
-                            .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
-                            .show();
-                    propagateCartAdapter();
-                }
+                // Display popup dialog confirming purchase
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(CartActivity.this, R.style.alert_dialog);
+                dialogBuilder
+                        .setTitle("Thank you!")
+                        .setMessage("Your order has been confirmed!")
+                        .setPositiveButton("ok", null)
+                        .setIcon(R.drawable.alert_success_icon)
+                        .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
+                        .show();
+                propagateCartAdapter();
             }
         });
 
@@ -159,7 +152,6 @@ public class CartActivity extends AppCompatActivity {
             } else if (itemId == R.id.search) {
                 startActivity(new Intent(CartActivity.this, SearchActivity.class));
                 finish();
-            } else if (itemId == R.id.cart) {
             }
             return true;
         });
@@ -301,7 +293,7 @@ public class CartActivity extends AppCompatActivity {
      * This function propagates the cart item list based on the data retrieved from the cart collection
      */
     private void propagateCartAdapter() {
-        cartAdapter = new CartAdapter(itemList, itemQuantities);
+        CartAdapter cartAdapter = new CartAdapter(itemList, itemQuantities);
         cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             // Update the total price displayed whenever an item is added or removed from the cart
@@ -337,12 +329,7 @@ public class CartActivity extends AppCompatActivity {
      * This function propagates the recommended item list based on the calculated recommended items to display
      */
     private void propagateItemAdapter() {
-        itemAdapter = new CompactItemAdapter(recommendedItemList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                viewItem(position);
-            }
-        });
+        CompactItemAdapter itemAdapter = new CompactItemAdapter(recommendedItemList, getApplicationContext(), (view, position) -> viewItem(position));
         viewHolder.recommendedItemsRecyclerView.setAdapter(itemAdapter);
         viewHolder.recommendedItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }

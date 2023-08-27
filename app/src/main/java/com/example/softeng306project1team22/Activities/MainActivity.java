@@ -2,7 +2,6 @@ package com.example.softeng306project1team22.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
 import com.example.softeng306project1team22.Data.DataRepository;
+import com.example.softeng306project1team22.Data.IDataRepository;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
@@ -22,16 +22,31 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The ViewHolder class allows for activity views to be held in a single place for access
+     * within the MainActivity class.
+     */
+    private class ViewHolder {
+        CardView searchBar;
+        RecyclerView recyclerView;
+        RecyclerView historyView;
+        BottomNavigationView navigationView;
+
+        public ViewHolder() {
+            searchBar = findViewById(R.id.search);
+            recyclerView = findViewById(R.id.mCategory);
+            historyView = findViewById(R.id.carousel_recycler_view);
+            navigationView = findViewById(R.id.nav_buttons);
+        }
+    }
+
     List<Category> categoryList;
     List<IItem> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
-    BottomNavigationView navigationView;
+    ViewHolder viewHolder;
     Boolean isActivityResumed = false;
-    RecyclerView historyView;
-
-    private DataRepository dataRepository = new DataRepository();
-
+    private IDataRepository dataRepository = new DataRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,36 +54,19 @@ public class MainActivity extends AppCompatActivity {
         fetchRecentlyViewed();
         isActivityResumed = true;
         setContentView(R.layout.activity_main);
-        CardView searchBar = findViewById(R.id.search);
-        navigationView = findViewById(R.id.nav_buttons);
 
-
-        searchBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchItem();
-            }
-        });
-
-        //Create recyclerView instances for layout
-        RecyclerView recyclerView = findViewById(R.id.mCategory);
-        historyView = findViewById(R.id.carousel_recycler_view);
-
+        viewHolder = new ViewHolder();
+        viewHolder.searchBar.setOnClickListener(v -> searchItem());
+        
         //Fetch All data required
         dataRepository.getCategories().thenAccept(categories -> {
             categoryList = new ArrayList<>(categories);
-            adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(View view, int position) {
-                    viewCategory(position);
-                }
-            });
-            recyclerView.setAdapter(adapter);
+            adapter = new CategoryAdapter(categoryList, getApplicationContext(), (view, position) -> viewCategory(position));
+            viewHolder.recyclerView.setAdapter(adapter);
         });
 
         //Set layout managers!
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //Set nav view links
         setNavigationViewLinks();
@@ -79,12 +77,10 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private void setNavigationViewLinks() {
-        navigationView.setSelectedItemId(R.id.home);
-        navigationView.setOnItemSelectedListener(item -> {
+        viewHolder.navigationView.setSelectedItemId(R.id.home);
+        viewHolder.navigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.home) {
-
-            } else if (itemId == R.id.search) {
+            if (itemId == R.id.search) {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 finish();
             } else if (itemId == R.id.cart) {
@@ -126,23 +122,18 @@ public class MainActivity extends AppCompatActivity {
         dataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
             recentlyViewed.clear();
             recentlyViewed.addAll(items);
-            itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    viewItem(position);
-                }
-            });
+            itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), (view, position) -> viewItem(position));
 
             //Set adapters that recyclerViews will use
-            historyView.setAdapter(itemAdapter);
-            historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            viewHolder.historyView.setAdapter(itemAdapter);
+            viewHolder.historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         });
     }
 
     /**
-     * Passes an intent to view a category based on the clicked category pos
+     * Passes an intent to view a category based on the clicked category position
      *
-     * @param position
+     * @param position the position of the clicked category
      */
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
@@ -156,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * passes an intent to view an item based on the clicked item pos
+     * passes an intent to view an item based on the clicked item position
      *
-     * @param position
+     * @param position the position of the recently viwewed item list
      */
     public void viewItem(int position) {
         IItem clickedItem = recentlyViewed.get(position);

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class DataRepository implements IDataRepo {
+public class DataRepository implements IDataRepository {
     private List<Category> categories = new ArrayList<>();
     private List<IItem> allItems = new ArrayList<>();
 
