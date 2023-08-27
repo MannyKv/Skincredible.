@@ -15,11 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.softeng306project1team22.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -190,6 +192,16 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addItemToCart(productId, productCategory.toLowerCase());
+                // Display popup dialog confirming purchase
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
+                dialogBuilder
+                        .setTitle("Success!")
+                        .setMessage("Cart updated!")
+                        .setPositiveButton("ok", null)
+                        .setIcon(R.drawable.alert_success_icon)
+                        .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
+                        .show();
+                viewHolder.cartButton.setText("UPDATE CART");
             }
         });
 
