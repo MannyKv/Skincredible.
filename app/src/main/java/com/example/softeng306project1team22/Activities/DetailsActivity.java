@@ -45,6 +45,9 @@ public class DetailsActivity extends AppCompatActivity {
         TextView firstDetailTitle, firstDetailValue, secondDetailTitle, secondDetailValue, thirdDetailValue;
         Button cartButton;
 
+        /**
+         * The constructor finds each view by its ID in the corresponding XML file
+         */
         public ViewHolder() {
             backButton = findViewById(R.id.back_button);
             categoryImageView = findViewById(R.id.category_icon);
