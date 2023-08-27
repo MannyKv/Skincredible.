@@ -247,22 +247,22 @@ public class DetailsActivity extends AppCompatActivity {
 
             switch (currentItem.getCategoryName()) {
                 case "Sunscreen":
-                    viewHolder.firstDetailValue.setText(currentItem.getSunscreenType());
-                    viewHolder.secondDetailValue.setText(currentItem.getSpf());
+                    viewHolder.firstDetailValue.setText(currentItem.getSunscreenType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getSpf().toLowerCase());
                     break;
                 case "Cleanser":
-                    viewHolder.firstDetailValue.setText(currentItem.getCleanserType());
-                    viewHolder.secondDetailValue.setText(currentItem.getPh());
+                    viewHolder.firstDetailValue.setText(currentItem.getCleanserType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getPh().toLowerCase());
 
                     break;
                 case "Moisturiser":
-                    viewHolder.firstDetailValue.setText(currentItem.getMoisturiserType());
-                    viewHolder.secondDetailValue.setText(currentItem.getTimeToUse());
+                    viewHolder.firstDetailValue.setText(currentItem.getMoisturiserType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getTimeToUse().toLowerCase());
 
                     break;
             }
-            viewHolder.thirdDetailValue.setText(String.join(", ", currentItem.getSkinType()));
-            viewHolder.howToUseText.setText(item.getHowToUse());
+            viewHolder.thirdDetailValue.setText(String.join(", ", currentItem.getSkinType()).toLowerCase());
+            viewHolder.howToUseText.setText(item.getHowToUse().toLowerCase());
         });
     }
 
