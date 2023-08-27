@@ -53,12 +53,15 @@
         <item name="iconTint">@color/light_gray</item>
     </style>
 
-    <style name="see_more_button" parent="Widget.MaterialComponents.Button.Icon">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="icon">@drawable/down_arrow</item>
-        <item name="iconGravity">start</item>
-        <item name="iconSize">30dp</item>
-        <item name="iconTint">@color/dark_gray</item>
+    <style name="search_view" parent="Widget.AppCompat.SearchView">
+        <!-- Text Size -->
+        <item name="android:textSize">20dp</item>
+        <!-- Query Text Color -->
+        <item name="android:textColorPrimary">@color/light_gray</item>
+        <!-- Hint Color -->
+        <item name="android:textColorHint">@color/light_gray</item>
+        <!-- Icon Color -->
+        <item name="android:tint">@color/light_gray</item>
     </style>
 
     <style name="nav_button_highlight" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">

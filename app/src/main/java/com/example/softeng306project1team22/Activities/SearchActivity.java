@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -44,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
         SearchView searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_buttons);
         searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("search items...");
+        searchView.setQueryHint("search items . . .");
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -62,8 +61,6 @@ public class SearchActivity extends AppCompatActivity {
         searchView.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        searchView.clearFocus();
         recyclerView = findViewById(R.id.search_recycled);
 
         itemAdapter = new ItemListAdapter(filtered);
