@@ -158,14 +158,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/medium_green"
             android:layout_alignParentEnd="true"
             android:paddingVertical="10dp"
             android:text="ADD TO CART"
             app:iconSize="25dp"
             android:textSize="20sp"
-            android:textColor="@color/darkest_green"
-            app:iconTint="@color/medium_green"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
             android:elevation="2dp"
             android:stateListAnimator="@null"
             app:icon="@drawable/add_to_cart" />
@@ -266,8 +266,7 @@
                         android:layout_marginBottom="20dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp">
+                        android:paddingHorizontal="10dp">
 
                         <TextView
                             android:layout_width="match_parent"
