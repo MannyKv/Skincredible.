@@ -101,10 +101,16 @@ public class DetailsActivity extends AppCompatActivity {
             setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
         }
 
-
         // Updating the text of the cart button depending on if the current item is in the cart
         setCartInfo(productId);
 
+        setOnClickListeners();
+
+        setNavigationViewLinks();
+    }
+
+    // This function sets the on click listeners for the elements in the activity
+    private void setOnClickListeners() {
         // Setting the functionality for the back button to end the current activity and go back to the previous activity when clicked
         viewHolder.backButton.setOnClickListener(v -> finish());
 
@@ -184,7 +190,6 @@ public class DetailsActivity extends AppCompatActivity {
 
                 addItemToCart();
 
-
                 // Display popup dialog confirming purchase
                 MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
                 dialogBuilder
@@ -195,11 +200,8 @@ public class DetailsActivity extends AppCompatActivity {
                         .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
                         .show();
                 viewHolder.cartButton.setText("UPDATE CART");
-
             }
         });
-
-        setNavigationViewLinks();
     }
 
     // This function sets the navigation links for the navigation bar
