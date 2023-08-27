@@ -2,18 +2,27 @@ package com.example.softeng306project1team22;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class DataProvider {
@@ -219,4 +228,63 @@ public class DataProvider {
         return fetchFuture;
     }
 
+    public static void addItemToCart(String productId, String productCategory, String price, String quantity) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        Map<String, Object> itemInfo = new HashMap<>();
+
+        itemInfo.put("itemId", productId);
+        itemInfo.put("quantity", quantity);
+        itemInfo.put("categoryName", productCategory);
+        itemInfo.put("singleItemPrice", price);
+
+        database.collection("cart").document(productId).set(itemInfo);
+    }
+
+
+    public static void addItemToRecentlyViewed(IItem item) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        // Determine the size of the recently-viewed collection
+        database.collection("recently-viewed").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> documents = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        documents.add(document.getId());
+                    }
+                    // Format the data to be added to Firestore as a HashMap with key, value pairs
+                    Map<String, Object> itemInfo = new HashMap<>();
+                    itemInfo.put("itemId", item.getId());
+                    itemInfo.put("timeAdded", FieldValue.serverTimestamp());
+                    itemInfo.put("categoryName", item.getCategoryName());
+
+                    // If there are more than 5 documents in the recently-viewed collection and the document being added is not already in it, delete the oldest one and then add the newest one
+                    if (documents.size() > 5 && !documents.contains(item.getId())) {
+                        // Query the collection and return the oldest document
+                        Query sortedRecentlyViewed = database.collection("recently-viewed")
+                                .orderBy("timeAdded", Query.Direction.ASCENDING)
+                                .limit(1);
+
+                        // Delete the oldest document
+                        sortedRecentlyViewed.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    database.collection("recently-viewed").document(document.getId()).delete();
+                                }
+                            }
+                        });
+
+                        // Add the new document after the oldest one has been deleted
+                        database.collection("recently-viewed").document(item.getId()).set(itemInfo);
+                    } else {
+                        // If there are 5 or fewer documents in the collection, just add the new one
+                        database.collection("recently-viewed").document(item.getId()).set(itemInfo);
+                    }
+                }
+            }
+        });
+    }
 }

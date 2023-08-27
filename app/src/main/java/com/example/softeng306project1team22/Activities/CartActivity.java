@@ -232,28 +232,6 @@ public class CartActivity extends AppCompatActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
-       /* database.collection("sunscreen")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int sunscreensFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            IItem sunscreen = documentSnapshot.toObject(Sunscreen.class);
-
-                            if (sunscreensFound > 1) {
-                                break;
-                            }
-
-                            if (!productIds.contains(sunscreen.getId())) {
-                                recommendedItemList.add(sunscreen);
-                                sunscreensFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });*/
 
         DataProvider.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
             int sunscreensFound = 0;
@@ -268,30 +246,7 @@ public class CartActivity extends AppCompatActivity {
             }
             propagateItemAdapter();
         });
-
-       /* // Find two cleansers based on the most commonly occurring skin type in the cart
-        database.collection("cleanser")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int cleansersFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            IItem cleanser = documentSnapshot.toObject(Cleanser.class);
-
-                            if (cleansersFound > 1) {
-                                break;
-                            }
-
-                            if (!productIds.contains(cleanser.getId())) {
-                                recommendedItemList.add(cleanser);
-                                cleansersFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });*/
+        
         DataProvider.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
             int cleanserFound = 0;
             for (IItem singleItem : item) {
@@ -305,29 +260,7 @@ public class CartActivity extends AppCompatActivity {
             }
             propagateItemAdapter();
         });
-       /* // Find two moisturisers based on the most commonly occurring skin type in the cart
-        database.collection("moisturiser")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int moisturisersFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            IItem moisturiser = documentSnapshot.toObject(Moisturiser.class);
 
-                            if (moisturisersFound > 1) {
-                                break;
-                            }
-
-                            if (!productIds.contains(moisturiser.getId())) {
-                                recommendedItemList.add(moisturiser);
-                                moisturisersFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });*/
         DataProvider.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
             int moisturiserFound = 0;
             System.out.println("This is number of recc items: " + item.size());
