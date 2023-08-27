@@ -232,7 +232,7 @@ public class CartActivity extends AppCompatActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
-        database.collection("sunscreen")
+       /* database.collection("sunscreen")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -253,9 +253,23 @@ public class CartActivity extends AppCompatActivity {
                         }
                         propagateItemAdapter();
                     }
-                });
+                });*/
 
-        // Find two cleansers based on the most commonly occurring skin type in the cart
+        DataProvider.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
+            int sunscreensFound = 0;
+            for (IItem singleItem : item) {
+                if (sunscreensFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    sunscreensFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
+
+       /* // Find two cleansers based on the most commonly occurring skin type in the cart
         database.collection("cleanser")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
@@ -277,9 +291,21 @@ public class CartActivity extends AppCompatActivity {
                         }
                         propagateItemAdapter();
                     }
-                });
-
-        // Find two moisturisers based on the most commonly occurring skin type in the cart
+                });*/
+        DataProvider.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
+            int cleanserFound = 0;
+            for (IItem singleItem : item) {
+                if (cleanserFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    cleanserFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
+       /* // Find two moisturisers based on the most commonly occurring skin type in the cart
         database.collection("moisturiser")
                 .whereArrayContains("skinType", mostCommonSkinType)
                 .get()
@@ -301,7 +327,21 @@ public class CartActivity extends AppCompatActivity {
                         }
                         propagateItemAdapter();
                     }
-                });
+                });*/
+        DataProvider.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
+            int moisturiserFound = 0;
+            System.out.println("This is number of recc items: " + item.size());
+            for (IItem singleItem : item) {
+                if (moisturiserFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    moisturiserFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
     }
 
     // This helper function finds the most commonly occurring element in a given ArrayList

@@ -202,5 +202,21 @@ public class DataProvider {
         return future;
     }
 
+    public static CompletableFuture<List<IItem>> getReccomended(String categoryName, Class<?> itemClass, String filter) {
+        CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
+        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
+        List<IItem> items = new ArrayList<>();
+        CollectionReference colRef = dbs.collection(categoryName);
+        colRef.whereArrayContains("skinType", filter).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("Firestore", "All Items Retrieved");
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                IItem item = (IItem) documentSnapshot.toObject(itemClass);
+                items.add(item);
+                //add the retrived item to the list
+            }
+            fetchFuture.complete(items); //complete the future
+        });
+        return fetchFuture;
+    }
 
 }
