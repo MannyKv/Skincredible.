@@ -22,17 +22,18 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     // declaring collection object holding the data to populate the RecyclerView
     private List<IItem> mItems;
     private Context mContext;
-    private String category;
+    private String mCategory;
 
+    // constructor when displaying items from a specific category
     public ItemListAdapter(List<IItem> items, String categoryId) {
         mItems = items;
-        category = categoryId;
+        mCategory = categoryId;
     }
 
     // constructor when displaying items from various categories (no id specified)
     public ItemListAdapter(List<IItem> items) {
         mItems = items;
-        category = "";
+        mCategory = "";
     }
 
     // inflating layout from XML and returning holder
@@ -44,7 +45,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         View itemView;
         ViewHolder holder;
 
-        switch (category) {
+        switch (mCategory) {
             case "cle":
                 itemView = inflater.inflate(R.layout.cleanser_item_card, parent, false);
                 holder = new ViewHolder(itemView);
@@ -110,7 +111,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public TextView tagTwoTextView;
         public ImageView productImageView;
 
-
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
@@ -121,7 +121,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             tagOneTextView = view.findViewById(R.id.tag1);
             tagTwoTextView = view.findViewById(R.id.tag2);
             productImageView = view.findViewById(R.id.item_icon);
-
         }
 
         @Override
@@ -135,6 +134,4 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             mContext.startActivity(intent);
         }
     }
-
-
 }

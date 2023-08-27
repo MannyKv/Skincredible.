@@ -84,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/product_name">
 
+
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
