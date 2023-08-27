@@ -27,7 +27,7 @@
         android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_weight="7"
         android:layout_above="@id/cartTotalContainer"
         android:visibility="visible" />
 
@@ -50,14 +50,14 @@
         android:layout_marginTop="5dp"
         app:cardCornerRadius="50dp"
         app:contentPadding="5dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.75"
         app:contentPaddingLeft="15dp"
         app:contentPaddingRight="15dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CART TOTAL"
+            android:text="Cart Total"
             android:layout_gravity="center|start"
             android:textAllCaps="true"
             android:textColor="@color/dark_green"

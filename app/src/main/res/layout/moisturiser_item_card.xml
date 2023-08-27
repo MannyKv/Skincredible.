@@ -93,8 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingBottom="4dp"
                     android:text="Day" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -113,8 +113,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingBottom="4dp"
                     android:text="Cream" />
             </com.google.android.material.card.MaterialCardView>
 

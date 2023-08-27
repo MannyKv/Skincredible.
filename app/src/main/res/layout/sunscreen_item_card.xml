@@ -21,8 +21,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_icon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:contentDescription="Product"
             android:src="@drawable/cle1_img1"
@@ -84,6 +84,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:paddingHorizontal="5dp"
+                        android:paddingBottom="2dp"
                         android:text="SPF 50+" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -100,8 +101,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:paddingHorizontal="5dp"
+                        android:paddingBottom="2dp"
                         android:text="Chemical" />
                 </com.google.android.material.card.MaterialCardView>
 
