@@ -27,7 +27,7 @@
             android:scaleType="centerInside"
             android:layout_gravity="center"
             android:layout_weight="2"
-            app:contentPadding="15dp"
+            app:contentPadding="10dp"
             android:src="@drawable/mos"
             android:translationZ="30dp"
             app:shapeAppearance="@style/circular_image" />

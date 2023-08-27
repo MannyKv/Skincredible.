@@ -34,7 +34,6 @@
         android:layout_weight="6"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -45,18 +44,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
                 android:text="skincredible."
                 android:textColor="@color/medium_green"
                 android:textSize="50sp" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:layout_weight="0.5"
-                android:text="have another look!"
+                android:layout_weight="0.25"
+                android:text="have another look"
                 app:textAllCaps="true"
                 android:textSize="25sp" />
 
@@ -65,7 +63,7 @@
                 android:id="@+id/carousel_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.75"
+                android:layout_weight="0.5"
                 android:layout_marginHorizontal="10dp"
                 android:isScrollContainer="false"
                 android:layout_gravity="center" />
@@ -77,7 +75,7 @@
                 android:text="shop our skincare . . ."
                 android:textFontWeight="400"
                 android:textSize="30sp"
-                android:layout_weight="0.5" />
+                android:layout_weight="0.25" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category"
