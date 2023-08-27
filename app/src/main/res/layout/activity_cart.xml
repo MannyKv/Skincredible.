@@ -17,7 +17,6 @@
         android:letterSpacing="0.1"
         android:text="SHOPPING CART"
         android:layout_weight="1"
-        android:layout_margin="10dp"
         android:textColor="@color/darkest_green"
         android:textSize="25sp"
         app:textAllCaps="true" />
@@ -38,7 +37,7 @@
         android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:layout_above="@id/cartTotalContainer"
         android:visibility="visible" />
 
@@ -49,7 +48,7 @@
         android:layout_margin="15dp"
         app:cardCornerRadius="50dp"
         app:contentPadding="5dp"
-        android:layout_weight="0.75"
+        android:layout_weight="0.5"
         app:contentPaddingLeft="15dp"
         app:contentPaddingRight="15dp">
 
@@ -77,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="recommended for you"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:visibility="visible"
         android:layout_weight="1"
         android:textColor="@color/darkest_green"
@@ -91,18 +90,20 @@
         android:layout_gravity="center"
         android:visibility="visible"
         android:layout_weight="2"
+        android:padding="5dp"
         tools:visibility="visible"
         android:orientation="horizontal" />
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="50dp"
         android:id="@+id/checkoutButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:backgroundTint="#57958D"
-        android:textSize="17sp"
-        android:layout_margin="10dp"
+        android:translationZ="5dp"
+        android:backgroundTint="@color/medium_green"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
         android:layout_gravity="center"
         app:icon="@drawable/right_arrow"
         app:iconSize="30dp"
@@ -110,6 +111,7 @@
         android:layout_weight="1"
         android:textAllCaps="true"
         android:visibility="visible"
+        app:elevation="30dp"
         android:textStyle="bold"
         android:text="CHECKOUT" />
 
