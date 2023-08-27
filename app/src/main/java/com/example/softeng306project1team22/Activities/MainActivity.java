@@ -2,7 +2,6 @@ package com.example.softeng306project1team22.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,37 +11,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.Category;
-import com.example.softeng306project1team22.Models.Cleanser;
-import com.example.softeng306project1team22.Models.Item;
-import com.example.softeng306project1team22.Models.Moisturiser;
-import com.example.softeng306project1team22.Models.Sunscreen;
+import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Category> categoryList = new ArrayList<>();
-    List<Item> recentlyViewed = new ArrayList<>();
+    List<Category> categoryList;
+    List<IItem> recentlyViewed = new ArrayList<>();
     CategoryAdapter adapter;
     CompactItemAdapter itemAdapter;
     BottomNavigationView navigationView;
     Boolean isActivityResumed = false;
+    RecyclerView historyView;
+
+    private DataRepository dataRepository = new DataRepository();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fetchRecentlyViewed();
         isActivityResumed = true;
         setContentView(R.layout.activity_main);
         CardView searchBar = findViewById(R.id.search);
         navigationView = findViewById(R.id.nav_buttons);
+
 
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,38 +49,26 @@ public class MainActivity extends AppCompatActivity {
                 searchItem();
             }
         });
+
         //Create recyclerView instances for layout
         RecyclerView recyclerView = findViewById(R.id.category);
-        RecyclerView historyView = findViewById(R.id.carousel_recycler_view);
+        historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
-        fetchCategoryData();
-        fetchRecentlyViewed();
+        dataRepository.getCategories().thenAccept(categories -> {
+            categoryList = new ArrayList<>(categories);
+            adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
 
-        //Create Adapters for different views
-        itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-                viewItem(position);
-            }
+                @Override
+                public void onItemClick(View view, int position) {
+                    System.out.println("Made it to onItemClick : " + position);
+                    viewCategory(position);
+                }
+            });
+            recyclerView.setAdapter(adapter);
         });
-        adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-                System.out.println("Made it to onItemClick : " + position);
-                viewCategory(position);
-            }
-        });
-
-        //Set adapters that recyclerViews will use
-        historyView.setAdapter(itemAdapter);
-        recyclerView.setAdapter(adapter);
-
 
         //Set layout managers!
-        historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //Set nav view links
@@ -106,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Called when the activity is resumed
+     */
     protected void onResume() {
         super.onResume();
 
@@ -115,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = true;
     }
 
+    /**
+     * called when a new activity is started
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -122,61 +115,36 @@ public class MainActivity extends AppCompatActivity {
         isActivityResumed = false; // Mark the activity as paused
     }
 
-    private void fetchCategoryData() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference collectionRef = db.collection("category");
-
-        collectionRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Data retrieved successfully");
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                categoryList.add(new Category(document.get("name", String.class), document.getId(), document.get("imageName", String.class)));
-            }
-            adapter.notifyDataSetChanged();
-        }).addOnFailureListener(e -> {
-            System.out.println("Category Data Retrieval Failure");
-        });
-    }
-
+    /**
+     * Called when the activity is started
+     * makes a database call from the DataProvider class and awaits a return.
+     * Creates the adapter and binds the on click and adapter to the recycler view
+     */
     private void fetchRecentlyViewed() {
-        recentlyViewed.clear();
-        //DISCLAIMER! TEST DATA
-        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef = dbs.collection("recently-viewed");
-
-        colRef.orderBy("timeAdded", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Recently viewed retrieved successfully");
-            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                String id = documentSnapshot.getString("itemId");
-                CollectionReference itemRef;
-                if (id.contains("sun")) {
-                    itemRef = dbs.collection("sunscreen");
-                } else if (id.contains("mos")) {
-                    itemRef = dbs.collection("moisturiser");
-                } else {
-                    itemRef = dbs.collection("cleanser");
+        System.out.println("Made it into the fetchRecent");
+        dataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
+            System.out.println("data received");
+            recentlyViewed.clear();
+            recentlyViewed.addAll(items);
+            System.out.println(recentlyViewed.get(0).getName());
+            itemAdapter = new CompactItemAdapter(recentlyViewed, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    viewItem(position);
                 }
+            });
 
-                itemRef.document(id).get().addOnSuccessListener(referencedDocSnapshot -> {
-                    if (referencedDocSnapshot.getString("categoryName").equals("Sunscreen")) {
-                        Sunscreen sunscreen = referencedDocSnapshot.toObject(Sunscreen.class);
-                        recentlyViewed.add(sunscreen);
-
-                    } else if (referencedDocSnapshot.getString("categoryName").equals("Cleanser")) {
-                        Cleanser cleanser = referencedDocSnapshot.toObject(Cleanser.class);
-                        System.out.println("this is a real class: " + cleanser.getName());
-                        recentlyViewed.add(cleanser);
-                    } else if (referencedDocSnapshot.getString("categoryName").equals("Moisturiser")) {
-                        Moisturiser moisturiser = referencedDocSnapshot.toObject(Moisturiser.class);
-                        recentlyViewed.add(moisturiser);
-                    }
-                    itemAdapter.notifyDataSetChanged();
-                });
-            }
-
-            itemAdapter.notifyDataSetChanged();
+            //Set adapters that recyclerViews will use
+            historyView.setAdapter(itemAdapter);
+            historyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         });
     }
 
+    /**
+     * Passes an intent to view a category based on the clicked category pos
+     *
+     * @param position
+     */
     public void viewCategory(int position) {
         Category clickedCategory = categoryList.get(position);
         // Create intent and pass data here
@@ -186,8 +154,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * passes an intent to view an item based on the clicked item pos
+     *
+     * @param position
+     */
     public void viewItem(int position) {
-        Item clickedItem = recentlyViewed.get(position);
+        IItem clickedItem = recentlyViewed.get(position);
         // Create intent and pass data here
         Intent intent = new Intent(this, DetailsActivity.class);
         // Add any other relevant data to the intent
@@ -196,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    /**
+     * opens the search item activity via intents
+     */
     public void searchItem() {
         Intent intent = new Intent(this, SearchActivity.class);
         this.startActivity(intent);

@@ -3,7 +3,6 @@ package com.example.softeng306project1team22.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -14,26 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.Models.Cleanser;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.IItem;
-import com.example.softeng306project1team22.Models.Moisturiser;
-import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     ItemListAdapter itemAdapter;
-    List<IItem> allItems = new ArrayList<>();
-    List<IItem> filtered = new ArrayList<>();
+    List<IItem> allItems;
+    List<IItem> filtered;
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
     TextView notFoundMsg;
+
+    private DataRepository dataRepository = new DataRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         notFoundMsg = findViewById(R.id.not_found);
         SearchView searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_buttons);
+        recyclerView = findViewById(R.id.search_recycled);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("search items . . .");
         searchView.clearFocus();
@@ -52,23 +49,25 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String newText) { //Query and pass in the string to the filter real time
                 setFiltered(newText);
                 return false;
             }
         });
+        //Calls the get all items method in data provider and awaits response
+        dataRepository.getAllItems().thenAccept(items -> {
+            allItems = new ArrayList<>(items);
+            filtered = new ArrayList<>(items);
+            itemAdapter = new ItemListAdapter(filtered);
+            recyclerView.setAdapter(itemAdapter);
+        });
+
         searchView.setIconified(false);
         searchView.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
-        recyclerView = findViewById(R.id.search_recycled);
-
-        itemAdapter = new ItemListAdapter(filtered);
-        recyclerView.setAdapter(itemAdapter);
-        retrieveAllItems();
+        //Bind the recycler view layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        itemAdapter.notifyDataSetChanged();
-
         setNavigationViewLinks();
 
     }
@@ -91,47 +90,27 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    protected void retrieveAllItems() {
-        // allItems = getAllItems();
 
-        FirebaseFirestore dbs = FirebaseFirestore.getInstance();
-        CollectionReference colRef1 = dbs.collection("cleanser");
-        CollectionReference colRef2 = dbs.collection("moisturiser");
-        CollectionReference colRef3 = dbs.collection("sunscreen");
-
-        retrieveFromCollection(colRef1, Cleanser.class);
-        retrieveFromCollection(colRef2, Moisturiser.class);
-        retrieveFromCollection(colRef3, Sunscreen.class);
-        // filtered = new ArrayList<>(allItems);
-    }
-
-    private void retrieveFromCollection(CollectionReference colRef, Class<?> itemClass) {
-        colRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            Log.d("Firestore", "Recently viewed retrieved successfully");
-            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                IItem item = (IItem) documentSnapshot.toObject(itemClass);
-                allItems.add(item);
-                filtered.add(item);
-            }
-            itemAdapter.notifyDataSetChanged();
-        });
-    }
-
+    /**
+     * Sets the filter based on the string in the search query
+     *
+     * @param filterBy
+     */
     protected void setFiltered(String filterBy) {
-        filtered.clear();
-
+        filtered.clear(); //clear the current filtered items
+        //filter the items in the allItems list
         for (int x = 0; x < allItems.size(); x++) {
             if (allItems.get(x).getName().toLowerCase().contains(filterBy.toLowerCase())) {
                 filtered.add(allItems.get(x));
 
             }
         }
-        if (filtered.size() == 0) {
+        if (filtered.size() == 0) { //if there is no filtered item display error
             notFoundMsg.setVisibility(View.VISIBLE);
         } else {
             notFoundMsg.setVisibility(View.GONE);
         }
-        itemAdapter.notifyDataSetChanged();
+        itemAdapter.notifyDataSetChanged(); //notify the adapter the data set has just changed
     }
 
 }

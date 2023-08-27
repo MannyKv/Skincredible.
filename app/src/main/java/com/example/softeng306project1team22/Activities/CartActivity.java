@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -17,20 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.softeng306project1team22.Adapters.CartAdapter;
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
+import com.example.softeng306project1team22.Data.DataRepository;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
-import com.example.softeng306project1team22.Models.Item;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +55,7 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<IItem> itemList;
 
-    private ArrayList<Item> recommendedItemList;
+    private ArrayList<IItem> recommendedItemList;
 
     private CartAdapter cartAdapter;
 
@@ -73,7 +66,7 @@ public class CartActivity extends AppCompatActivity {
     private ArrayList<String> productSkinTypes;
 
     private ArrayList<String> productIds;
-
+    private DataRepository dataRepository = new DataRepository();
     private boolean onResumeCalled;
 
     @Override
@@ -94,6 +87,7 @@ public class CartActivity extends AppCompatActivity {
         productSkinTypes = new ArrayList<>();
 
         productIds = new ArrayList<>();
+
 
         // Setting onclick functionality for the checkout button
         viewHolder.checkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -169,194 +163,93 @@ public class CartActivity extends AppCompatActivity {
 
     // This function retrieves and sets the data from the database
     private void loadData() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-
         // Retrieve the cart information
-        database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                // Display the "cart empty" message if the cart is empty
-                if (queryDocumentSnapshots.getDocuments().size() == 0) {
-                    viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
-                    viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.cartTotalContainer.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
-                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
-                    viewHolder.checkoutButton.setVisibility(View.GONE);
-                } else {
-                    viewHolder.noItemsTextView.setVisibility(View.GONE);
-                    viewHolder.cartItemsRecyclerView.setVisibility(View.VISIBLE);
-                    viewHolder.cartTotalContainer.setVisibility(View.VISIBLE);
-                    viewHolder.recommendedItemsHeader.setVisibility(View.VISIBLE);
-                    viewHolder.recommendedItemsRecyclerView.setVisibility(View.VISIBLE);
-                    viewHolder.checkoutButton.setVisibility(View.VISIBLE);
-                }
-                double totalPrice = 0;
-                int documentPosition = 1;
-
-                // For each item in the cart, fetch it's data and load it
-                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                    String categoryName = (String) document.get("categoryName");
-                    String productId = document.getId();
-                    totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
-                    String itemQuantity = document.get("quantity").toString();
-                    fetchItemData(categoryName, productId, itemQuantity, documentPosition, queryDocumentSnapshots.getDocuments().size());
-                    documentPosition++;
-                }
-                String totalPriceString = "$" + String.format("%.2f", totalPrice);
-                viewHolder.totalPriceTextView.setText(totalPriceString);
+        dataRepository.getCartDocuments().thenAccept(itemsMap -> {
+            System.out.println("before the empty item map : " + itemsMap.size());
+            // Display the "cart empty" message if the cart is empty
+            if (itemsMap.isEmpty()) {
+                System.out.println("items are hidden");
+                viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                viewHolder.checkoutButton.setVisibility(View.GONE);
+            } else {
+                viewHolder.noItemsTextView.setVisibility(View.GONE);
+                viewHolder.cartItemsRecyclerView.setVisibility(View.VISIBLE);
+                viewHolder.cartTotalContainer.setVisibility(View.VISIBLE);
+                viewHolder.recommendedItemsHeader.setVisibility(View.VISIBLE);
+                viewHolder.recommendedItemsRecyclerView.setVisibility(View.VISIBLE);
+                viewHolder.checkoutButton.setVisibility(View.VISIBLE);
             }
-        });
-    }
+            double totalPrice = 0;
 
-    // This function fetches the data for a specific item and loads the views on the activity page
-    private void fetchItemData(String cartItemCategoryName, String productId, String itemQuantity, int documentPosition, int numberOfDocuments) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        database.collection(cartItemCategoryName).document(productId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String name = (String) documentSnapshot.get("name");
-                String brand = (String) documentSnapshot.get("brand");
-                ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                String price = (String) "$" + documentSnapshot.get("price");
-                String categoryName = (String) documentSnapshot.get("categoryName");
-                ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                String howToUse = (String) documentSnapshot.get("howToUse");
-
-                productSkinTypes.addAll(skinType);
-                productIds.add(productId);
-                itemQuantities.put(productId, itemQuantity);
-
-                switch (cartItemCategoryName) {
-                    case "sunscreen":
-                        String sunscreenType = (String) documentSnapshot.get("sunscreenType");
-                        String spf = (String) documentSnapshot.get("spf");
-                        itemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
-                        break;
-                    case "cleanser":
-                        String cleanserType = (String) documentSnapshot.get("cleanserType");
-                        String ph = (String) documentSnapshot.get("ph");
-                        itemList.add(new Cleanser(productId, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse));
-                        break;
-                    case "moisturiser":
-                        String moisturiserType = (String) documentSnapshot.get("moisturiserType");
-                        String timeToUse = (String) documentSnapshot.get("timeToUse");
-                        itemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
-                        break;
-                }
-                // If all the documents have been accessed, propagate the list adapters
-                if (documentPosition == numberOfDocuments) {
+            // For each item in the cart, fetch it's data and load it
+            for (IItem i : itemsMap.keySet()) {
+                totalPrice += (Double.parseDouble(i.getPrice())) * Double.parseDouble(itemsMap.get(i));
+                productSkinTypes.addAll(i.getSkinType());
+                productIds.add(i.getId());
+                itemQuantities.put(i.getId(), itemsMap.get(i));
+                itemList.add(i);
+                if (itemList.size() == itemsMap.size()) {
                     getRecommendedItems(productSkinTypes, productIds);
                     propagateCartAdapter();
                 }
             }
+            String totalPriceString = "$" + String.format("%.2f", totalPrice);
+            viewHolder.totalPriceTextView.setText(totalPriceString);
         });
     }
 
     // This function calculates the recommended items to display to the user based on the items in their cart
     private void getRecommendedItems(ArrayList<String> productSkinTypes, ArrayList<String> productIds) {
         String mostCommonSkinType = findMostCommonElement(productSkinTypes);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
-        database.collection("sunscreen")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int sunscreensFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String sunscreenType = (String) documentSnapshot.get("sunscreenType");
-                            String spf = (String) documentSnapshot.get("spf");
 
-                            if (sunscreensFound > 1) {
-                                break;
-                            }
+        dataRepository.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
+            int sunscreensFound = 0;
+            for (IItem singleItem : item) {
+                if (sunscreensFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    sunscreensFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
 
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Sunscreen(productId, name, brand, imageNames, price, categoryName, skinType, sunscreenType, spf, howToUse));
-                                sunscreensFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });
+        dataRepository.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
+            int cleanserFound = 0;
+            for (IItem singleItem : item) {
+                if (cleanserFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    cleanserFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
 
-        // Find two cleansers based on the most commonly occurring skin type in the cart
-        database.collection("cleanser")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int cleansersFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String cleanserType = (String) documentSnapshot.get("cleanserType");
-                            String ph = (String) documentSnapshot.get("ph");
-
-                            if (cleansersFound > 1) {
-                                break;
-                            }
-
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Cleanser(productId, name, brand, imageNames, price, categoryName, skinType, ph, cleanserType, howToUse));
-                                cleansersFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });
-
-        // Find two moisturisers based on the most commonly occurring skin type in the cart
-        database.collection("moisturiser")
-                .whereArrayContains("skinType", mostCommonSkinType)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int moisturisersFound = 0;
-                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            String productId = (String) documentSnapshot.getId();
-                            String name = (String) documentSnapshot.get("name");
-                            String brand = (String) documentSnapshot.get("brand");
-                            ArrayList<String> imageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                            String price = (String) "$" + documentSnapshot.get("price");
-                            String categoryName = (String) documentSnapshot.get("categoryName");
-                            ArrayList<String> skinType = (ArrayList<String>) documentSnapshot.get("skinType");
-                            String howToUse = (String) documentSnapshot.get("howToUse");
-                            String moisturiserType = (String) documentSnapshot.get("moisturiserType");
-                            String timeToUse = (String) documentSnapshot.get("timeToUse");
-
-                            if (moisturisersFound > 1) {
-                                break;
-                            }
-
-                            if (!productIds.contains(productId)) {
-                                recommendedItemList.add(new Moisturiser(productId, name, brand, imageNames, price, categoryName, skinType, moisturiserType, howToUse, timeToUse));
-                                moisturisersFound++;
-                            }
-                        }
-                        propagateItemAdapter();
-                    }
-                });
+        dataRepository.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
+            int moisturiserFound = 0;
+            System.out.println("This is number of recc items: " + item.size());
+            for (IItem singleItem : item) {
+                if (moisturiserFound > 1) {
+                    break;
+                }
+                if (!productIds.contains(singleItem.getId())) {
+                    recommendedItemList.add(singleItem);
+                    moisturiserFound++;
+                }
+            }
+            propagateItemAdapter();
+        });
     }
 
     // This helper function finds the most commonly occurring element in a given ArrayList
@@ -385,15 +278,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function clears the cart of all items
     private void clearCart() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    database.collection("cart").document(document.getId()).delete();
-                }
-            }
-        });
+        dataRepository.clearCart();
     }
 
     // This function propagates the cart item list based on the data retrieved from the cart collection
@@ -402,25 +287,24 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-                FirebaseFirestore database = FirebaseFirestore.getInstance();
-                database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                            viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
-                            viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
-                            viewHolder.cartTotalContainer.setVisibility(View.GONE);
-                            viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
-                            viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
-                            viewHolder.checkoutButton.setVisibility(View.GONE);
-                        }
-                        double totalPrice = 0;
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
-                        }
-                        String totalPriceString = "$" + String.format("%.2f", totalPrice);
-                        viewHolder.totalPriceTextView.setText(totalPriceString);
+
+                dataRepository.getCartDocuments().thenAccept(itemsMap -> {
+
+                    if (itemsMap.isEmpty()) {
+                        viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                        viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                        viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                        viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                        viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                        viewHolder.checkoutButton.setVisibility(View.GONE);
                     }
+                    double totalPrice = 0;
+                    for (IItem i : itemsMap.keySet()) {
+                        totalPrice += (Double.parseDouble(i.getPrice())) * Double.parseDouble(itemsMap.get(i));
+                    }
+                    String totalPriceString = "$" + String.format("%.2f", totalPrice);
+                    viewHolder.totalPriceTextView.setText(totalPriceString);
+
                 });
             }
 
@@ -443,7 +327,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function defines the onclick activity to open DetailsActivity for clicking an item in the recommended list
     public void viewItem(int position) {
-        Item clickedItem = recommendedItemList.get(position);
+        IItem clickedItem = recommendedItemList.get(position);
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("productCategory", clickedItem.getCategoryName());
         intent.putExtra("productId", clickedItem.getId());

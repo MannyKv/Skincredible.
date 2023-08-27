@@ -12,28 +12,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.example.softeng306project1team22.Data.DataRepository;
+import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -83,6 +73,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private ViewHolder viewHolder;
     private ArrayList<String> imageNames;
+    private DataRepository dataRepository = new DataRepository();
+    private IItem currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +101,6 @@ public class DetailsActivity extends AppCompatActivity {
             setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
         }
 
-        // Adding the item to the recently-viewed collection in Firestore
-        addItemToRecentlyViewed(productId, productCategory.toLowerCase());
 
         // Updating the text of the cart button depending on if the current item is in the cart
         setCartInfo(productId);
@@ -191,7 +181,10 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemToCart(productId, productCategory.toLowerCase());
+
+                addItemToCart();
+
+
                 // Display popup dialog confirming purchase
                 MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
                 dialogBuilder
@@ -202,6 +195,7 @@ public class DetailsActivity extends AppCompatActivity {
                         .setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bg_search_rounded, null))
                         .show();
                 viewHolder.cartButton.setText("UPDATE CART");
+
             }
         });
 
@@ -228,116 +222,78 @@ public class DetailsActivity extends AppCompatActivity {
 
     // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        database.collection(productCategory.toLowerCase()).document(productId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    Resources resources = getResources();
-                    viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
-                    viewHolder.categoryTextView.setText(documentSnapshot.get("categoryName").toString());
-                    viewHolder.brandTextView.setText(documentSnapshot.get("brand").toString());
-                    viewHolder.productNameTextView.setText(documentSnapshot.get("name").toString());
 
-                    ArrayList<String> databaseImageNames = (ArrayList<String>) documentSnapshot.get("imageNames");
-                    imageNames.addAll(databaseImageNames);
-                    viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
+        dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
+            // Adding the item to the recently-viewed collection in Firestore
+            currentItem = item;
+            addItemToRecentlyViewed();
+            System.out.println(item.getName());
+            Resources resources = getResources();
+            viewHolder.categoryImageView.setImageResource(resources.getIdentifier(productId.substring(0, 3), "drawable", getPackageName()));
+            viewHolder.categoryTextView.setText(currentItem.getCategoryName());
+            viewHolder.brandTextView.setText(currentItem.getBrand());
+            viewHolder.productNameTextView.setText(currentItem.getName());
 
-                    String priceText = "$" + documentSnapshot.get("price").toString();
-                    viewHolder.priceTextView.setText(priceText);
+            ArrayList<String> databaseImageNames = currentItem.getImageNames();
+            imageNames.addAll(databaseImageNames);
+            viewHolder.productImageView.setImageResource(resources.getIdentifier(imageNames.get(0), "drawable", getPackageName()));
 
-                    viewHolder.firstDetailTitle.setText(firstDetailName);
-                    viewHolder.firstDetailValue.setText(documentSnapshot.get(firstDetail).toString().toLowerCase());
+            String priceText = "$" + currentItem.getPrice();
+            viewHolder.priceTextView.setText(priceText);
 
-                    viewHolder.secondDetailTitle.setText(secondDetailName);
-                    viewHolder.secondDetailValue.setText(documentSnapshot.get(secondDetail).toString().toLowerCase());
+            viewHolder.firstDetailTitle.setText(firstDetailName);
+            viewHolder.secondDetailTitle.setText(secondDetailName);
 
-                    viewHolder.thirdDetailValue.setText(String.join(", ", (ArrayList<String>) documentSnapshot.get("skinType")).toLowerCase());
+            switch (currentItem.getCategoryName()) {
+                case "Sunscreen":
+                    viewHolder.firstDetailValue.setText(currentItem.getSunscreenType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getSpf().toLowerCase());
+                    break;
+                case "Cleanser":
+                    viewHolder.firstDetailValue.setText(currentItem.getCleanserType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getPh().toLowerCase());
 
-                    viewHolder.howToUseText.setText(documentSnapshot.get("howToUse").toString());
-                });
-    }
+                    break;
+                case "Moisturiser":
+                    viewHolder.firstDetailValue.setText(currentItem.getMoisturiserType().toLowerCase());
+                    viewHolder.secondDetailValue.setText(currentItem.getTimeToUse().toLowerCase());
 
-    // This function writes to the item ID and quantity to the "cart" category in Firestore
-    private void addItemToCart(String productId, String productCategory) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        Map<String, Object> itemInfo = new HashMap<>();
-
-        itemInfo.put("itemId", productId);
-        itemInfo.put("quantity", viewHolder.quantityValue.getText().toString());
-        itemInfo.put("categoryName", productCategory);
-        itemInfo.put("singleItemPrice", viewHolder.priceTextView.getText().toString().substring(1));
-
-        database.collection("cart").document(productId).set(itemInfo);
-    }
-
-    // This function adds the current item to the recently viewed collection in Firestore
-    private void addItemToRecentlyViewed(String productId, String productCategory) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        // Determine the size of the recently-viewed collection
-        database.collection("recently-viewed").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<String> documents = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        documents.add(document.getId());
-                    }
-                    // Format the data to be added to Firestore as a HashMap with key, value pairs
-                    Map<String, Object> itemInfo = new HashMap<>();
-                    itemInfo.put("itemId", productId);
-                    itemInfo.put("timeAdded", FieldValue.serverTimestamp());
-                    itemInfo.put("categoryName", productCategory);
-
-                    // If there are more than 5 documents in the recently-viewed collection and the document being added is not already in it, delete the oldest one and then add the newest one
-                    if (documents.size() > 5 && !documents.contains(productId)) {
-                        // Query the collection and return the oldest document
-                        Query sortedRecentlyViewed = database.collection("recently-viewed")
-                                .orderBy("timeAdded", Query.Direction.ASCENDING)
-                                .limit(1);
-
-                        // Delete the oldest document
-                        sortedRecentlyViewed.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    database.collection("recently-viewed").document(document.getId()).delete();
-                                }
-                            }
-                        });
-
-                        // Add the new document after the oldest one has been deleted
-                        database.collection("recently-viewed").document(productId).set(itemInfo);
-                    } else {
-                        // If there are 5 or fewer documents in the collection, just add the new one
-                        database.collection("recently-viewed").document(productId).set(itemInfo);
-                    }
-                }
+                    break;
             }
+            viewHolder.thirdDetailValue.setText(String.join(", ", currentItem.getSkinType()).toLowerCase());
+            viewHolder.howToUseText.setText(item.getHowToUse().toLowerCase());
         });
     }
 
-    private void setCartInfo(String productId) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
+    // This function writes to the item ID and quantity to the "cart" category in Firestore
+    private void addItemToCart() {
+        String quantity = viewHolder.quantityValue.getText().toString();
+        dataRepository.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
+    }
 
-        database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                ArrayList<String> itemsInCart = new ArrayList<>();
-                for (DocumentSnapshot document : task.getResult()) {
-                    itemsInCart.add(document.getId());
-                    if (document.getId().equals(productId)) {
-                        viewHolder.quantityValue.setText(document.get("quantity").toString());
-                    }
-                }
-                if (itemsInCart.contains(productId)) {
-                    viewHolder.cartButton.setText("UPDATE CART");
-                } else {
-                    viewHolder.cartButton.setText("ADD TO CART");
+    // This function adds the current item to the recently viewed collection in Firestore
+    private void addItemToRecentlyViewed() {
+        dataRepository.addItemToRecentlyViewed(currentItem);
+    }
+
+    private void setCartInfo(String productId) {
+
+        dataRepository.getCartDocuments().thenAccept(itemsMap -> {
+
+            ArrayList<String> itemsInCart = new ArrayList<>();
+            for (IItem i : itemsMap.keySet()) {
+                itemsInCart.add(i.getId());
+                if (i.getId().equals(productId)) {
+                    viewHolder.quantityValue.setText(itemsMap.get(i));
                 }
             }
+            if (itemsInCart.contains(productId)) {
+                viewHolder.cartButton.setText("UPDATE CART");
+            } else {
+                viewHolder.cartButton.setText("ADD TO CART");
+            }
+
         });
 
     }
