@@ -20,6 +20,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="false"
             android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SOFTENG306Project1Team22" />
         <activity
             android:name=".Activities.ListActivity"
