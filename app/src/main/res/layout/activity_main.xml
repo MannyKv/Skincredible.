@@ -11,100 +11,120 @@
     tools:visibility="visible">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
+        app:contentPaddingTop="10dp"
+        app:contentPaddingBottom="10dp"
+        android:layout_weight="0.8"
         android:backgroundTint="@color/lightest_green"
         app:cardCornerRadius="150dp"
-        app:strokeWidth="0dp">
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp"
+        android:layout_gravity="center"
+        android:clickable="true">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchB"
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:gravity="center|start"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.2"
-            android:clickable="true" />
+            android:paddingStart="20dp">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:scaleType="center"
+                android:src="@drawable/search"
+                app:tint="@color/light_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="search items . . ."
+                android:textSize="18dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/light_gray"
+                android:layout_toEndOf="@+id/search_icon" />
+        </RelativeLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.textview.MaterialTextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:text="Recently Viewed"
-        android:textSize="25sp"
-        app:textAllCaps="true" />
+        android:layout_weight="10"
+        android:layout_height="0dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@id/nav_buttons">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_action_name" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_weight="0.2"
+                android:text="skincredible."
+                android:textColor="@color/medium_green"
+                android:textSize="50sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/carousel_recycler_view"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="3"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            tools:visibility="visible" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="0.2"
+                android:text="have another look at these!"
+                app:textAllCaps="true"
+                android:textSize="22sp" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_right_arrow" />
-    </LinearLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:text="browse categories..."
-        android:textFontWeight="400"
-        android:textSize="30dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/carousel_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:layout_marginHorizontal="10dp"
+                android:isScrollContainer="false"
+                android:layout_gravity="center" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_weight="5"
-        android:gravity="bottom"
-        android:visibility="visible"
-        tools:visibility="visible" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="shop our skincare . . ."
+                android:textFontWeight="400"
+                android:textSize="30sp"
+                android:layout_weight="0.25" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/rounded_nav"
-        android:transitionName="fade"
-        app:itemActiveIndicatorStyle="@android:color/transparent"
-        app:itemIconSize="30sp"
-        app:itemIconTint="@color/nav_colors"
-        app:itemTextColor="@color/nav_colors"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/menu" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_nav"
+            android:transitionName="fade"
+            app:itemActiveIndicatorStyle="@style/nav_button_highlight"
+            app:itemIconSize="30sp"
+            app:itemIconTint="@color/nav_colors"
+            android:layout_alignParentBottom="true"
+            app:itemTextColor="@color/nav_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu" />
+    </RelativeLayout>
+
+
 </LinearLayout>

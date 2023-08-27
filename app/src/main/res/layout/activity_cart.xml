@@ -12,51 +12,53 @@
         android:id="@+id/category_name"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_height="0dp"
+        android:gravity="top"
+        android:layout_marginTop="20dp"
         android:letterSpacing="0.1"
         android:text="SHOPPING CART"
-        android:layout_margin="12dp"
-        android:textColor="@android:color/black"
+        android:layout_weight="1"
+        android:textColor="@color/darkest_green"
         android:textSize="25sp"
         app:textAllCaps="true" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/noItemsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="no items in cart!"
-        android:textColor="@color/light_gray"
-        android:textSize="30sp"
-        android:visibility="gone" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="7"
         android:layout_above="@id/cartTotalContainer"
         android:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/noItemsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|center"
+        android:text="no items in cart!"
+        android:textColor="@color/light_gray"
+        android:textSize="30sp"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartTotalContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="50dp"
         app:contentPadding="5dp"
+        android:layout_weight="0.75"
         app:contentPaddingLeft="15dp"
         app:contentPaddingRight="15dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="CART TOTAL"
+            android:text="Cart Total"
+            android:layout_gravity="center|start"
             android:textAllCaps="true"
             android:textColor="@color/dark_green"
             android:textStyle="bold" />
@@ -65,8 +67,8 @@
             android:id="@+id/totalPriceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="$0.00"
+            android:text="$"
+            android:layout_gravity="center|end"
             android:textColor="@color/dark_green"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
@@ -75,10 +77,10 @@
         android:id="@+id/recommendedItemsHeader"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="recommended for you"
-        android:layout_gravity="center"
+        android:text="recommended just for you"
+        android:gravity="center"
         android:visibility="visible"
-        android:layout_weight="0.1"
+        android:layout_weight="1"
         android:textColor="@color/darkest_green"
         android:textSize="22dp"
         android:textAlignment="center" />
@@ -86,27 +88,32 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecommendedItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:visibility="visible"
+        android:layout_weight="2"
+        android:padding="5dp"
         tools:visibility="visible"
         android:orientation="horizontal" />
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="50dp"
         android:id="@+id/checkoutButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:backgroundTint="#57958D"
-        android:textSize="17sp"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:translationZ="5dp"
+        android:backgroundTint="@color/medium_green"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
         android:layout_gravity="center"
         app:icon="@drawable/right_arrow"
         app:iconSize="30dp"
         app:iconGravity="end"
+        android:layout_weight="1"
         android:textAllCaps="true"
         android:visibility="visible"
+        app:elevation="30dp"
         android:textStyle="bold"
         android:text="CHECKOUT" />
 
