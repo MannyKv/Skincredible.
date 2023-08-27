@@ -23,6 +23,7 @@ import java.util.Map;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private List<IItem> mItems;
+    private DataRepository dataRepository = new DataRepository();
     private Context mContext;
     private Map<String, String> mItemQuantities;
 
@@ -86,7 +87,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.removeFromCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataRepository.deleteItemById(currentItem.getId());
+                dataRepository.deleteItemById(currentItem.getId());
                 mItems.remove(currentItem);
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyItemRangeChanged(holder.getAdapterPosition(), mItems.size() - holder.getAdapterPosition());
@@ -100,7 +101,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     private void changeItemQuantity(String productId, int quantityValue) {
-        DataRepository.modifyItemQuantity(productId, quantityValue);
+        dataRepository.modifyItemQuantity(productId, quantityValue);
         mItemQuantities.put(productId, String.valueOf(quantityValue));
     }
 

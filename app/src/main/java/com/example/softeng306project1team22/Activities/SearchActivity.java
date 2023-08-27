@@ -29,6 +29,8 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView notFoundMsg;
 
+    private DataRepository dataRepository = new DataRepository();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         //Calls the get all items method in data provider and awaits response
-        DataRepository.getAllItems().thenAccept(items -> {
+        dataRepository.getAllItems().thenAccept(items -> {
             allItems = new ArrayList<>(items);
             filtered = new ArrayList<>(items);
             itemAdapter = new ItemListAdapter(filtered);

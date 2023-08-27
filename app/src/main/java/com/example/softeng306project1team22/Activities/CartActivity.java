@@ -66,7 +66,7 @@ public class CartActivity extends AppCompatActivity {
     private ArrayList<String> productSkinTypes;
 
     private ArrayList<String> productIds;
-
+    private DataRepository dataRepository = new DataRepository();
     private boolean onResumeCalled;
 
     @Override
@@ -87,6 +87,7 @@ public class CartActivity extends AppCompatActivity {
         productSkinTypes = new ArrayList<>();
 
         productIds = new ArrayList<>();
+
 
         // Setting onclick functionality for the checkout button
         viewHolder.checkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +164,7 @@ public class CartActivity extends AppCompatActivity {
     // This function retrieves and sets the data from the database
     private void loadData() {
         // Retrieve the cart information
-        DataRepository.getCartDocuments().thenAccept(itemsMap -> {
+        dataRepository.getCartDocuments().thenAccept(itemsMap -> {
             System.out.println("before the empty item map : " + itemsMap.size());
             // Display the "cart empty" message if the cart is empty
             if (itemsMap.isEmpty()) {
@@ -207,7 +208,7 @@ public class CartActivity extends AppCompatActivity {
 
         // Find two sunscreens based on the most commonly occurring skin type in the cart
 
-        DataRepository.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
+        dataRepository.getReccomended("sunscreen", Sunscreen.class, mostCommonSkinType).thenAccept(item -> {
             int sunscreensFound = 0;
             for (IItem singleItem : item) {
                 if (sunscreensFound > 1) {
@@ -221,7 +222,7 @@ public class CartActivity extends AppCompatActivity {
             propagateItemAdapter();
         });
 
-        DataRepository.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
+        dataRepository.getReccomended("cleanser", Cleanser.class, mostCommonSkinType).thenAccept(item -> {
             int cleanserFound = 0;
             for (IItem singleItem : item) {
                 if (cleanserFound > 1) {
@@ -235,7 +236,7 @@ public class CartActivity extends AppCompatActivity {
             propagateItemAdapter();
         });
 
-        DataRepository.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
+        dataRepository.getReccomended("moisturiser", Moisturiser.class, mostCommonSkinType).thenAccept(item -> {
             int moisturiserFound = 0;
             System.out.println("This is number of recc items: " + item.size());
             for (IItem singleItem : item) {
@@ -277,7 +278,7 @@ public class CartActivity extends AppCompatActivity {
 
     // This function clears the cart of all items
     private void clearCart() {
-        DataRepository.clearCart();
+        dataRepository.clearCart();
     }
 
     // This function propagates the cart item list based on the data retrieved from the cart collection
@@ -287,7 +288,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
 
-                DataRepository.getCartDocuments().thenAccept(itemsMap -> {
+                dataRepository.getCartDocuments().thenAccept(itemsMap -> {
 
                     if (itemsMap.isEmpty()) {
                         viewHolder.noItemsTextView.setVisibility(View.VISIBLE);

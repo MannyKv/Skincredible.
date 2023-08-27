@@ -25,17 +25,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class DataRepository {
-    private static List<Category> categories = new ArrayList<>();
-    private static List<IItem> allItems = new ArrayList<>();
+public class DataRepository implements IDataRepo {
+    private List<Category> categories = new ArrayList<>();
+    private List<IItem> allItems = new ArrayList<>();
 
     /**
      * returns the list of categories
      *
      * @return list of categories
      */
-    public static List<Category> getCategories() {
-        return categories;
+    public CompletableFuture<List<Category>> getCategories() {
+        CompletableFuture<List<Category>> future = new CompletableFuture<>();
+        if (categories.size() > 0) {
+            future.complete(categories); //return if list is full
+            return future;
+        } else {
+            fetchCategoryData().thenAccept(categories -> future.complete(categories)); //make the database query
+        }
+        return future;
     }
 
     /**
@@ -44,7 +51,8 @@ public class DataRepository {
      * @param id
      * @return the category specified by id
      */
-    public static Category getCategoryById(String id) {
+    public Category getCategoryById(String id) {
+
         for (Category category : categories) {
             if (category.getId().equals(id)) {
                 return category;
@@ -59,7 +67,7 @@ public class DataRepository {
      *
      * @return list of ALL items future
      */
-    public static CompletableFuture<List<IItem>> getAllItems() {
+    public CompletableFuture<List<IItem>> getAllItems() {
         CompletableFuture<List<IItem>> future = new CompletableFuture<>();
         if (allItems.size() > 0) {
             future.complete(allItems); //return if list is full
@@ -75,7 +83,7 @@ public class DataRepository {
      *
      * @return a list of categories as a completeable future
      */
-    public static CompletableFuture<List<Category>> fetchCategoryData() {
+    public CompletableFuture<List<Category>> fetchCategoryData() {
         categories.clear(); //clear the list if its not already
         CompletableFuture<List<Category>> future = new CompletableFuture<>(); //new completeable future
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -102,7 +110,7 @@ public class DataRepository {
      *
      * @return CompleteableFuture with a list of ALL items
      */
-    public static CompletableFuture<List<IItem>> fetchAllItems() {
+    public CompletableFuture<List<IItem>> fetchAllItems() {
 
 
         //create a ref for all the collections
@@ -130,7 +138,7 @@ public class DataRepository {
      * @param itemClass    the type of item class
      * @return a compeleteable future of a list of items from that category
      */
-    public static CompletableFuture<List<IItem>> fetchFromCollection(String categoryName, Class<?> itemClass) {
+    public CompletableFuture<List<IItem>> fetchFromCollection(String categoryName, Class<?> itemClass) {
         CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         List<IItem> items = new ArrayList<>();
@@ -155,7 +163,7 @@ public class DataRepository {
      * @param productId       the id of the product
      * @return a completeable future IItem
      */
-    public static CompletableFuture<IItem> fetchItemById(String productCategory, String productId) {
+    public CompletableFuture<IItem> fetchItemById(String productCategory, String productId) {
         CompletableFuture<IItem> future = new CompletableFuture<>();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -186,7 +194,7 @@ public class DataRepository {
      *
      * @return A completeable future that will contain a list of recently viewed items
      */
-    public static CompletableFuture<List<IItem>> fetchRecentlyViewed(String collectionName) {
+    public CompletableFuture<List<IItem>> fetchRecentlyViewed(String collectionName) {
         CompletableFuture<List<IItem>> future = new CompletableFuture<>();
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         CollectionReference colRef = dbs.collection(collectionName);
@@ -211,7 +219,7 @@ public class DataRepository {
         return future;
     }
 
-    public static CompletableFuture<List<IItem>> getReccomended(String categoryName, Class<?> itemClass, String filter) {
+    public CompletableFuture<List<IItem>> getReccomended(String categoryName, Class<?> itemClass, String filter) {
         CompletableFuture<List<IItem>> fetchFuture = new CompletableFuture<>();
         FirebaseFirestore dbs = FirebaseFirestore.getInstance();
         List<IItem> items = new ArrayList<>();
@@ -236,7 +244,7 @@ public class DataRepository {
      * @param price
      * @param quantity
      */
-    public static void addItemToCart(String productId, String productCategory, String price, String quantity) {
+    public void addItemToCart(String productId, String productCategory, String price, String quantity) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         Map<String, Object> itemInfo = new HashMap<>();
@@ -254,7 +262,7 @@ public class DataRepository {
      *
      * @param item
      */
-    public static void addItemToRecentlyViewed(IItem item) {
+    public void addItemToRecentlyViewed(IItem item) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Determine the size of the recently-viewed collection
@@ -305,7 +313,7 @@ public class DataRepository {
      *
      * @return Hashmap IItem,String
      */
-    public static CompletableFuture<HashMap<IItem, String>> getCartDocuments() {
+    public CompletableFuture<HashMap<IItem, String>> getCartDocuments() {
         CompletableFuture<HashMap<IItem, String>> future = new CompletableFuture<>();
         HashMap<IItem, String> itemInfo = new HashMap<>();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -334,7 +342,7 @@ public class DataRepository {
     /**
      * Clears the cart of all items
      */
-    public static void clearCart() {
+    public void clearCart() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -346,12 +354,12 @@ public class DataRepository {
         });
     }
 
-    public static void deleteItemById(String id) {
+    public void deleteItemById(String id) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").document(id).delete();
     }
 
-    public static void modifyItemQuantity(String productId, int quantityValue) {
+    public void modifyItemQuantity(String productId, int quantityValue) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").document(productId).update("quantity", String.valueOf(quantityValue));
     }

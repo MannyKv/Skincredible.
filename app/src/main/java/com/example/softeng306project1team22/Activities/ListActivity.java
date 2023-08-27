@@ -31,6 +31,8 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<IItem> itemList;
     ItemListAdapter listAdapter;
 
+    private DataRepository dataRepository = new DataRepository();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +65,13 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void fetchCategoryData(String categoryId) {
-        category = DataRepository.getCategoryById(categoryId);
-        populateCategoryDetails(category);
-        fetchItemListData(category.getName());
+        dataRepository.getCategories().thenAccept(categories -> {
+            category = dataRepository.getCategoryById(categoryId);
+            populateCategoryDetails(category);
+            fetchItemListData(category.getName());
+
+        });
+
 
     }
 
@@ -74,21 +80,21 @@ public class ListActivity extends AppCompatActivity {
         switch (categoryName) {
             case "Sunscreen":
 
-                DataRepository.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
+                dataRepository.fetchFromCollection("sunscreen", Sunscreen.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Cleanser":
 
-                DataRepository.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
+                dataRepository.fetchFromCollection("cleanser", Cleanser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });
                 break;
             case "Moisturiser":
 
-                DataRepository.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
+                dataRepository.fetchFromCollection("moisturiser", Moisturiser.class).thenAccept(item -> {
                     itemList.addAll(item);
                     propagateListAdapter(category.getId());
                 });

@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Boolean isActivityResumed = false;
     RecyclerView historyView;
 
+    private DataRepository dataRepository = new DataRepository();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
-        DataRepository.fetchCategoryData().thenAccept(categories -> {
-            categoryList = new ArrayList<>(DataRepository.getCategories());
+        dataRepository.getCategories().thenAccept(categories -> {
+            categoryList = new ArrayList<>(categories);
             adapter = new CategoryAdapter(categoryList, getApplicationContext(), new CategoryAdapter.OnItemClickListener() {
 
                 @Override
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void fetchRecentlyViewed() {
         System.out.println("Made it into the fetchRecent");
-        DataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
+        dataRepository.fetchRecentlyViewed("recently-viewed").thenAccept(items -> {
             System.out.println("data received");
             recentlyViewed.clear();
             recentlyViewed.addAll(items);

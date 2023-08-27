@@ -73,7 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private ViewHolder viewHolder;
     private ArrayList<String> imageNames;
-
+    private DataRepository dataRepository = new DataRepository();
     private IItem currentItem;
 
     @Override
@@ -184,7 +184,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 addItemToCart();
 
-                
+
                 // Display popup dialog confirming purchase
                 MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.alert_dialog);
                 dialogBuilder
@@ -224,7 +224,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
 
 
-        DataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
+        dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
             // Adding the item to the recently-viewed collection in Firestore
             currentItem = item;
             addItemToRecentlyViewed();
@@ -269,18 +269,17 @@ public class DetailsActivity extends AppCompatActivity {
     // This function writes to the item ID and quantity to the "cart" category in Firestore
     private void addItemToCart() {
         String quantity = viewHolder.quantityValue.getText().toString();
-        DataRepository.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
+        dataRepository.addItemToCart(currentItem.getId(), currentItem.getCategoryName(), currentItem.getPrice(), quantity);
     }
 
     // This function adds the current item to the recently viewed collection in Firestore
     private void addItemToRecentlyViewed() {
-
-        DataRepository.addItemToRecentlyViewed(currentItem);
+        dataRepository.addItemToRecentlyViewed(currentItem);
     }
 
     private void setCartInfo(String productId) {
 
-        DataRepository.getCartDocuments().thenAccept(itemsMap -> {
+        dataRepository.getCartDocuments().thenAccept(itemsMap -> {
 
             ArrayList<String> itemsInCart = new ArrayList<>();
             for (IItem i : itemsMap.keySet()) {
