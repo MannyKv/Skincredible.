@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Activities.CartActivity">
+    tools:mContext=".Activities.CartActivity">
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -37,7 +37,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top|center"
-        android:text="no items in cart!"
+        android:text="no mItems in cart!"
         android:textColor="@color/light_gray"
         android:textSize="30sp"
         android:visibility="gone" />

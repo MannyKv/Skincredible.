@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.SearchActivity">
+    tools:mContext=".Activities.SearchActivity">
 
     <androidx.appcompat.widget.SearchView
         style="@style/search_view"
@@ -36,7 +36,7 @@
             android:textColor="@color/light_gray"
             android:padding="50dp"
             android:visibility="gone"
-            android:text="no items found."
+            android:text="no mItems found."
             android:layout_above="@+id/nav_buttons" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -12,31 +12,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
-import com.example.softeng306project1team22.ViewHolder.CompactViewHolder;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
-public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> {
-    private List<IItem> items;
-    Context context;
-
+public class CompactItemAdapter extends RecyclerView.Adapter<CompactItemAdapter.CompactViewHolder> {
+    private List<IItem> mItems;
+    Context mContext;
 
     private CategoryAdapter.OnItemClickListener mOnItemClickListener;
 
-    public CompactItemAdapter(List<IItem> items, Context context, CategoryAdapter.OnItemClickListener onItemClickListener) {
-        this.items = items;
-        this.context = context;
+    public CompactItemAdapter(List<IItem> mItems, Context mContext, CategoryAdapter.OnItemClickListener onItemClickListener) {
+        this.mItems = mItems;
+        this.mContext = mContext;
         mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
-
     public CompactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         View itemView = inflater.inflate(R.layout.item_image_card, parent, false);
-        CompactViewHolder holder = new CompactViewHolder(itemView);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        CompactViewHolder holder = new CompactViewHolder(itemView); //create view holder
+        holder.cardView.setOnClickListener(new View.OnClickListener() { //assign on click for the item
 
             @Override
             public void onClick(View v) {
@@ -48,24 +47,35 @@ public class CompactItemAdapter extends RecyclerView.Adapter<CompactViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull CompactViewHolder holder, int position) {
-        IItem thisItem = items.get(position);
-        String filePath = thisItem.getImageNames().get(0);
+        IItem thisItem = mItems.get(position);
+        
+        String filePath = thisItem.getImageNames().get(0); //gets the first image to use as display
         System.out.println("This is the path for loading: " + filePath);
-        int i = context.getResources().getIdentifier(filePath, "drawable", context.getPackageName());
+        int i = mContext.getResources().getIdentifier(filePath, "drawable", mContext.getPackageName());
         System.out.println("This is the image ID for loading: " + i);
+
         holder.imageView.setImageResource(i);
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_up);
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_up); //loads a slide up animation for the item when loaded
         holder.cardView.startAnimation(animation);
-
-
     }
 
     @Override
     public int getItemCount() {
 
-        return items.size();
+        return mItems.size();
 
     }
 
+    class CompactViewHolder extends RecyclerView.ViewHolder {
+        public ShapeableImageView imageView;
+        public MaterialCardView cardView;
 
+
+        public CompactViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.cardView = itemView.findViewById(R.id.image_card);
+            this.imageView = itemView.findViewById(R.id.itemcycle);
+        }
+    }
 }

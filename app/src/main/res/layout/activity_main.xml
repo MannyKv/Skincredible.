@@ -7,7 +7,7 @@
     android:background="@drawable/background_gradient"
     android:orientation="vertical"
     android:windowSoftInputMode="stateUnchanged"
-    tools:context=".Activities.MainActivity"
+    tools:mContext=".Activities.MainActivity"
     tools:visibility="visible">
 
     <com.google.android.material.card.MaterialCardView
@@ -44,7 +44,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="search items . . ."
+                android:text="search mItems . . ."
                 android:textSize="18dp"
                 android:layout_centerVertical="true"
                 android:textColor="@color/light_gray"
@@ -103,7 +103,7 @@
                 android:layout_weight="0.25" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category"
+                android:id="@+id/mCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"

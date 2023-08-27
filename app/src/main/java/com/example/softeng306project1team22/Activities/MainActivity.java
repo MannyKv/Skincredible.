@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Create recyclerView instances for layout
-        RecyclerView recyclerView = findViewById(R.id.category);
+        RecyclerView recyclerView = findViewById(R.id.mCategory);
         historyView = findViewById(R.id.carousel_recycler_view);
 
         //Fetch All data required
@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
         setNavigationViewLinks();
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * This function sets the navigation links for the navigation bar
+     */
+
     private void setNavigationViewLinks() {
         navigationView.setSelectedItemId(R.id.home);
         navigationView.setOnItemSelectedListener(item -> {

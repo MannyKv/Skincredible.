@@ -72,7 +72,9 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    // This function sets the navigation links for the navigation bar
+    /**
+     * Navigates to other activities
+     */
     private void setNavigationViewLinks() {
         navigationView.setSelectedItemId(R.id.search);
         navigationView.setOnItemSelectedListener(item -> {
