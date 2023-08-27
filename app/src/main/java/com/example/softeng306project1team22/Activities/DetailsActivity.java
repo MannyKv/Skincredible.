@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.softeng306project1team22.DataProvider;
+import com.example.softeng306project1team22.Data.DataProvider;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -264,7 +264,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void setCartInfo(String productId) {
 
         DataProvider.getCartDocuments().thenAccept(itemsMap -> {
-            
+
             ArrayList<String> itemsInCart = new ArrayList<>();
             for (IItem i : itemsMap.keySet()) {
                 itemsInCart.add(i.getId());

@@ -1,4 +1,4 @@
-package com.example.softeng306project1team22;
+package com.example.softeng306project1team22.Data;
 
 import android.util.Log;
 

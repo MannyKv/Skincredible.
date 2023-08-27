@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.DataProvider;
+import com.example.softeng306project1team22.Data.DataProvider;
 import com.example.softeng306project1team22.Models.Category;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;

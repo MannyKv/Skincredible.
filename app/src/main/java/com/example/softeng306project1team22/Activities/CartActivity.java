@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.softeng306project1team22.Adapters.CartAdapter;
 import com.example.softeng306project1team22.Adapters.CategoryAdapter;
 import com.example.softeng306project1team22.Adapters.CompactItemAdapter;
-import com.example.softeng306project1team22.DataProvider;
+import com.example.softeng306project1team22.Data.DataProvider;
 import com.example.softeng306project1team22.Models.Cleanser;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;

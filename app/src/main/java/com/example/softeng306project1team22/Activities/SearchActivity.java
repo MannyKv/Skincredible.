@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.softeng306project1team22.Adapters.ItemListAdapter;
-import com.example.softeng306project1team22.DataProvider;
+import com.example.softeng306project1team22.Data.DataProvider;
 import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
