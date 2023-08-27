@@ -52,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.productNameTextView.setText(currentItem.getName());
         holder.brandTextView.setText(currentItem.getBrand());
-        holder.priceTextView.setText((String.valueOf(currentItem.getPrice())));
+        holder.priceTextView.setText("$" + (currentItem.getPrice()));
         int i = mContext.getResources().getIdentifier(
                 currentItem.getImageNames().get(0), "drawable",
                 mContext.getPackageName());
