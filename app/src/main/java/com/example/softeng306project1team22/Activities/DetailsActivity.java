@@ -93,12 +93,16 @@ public class DetailsActivity extends AppCompatActivity {
         viewHolder.productImageView.setTag("0");
 
         // Fetching and setting the item data based on the category and ID of the item passed in
-        if (productCategory.equals("Cleanser")) {
-            setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
-        } else if (productCategory.equals("Moisturiser")) {
-            setData(productCategory, productId, "moisturiser type", "moisturiserType", "time to use", "timeToUse");
-        } else {
-            setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
+        switch (productCategory) {
+            case "Cleanser":
+                setData(productCategory, productId, "cleanser type", "cleanserType", "ph", "ph");
+                break;
+            case "Moisturiser":
+                setData(productCategory, productId, "moisturiser type", "moisturiserType", "time to use", "timeToUse");
+                break;
+            default:
+                setData(productCategory, productId, "sunscreen type", "sunscreenType", "spf", "spf");
+                break;
         }
 
         // Updating the text of the cart button depending on if the current item is in the cart
@@ -224,10 +228,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     // This function fetches the relevant item data from Firestore and sets the view elements in the layout with these values
     private void setData(String productCategory, String productId, String firstDetailName, String firstDetail, String secondDetailName, String secondDetail) {
-
-
+        // Use the data repository class to fetch the item's data
         dataRepository.fetchItemById(productCategory, productId).thenAccept(item -> {
-            // Adding the item to the recently-viewed collection in Firestore
             currentItem = item;
             addItemToRecentlyViewed();
             System.out.println(item.getName());
