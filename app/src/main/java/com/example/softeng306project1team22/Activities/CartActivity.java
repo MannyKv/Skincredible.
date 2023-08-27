@@ -22,12 +22,8 @@ import com.example.softeng306project1team22.Models.IItem;
 import com.example.softeng306project1team22.Models.Moisturiser;
 import com.example.softeng306project1team22.Models.Sunscreen;
 import com.example.softeng306project1team22.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -170,9 +166,10 @@ public class CartActivity extends AppCompatActivity {
     private void loadData() {
         // Retrieve the cart information
         DataProvider.getCartDocuments().thenAccept(itemsMap -> {
-
+            System.out.println("before the empty item map : " + itemsMap.size());
             // Display the "cart empty" message if the cart is empty
-            if (itemsMap.size() == 0) {
+            if (itemsMap.isEmpty()) {
+                System.out.println("items are hidden");
                 viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
                 viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
                 viewHolder.cartTotalContainer.setVisibility(View.GONE);
@@ -292,25 +289,24 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-                FirebaseFirestore database = FirebaseFirestore.getInstance();
-                database.collection("cart").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                            viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
-                            viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
-                            viewHolder.cartTotalContainer.setVisibility(View.GONE);
-                            viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
-                            viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
-                            viewHolder.checkoutButton.setVisibility(View.GONE);
-                        }
-                        double totalPrice = 0;
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            totalPrice += (Double.parseDouble(document.get("singleItemPrice").toString())) * Double.parseDouble(document.get("quantity").toString());
-                        }
-                        String totalPriceString = "$" + String.format("%.2f", totalPrice);
-                        viewHolder.totalPriceTextView.setText(totalPriceString);
+
+                DataProvider.getCartDocuments().thenAccept(itemsMap -> {
+
+                    if (itemsMap.isEmpty()) {
+                        viewHolder.noItemsTextView.setVisibility(View.VISIBLE);
+                        viewHolder.cartItemsRecyclerView.setVisibility(View.GONE);
+                        viewHolder.cartTotalContainer.setVisibility(View.GONE);
+                        viewHolder.recommendedItemsHeader.setVisibility(View.GONE);
+                        viewHolder.recommendedItemsRecyclerView.setVisibility(View.GONE);
+                        viewHolder.checkoutButton.setVisibility(View.GONE);
                     }
+                    double totalPrice = 0;
+                    for (IItem i : itemsMap.keySet()) {
+                        totalPrice += (Double.parseDouble(i.getPrice())) * Double.parseDouble(itemsMap.get(i));
+                    }
+                    String totalPriceString = "$" + String.format("%.2f", totalPrice);
+                    viewHolder.totalPriceTextView.setText(totalPriceString);
+
                 });
             }
 

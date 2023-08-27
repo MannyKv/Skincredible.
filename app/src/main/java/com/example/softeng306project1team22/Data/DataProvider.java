@@ -309,7 +309,12 @@ public class DataProvider {
         CompletableFuture<HashMap<IItem, String>> future = new CompletableFuture<>();
         HashMap<IItem, String> itemInfo = new HashMap<>();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("cart").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        Task<QuerySnapshot> query = database.collection("cart").get();
+
+        query.addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots.isEmpty()) {
+                future.complete(itemInfo);
+            }
             int noItems = queryDocumentSnapshots.size();
             for (DocumentSnapshot document : queryDocumentSnapshots) {
                 fetchItemById(document.getString("categoryName"), document.getString("itemId")).thenAccept(item -> {
@@ -320,10 +325,15 @@ public class DataProvider {
                 });
             }
 
+        }).addOnFailureListener(queryDocumentsSnapshots -> {
+            System.out.println("CART RETRIEVE THINGY FAILED");
         });
         return future;
     }
 
+    /**
+     * Clears the cart of all items
+     */
     public static void clearCart() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
