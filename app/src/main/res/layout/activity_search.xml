@@ -36,7 +36,7 @@
             android:textColor="@color/light_gray"
             android:padding="50dp"
             android:visibility="gone"
-            android:text="no mItems found."
+            android:text="no items found."
             android:layout_above="@+id/nav_buttons" />
 
         <androidx.recyclerview.widget.RecyclerView

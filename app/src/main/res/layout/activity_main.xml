@@ -44,7 +44,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="search mItems . . ."
+                android:text="search items . . ."
                 android:textSize="18dp"
                 android:layout_centerVertical="true"
                 android:textColor="@color/light_gray"

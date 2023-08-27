@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         // Create intent and pass data here
         Intent intent = new Intent(MainActivity.this, ListActivity.class);
         intent.putExtra("categoryId", clickedCategory.getId());
+        intent.putExtra("categoryName", clickedCategory.getName());
+        intent.putExtra("categoryIconName", clickedCategory.getImageName());
         // Add any other relevant data to the intent
         startActivity(intent);
     }
