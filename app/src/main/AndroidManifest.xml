@@ -18,7 +18,7 @@
         <activity
 
             android:name=".Activities.SearchActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="false"
             android:label="@string/title_activity_search"
             android:theme="@style/Theme.SOFTENG306Project1Team22" />

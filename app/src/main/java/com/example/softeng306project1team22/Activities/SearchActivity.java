@@ -43,7 +43,8 @@ public class SearchActivity extends AppCompatActivity {
         SearchView searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_buttons);
         searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("Search Items");
+        searchView.setQueryHint("search items . . .");
+        searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -81,8 +82,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(new Intent(SearchActivity.this, MainActivity.class));
                 finish();
             } else if (itemId == R.id.search) {
-                startActivity(new Intent(SearchActivity.this, SearchActivity.class));
-                finish();
+
             } else if (itemId == R.id.cart) {
                 startActivity(new Intent(SearchActivity.this, CartActivity.class));
                 finish();

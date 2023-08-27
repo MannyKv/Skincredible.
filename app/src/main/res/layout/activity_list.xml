@@ -20,7 +20,6 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:layout_weight="2"
             android:gravity="center">
 
@@ -43,8 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:letterSpacing="0.1"
-                android:text="CATEGORY"
-                android:textColor="@android:color/black"
+                android:textColor="@color/darkest_green"
                 android:textSize="25sp"
                 app:textAllCaps="true" />
 
@@ -55,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/category_name"
-                android:contentDescription="Cleanser Icon"
+                android:contentDescription="Category icon"
                 android:src="@drawable/mos" />
         </RelativeLayout>
     </LinearLayout>
@@ -77,7 +75,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/rounded_nav"
             android:transitionName="fade"
-            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemActiveIndicatorStyle="@style/nav_button_highlight"
             app:itemIconSize="30sp"
             app:itemIconTint="@color/nav_colors"
             app:itemTextColor="@color/nav_colors"
@@ -85,5 +83,5 @@
             app:menu="@menu/menu" />
 
     </RelativeLayout>
-    
+
 </LinearLayout>

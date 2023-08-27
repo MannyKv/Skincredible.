@@ -7,38 +7,25 @@
     android:orientation="vertical"
     tools:context=".Activities.SearchActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.SearchView
+        style="@style/search_view"
+        android:id="@+id/searchView"
+        android:layout_margin="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1"
-            android:gravity="center">
-
-        </RelativeLayout>
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_weight="111"
-            android:layout_height="43dp"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_search_rounded"
-            android:paddingTop="10dp"
-            android:radius="250dp"
-            app:showAsAction="ifRoom|collapseActionView" />
-
-    </LinearLayout>
+        android:layout_weight="1.5"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_search_rounded"
+        app:searchIcon="@drawable/search"
+        android:radius="250dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:tint="@color/light_gray"
+        app:queryBackground="@android:color/transparent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_weight="18"
+        android:layout_height="0dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
